@@ -43,14 +43,25 @@ Il form `Xx9M7Y` è già integrato nella homepage (sezione lista d'attesa). Per 
 
 ## Pannello admin (`/admin`)
 
-Dashboard per consultare gli iscritti, con statistiche, ricerca ed export CSV. Legge i dati dal **Google Sheet collegato a Tally**.
+Dashboard per consultare gli iscritti, con statistiche, ricerca ed export CSV. Legge i dati dal **Google Sheet collegato a Tally**, lato server.
 
-Configurazione (in cima allo `<script>` di `admin.html`):
+**Autenticazione server-side** tramite funzioni Vercel (`/api`):
 
-1. `ACCESS_CODE` — codice di accesso (default `crest2026`, cambialo).
-2. `SHEET_CSV_URL` — in Google Sheets: **File → Condividi → Pubblica sul web → CSV**, copia il link e incollalo.
+- `POST /api/login` — verifica la password (`ADMIN_PASSWORD`) e imposta un cookie di sessione firmato HMAC, HttpOnly + Secure + SameSite=Strict (7 giorni).
+- `GET /api/subscribers` — protetto dal cookie; legge il CSV da `SHEET_CSV_URL` lato server e restituisce JSON (l'URL del foglio non è più esposto al client).
+- `POST /api/logout` — invalida la sessione.
 
-> ⚠️ L'accesso è protetto **solo lato client**: è un filtro, non una vera autenticazione. Per un'area realmente sicura serve un backend con autenticazione server-side (es. funzione serverless Vercel + sessione). Vedi note sotto.
+### Variabili d'ambiente (Vercel → Settings → Environment Variables)
+
+| Variabile | Descrizione |
+|---|---|
+| `ADMIN_PASSWORD` | Password unica per accedere a `/admin`. |
+| `SESSION_SECRET` | Stringa casuale lunga per firmare i cookie (`openssl rand -base64 48`). |
+| `SHEET_CSV_URL` | Link del Google Sheet pubblicato in CSV (File → Condividi → Pubblica sul web → CSV). |
+
+Vedi `.env.example`. Per provare in locale serve un runtime che esegua le funzioni `/api` (es. `vercel dev`).
+
+> Nota: lo stack è su Vercel Functions perché il sito è già lì. Il codice è portabile su **Cloudflare Pages Functions** con piccole modifiche alle firme.
 
 ## Sviluppo locale
 

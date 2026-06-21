@@ -15,7 +15,7 @@
 <body class="bg-parchment-dim/40 text-ink font-sans min-h-screen">
 
   <!-- ============ LOGIN ============ -->
-  <div id="loginView" class="min-h-screen grid place-items-center px-5">
+  <div id="loginView" class="min-h-screen grid place-items-center px-5 hidden">
     <div class="w-full max-w-sm">
       <div class="flex items-center gap-2.5 justify-center mb-8">
         <svg width="30" height="30" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#1E3A2F"/><path d="M16 7l7 13h-4l-3-5.6L13 20H9z" fill="#F4EDE0"/></svg>
@@ -25,12 +25,12 @@
         <h1 class="font-display text-xl font-semibold">Area riservata</h1>
         <p class="mt-1 text-sm text-ink/60">Gestione lista d'attesa.</p>
         <form id="loginForm" class="mt-5 space-y-3">
-          <input id="code" type="password" autocomplete="current-password" placeholder="Codice di accesso" class="w-full rounded-xl border border-stone/30 bg-parchment-dim/40 px-4 py-3 outline-none focus:border-forest" />
-          <button type="submit" class="btn btn-primary w-full py-3">Entra</button>
-          <p id="loginErr" class="text-sm text-clay-dark hidden">Codice non valido.</p>
+          <input id="code" type="password" autocomplete="current-password" placeholder="Password" class="w-full rounded-xl border border-stone/30 bg-parchment-dim/40 px-4 py-3 outline-none focus:border-forest" />
+          <button type="submit" id="loginBtn" class="btn btn-primary w-full py-3">Entra</button>
+          <p id="loginErr" class="text-sm text-clay-dark hidden"></p>
         </form>
       </div>
-      <p class="mt-4 text-center text-xs text-ink/45">Accesso protetto solo lato client. <a href="/" class="underline">Torna al sito</a></p>
+      <p class="mt-4 text-center text-xs text-ink/45">Accesso protetto lato server. <a href="/" class="underline">Torna al sito</a></p>
     </div>
   </div>
 
@@ -48,7 +48,6 @@
     </header>
 
     <main class="mx-auto max-w-6xl px-5 sm:px-8 py-8">
-      <!-- stat cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="rounded-2xl bg-forest text-parchment p-5"><p class="text-parchment/60 text-sm">Iscritti totali</p><p id="statTotal" class="font-display text-4xl font-bold mt-1">—</p></div>
         <div class="rounded-2xl bg-parchment border border-stone/20 p-5"><p class="text-ink/55 text-sm">Ultimi 7 giorni</p><p id="stat7" class="font-display text-4xl font-bold mt-1 text-forest">—</p></div>
@@ -56,13 +55,11 @@
         <div class="rounded-2xl bg-parchment border border-stone/20 p-5"><p class="text-ink/55 text-sm">Castello più frequente</p><p id="statCastle" class="font-display text-xl font-semibold mt-2 text-forest">—</p></div>
       </div>
 
-      <!-- distribuzione per castello -->
       <div id="castleBox" class="mt-6 rounded-2xl bg-parchment border border-stone/20 p-6 hidden">
         <h2 class="font-display font-semibold">Distribuzione per castello</h2>
         <div id="castleBars" class="mt-4 space-y-2.5"></div>
       </div>
 
-      <!-- tabella -->
       <div class="mt-6 rounded-2xl bg-parchment border border-stone/20 overflow-hidden">
         <div class="p-4 sm:p-5 border-b border-stone/15 flex items-center gap-3">
           <div class="relative flex-1 max-w-xs">
@@ -80,67 +77,73 @@
         <div id="emptyState" class="p-10 text-center text-ink/55 hidden"></div>
       </div>
 
-      <p class="mt-6 text-xs text-ink/45 leading-relaxed">I dati provengono dal Google Sheet collegato a Tally (pubblicazione in formato CSV). Questa area è protetta solo lato client e non sostituisce un'autenticazione server: non inserire qui informazioni sensibili e proteggi l'URL della pagina.</p>
+      <p class="mt-6 text-xs text-ink/45 leading-relaxed">Dati letti lato server dal Google Sheet collegato a Tally. Accesso protetto da password (variabile d'ambiente) e sessione con cookie firmato HttpOnly.</p>
     </main>
   </div>
 
   <script>
-  /* ============================================================
-     CONFIGURAZIONE ADMIN
-     1) ACCESS_CODE: cambia il codice di accesso qui sotto.
-     2) SHEET_CSV_URL: in Google Sheets (quello collegato a Tally) →
-        File → Condividi → Pubblica sul web → seleziona il foglio,
-        formato "Valori separati da virgola (.csv)" → copia il link
-        e incollalo qui sotto. Lascia vuoto per vedere lo stato demo.
-     ============================================================ */
-  var ACCESS_CODE = 'crest2026';
-  var SHEET_CSV_URL = '';
-
   (function () {
     'use strict';
     var login = document.getElementById('loginView');
     var dash = document.getElementById('dashView');
-    var rows = [], headers = [], colMap = {};
+    var headers = [], rows = [], colMap = {};
 
-    // ---- auth (soft, lato client) ----
-    function showDash() { login.classList.add('hidden'); dash.classList.remove('hidden'); load(); }
-    if (sessionStorage.getItem('crest-admin') === '1') showDash();
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (document.getElementById('code').value === ACCESS_CODE) {
-        sessionStorage.setItem('crest-admin', '1'); showDash();
-      } else { document.getElementById('loginErr').classList.remove('hidden'); }
-    });
-    document.getElementById('logoutBtn').addEventListener('click', function () {
-      sessionStorage.removeItem('crest-admin'); location.reload();
-    });
-
-    // ---- CSV parser ----
-    function parseCSV(text) {
-      var out = [], row = [], field = '', i = 0, q = false, c;
-      while (i < text.length) {
-        c = text[i];
-        if (q) {
-          if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
-          else if (c === '"') { q = false; }
-          else { field += c; }
-        } else {
-          if (c === '"') q = true;
-          else if (c === ',') { row.push(field); field = ''; }
-          else if (c === '\n') { row.push(field); out.push(row); row = []; field = ''; }
-          else if (c === '\r') { /* skip */ }
-          else field += c;
-        }
-        i++;
-      }
-      if (field.length || row.length) { row.push(field); out.push(row); }
-      return out.filter(function (r) { return r.some(function (x) { return x.trim() !== ''; }); });
+    function show(view) {
+      login.classList.toggle('hidden', view !== 'login');
+      dash.classList.toggle('hidden', view !== 'dash');
     }
 
+    // ---- login ----
+    var form = document.getElementById('loginForm');
+    var err = document.getElementById('loginErr');
+    var btn = document.getElementById('loginBtn');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      err.classList.add('hidden');
+      btn.disabled = true; btn.textContent = 'Verifico…';
+      fetch('/api/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: document.getElementById('code').value })
+      }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (res.ok) { load(); }
+          else { err.textContent = res.j.error || 'Accesso negato'; err.classList.remove('hidden'); }
+        })
+        .catch(function () { err.textContent = 'Errore di rete'; err.classList.remove('hidden'); })
+        .finally(function () { btn.disabled = false; btn.textContent = 'Entra'; });
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+      fetch('/api/logout', { method: 'POST' }).finally(function () { show('login'); });
+    });
+
+    // ---- caricamento dati (verifica anche la sessione) ----
+    function load() {
+      fetch('/api/subscribers', { headers: { 'Accept': 'application/json' } })
+        .then(function (r) {
+          if (r.status === 401) { show('login'); return null; }
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data) return;
+          show('dash');
+          headers = data.headers || [];
+          rows = data.rows || [];
+          if (data.configured === false) {
+            render();
+            showEmpty('Configura la variabile SHEET_CSV_URL su Vercel per visualizzare gli iscritti.');
+          } else { render(); }
+        })
+        .catch(function () { show('dash'); showEmpty('Impossibile contattare il server.'); });
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', load);
+
+    // ---- rilevamento colonne ----
     function detectCols() {
       colMap = { nome: -1, email: -1, castello: -1, data: -1 };
       headers.forEach(function (h, idx) {
-        var k = (h || '').toLowerCase();
+        var k = String(h || '').toLowerCase();
         if (colMap.email < 0 && k.indexOf('email') > -1) colMap.email = idx;
         else if (colMap.nome < 0 && (k.indexOf('nome') > -1 || k.indexOf('chiami') > -1)) colMap.nome = idx;
         else if (colMap.castello < 0 && (k.indexOf('castello') > -1 || k.indexOf('residenz') > -1)) colMap.castello = idx;
@@ -149,30 +152,28 @@
     }
 
     function parseDate(s) { var d = new Date(s); return isNaN(d) ? null : d; }
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
     function render() {
-      // stats
+      detectCols();
       document.getElementById('statTotal').textContent = rows.length;
-      var now = new Date(), today = 0, week = 0;
-      var castles = {};
+      var now = new Date(), today = 0, week = 0, castles = {};
       rows.forEach(function (r) {
         if (colMap.data > -1) {
           var d = parseDate(r[colMap.data]);
           if (d) {
             var diff = (now - d) / 86400000;
-            if (diff < 1 && d.toDateString() === now.toDateString()) today++;
-            if (diff <= 7) week++;
+            if (d.toDateString() === now.toDateString()) today++;
+            if (diff <= 7 && diff >= 0) week++;
           }
         }
-        if (colMap.castello > -1) { var cv = (r[colMap.castello] || '').trim(); if (cv) castles[cv] = (castles[cv] || 0) + 1; }
+        if (colMap.castello > -1) { var cv = String(r[colMap.castello] || '').trim(); if (cv) castles[cv] = (castles[cv] || 0) + 1; }
       });
       document.getElementById('stat7').textContent = colMap.data > -1 ? week : '—';
       document.getElementById('statToday').textContent = colMap.data > -1 ? today : '—';
-
       var top = Object.keys(castles).sort(function (a, b) { return castles[b] - castles[a]; });
       document.getElementById('statCastle').textContent = top.length ? top[0] : '—';
 
-      // bars
       var box = document.getElementById('castleBox'), bars = document.getElementById('castleBars');
       if (top.length) {
         box.classList.remove('hidden');
@@ -183,65 +184,30 @@
         }).join('');
       } else { box.classList.add('hidden'); }
 
-      // table head
       var keep = [];
       ['nome', 'email', 'castello', 'data'].forEach(function (k) { if (colMap[k] > -1) keep.push(colMap[k]); });
       if (!keep.length) keep = headers.map(function (_, i) { return i; });
       document.getElementById('tableHead').innerHTML = keep.map(function (i) { return '<th class="px-4 py-3 font-medium">' + esc(headers[i] || '') + '</th>'; }).join('');
-
       drawBody(keep, '');
       document.getElementById('search').oninput = function () { drawBody(keep, this.value.toLowerCase()); };
     }
 
     function drawBody(keep, query) {
       var body = document.getElementById('tableBody'), empty = document.getElementById('emptyState');
-      var filtered = rows.filter(function (r) {
-        if (!query) return true;
-        return r.join(' ').toLowerCase().indexOf(query) > -1;
-      });
+      var filtered = rows.filter(function (r) { return !query || r.join(' ').toLowerCase().indexOf(query) > -1; });
       document.getElementById('rowCount').textContent = filtered.length + ' iscritt' + (filtered.length === 1 ? 'o' : 'i');
-      if (!filtered.length) {
-        body.innerHTML = ''; empty.classList.remove('hidden');
-        empty.textContent = rows.length ? 'Nessun risultato per la ricerca.' : 'Nessun iscritto ancora.';
-        return;
-      }
+      if (!filtered.length) { body.innerHTML = ''; empty.classList.remove('hidden'); empty.textContent = rows.length ? 'Nessun risultato.' : 'Nessun iscritto ancora.'; return; }
       empty.classList.add('hidden');
-      body.innerHTML = filtered.slice(0, 500).map(function (r) {
-        return '<tr class="border-b border-stone/10 hover:bg-parchment-dim/30">' + keep.map(function (i) {
-          return '<td class="px-4 py-3">' + esc(r[i] || '') + '</td>';
-        }).join('') + '</tr>';
+      body.innerHTML = filtered.slice(0, 1000).map(function (r) {
+        return '<tr class="border-b border-stone/10 hover:bg-parchment-dim/30">' + keep.map(function (i) { return '<td class="px-4 py-3">' + esc(r[i] || '') + '</td>'; }).join('') + '</tr>';
       }).join('');
     }
 
-    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-
     function showEmpty(msg) {
-      document.getElementById('statTotal').textContent = '0';
-      ['stat7', 'statToday'].forEach(function (id) { document.getElementById(id).textContent = '—'; });
-      document.getElementById('statCastle').textContent = '—';
-      document.getElementById('tableHead').innerHTML = '';
-      document.getElementById('tableBody').innerHTML = '';
+      ['statTotal'].forEach(function (id) { document.getElementById(id).textContent = rows.length || '0'; });
       var e = document.getElementById('emptyState'); e.classList.remove('hidden'); e.textContent = msg;
     }
 
-    function load() {
-      if (!SHEET_CSV_URL) {
-        showEmpty('Configura SHEET_CSV_URL in admin.html per visualizzare gli iscritti reali dal Google Sheet collegato a Tally.');
-        return;
-      }
-      showEmpty('Caricamento…');
-      fetch(SHEET_CSV_URL + (SHEET_CSV_URL.indexOf('?') > -1 ? '&' : '?') + 't=' + Date.now())
-        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
-        .then(function (text) {
-          var data = parseCSV(text);
-          if (!data.length) { showEmpty('Il foglio è vuoto.'); return; }
-          headers = data[0]; rows = data.slice(1);
-          detectCols(); render();
-        })
-        .catch(function () { showEmpty('Impossibile caricare i dati. Verifica che il Google Sheet sia pubblicato in formato CSV.'); });
-    }
-
-    document.getElementById('refreshBtn').addEventListener('click', load);
     document.getElementById('exportBtn').addEventListener('click', function () {
       if (!rows.length) return;
       var csv = [headers].concat(rows).map(function (r) {
@@ -253,6 +219,9 @@
       a.download = 'crest-lista-attesa-' + new Date().toISOString().slice(0, 10) + '.csv';
       a.click();
     });
+
+    // avvio: prova a caricare; se 401 mostra login
+    load();
   })();
   </script>
 </body>
