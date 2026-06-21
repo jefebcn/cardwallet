@@ -40,8 +40,16 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 }
 
 /* ---- Marquee ---- */
+/* overflow esplicito: la utility Tailwind via CDN non è garantita (e il CDN
+   non è pensato per la produzione). Qui mettiamo al sicuro il clipping. */
+.marquee { overflow: hidden; }
 .marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* il hero deve ritagliare aurora/telefono che sporgono oltre i bordi */
+#hero, #hero > div { overflow: hidden; }
+/* rete di sicurezza anti-scroll orizzontale su mobile (non rompe lo sticky) */
+html, body { overflow-x: clip; }
 
 /* ---- Bottoni ---- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 9999px; font-weight: 600; transition: transform .25s var(--ease-out), background-color .2s, color .2s, border-color .2s; }
@@ -165,6 +173,20 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   border: 1.5px solid rgba(244,237,224,0.22) !important;
 }
 #site-nav.nav-hero #navToggle svg path { stroke: rgba(244,237,224,0.85); }
+
+/* ---- Tabella di confronto: indicatori sì / no / parziale ---- */
+.cmp-yes, .cmp-no, .cmp-mid {
+  display: flex; width: 26px; height: 26px; margin: 0 auto;
+  border-radius: 50%; background-repeat: no-repeat; background-position: center;
+  background-size: 14px 14px;
+}
+.cmp-yes { background-color: rgba(30,58,47,0.12);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12.5l4 4 10-10' stroke='%231E3A2F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.cmp-no { background-color: rgba(125,99,72,0.10);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 6l12 12M18 6L6 18' stroke='%237D6348' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E"); opacity: 0.7; }
+.cmp-mid { background-color: rgba(194,96,46,0.14);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 12h12' stroke='%23C2603A' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.cmp-sm { width: 16px; height: 16px; background-size: 10px 10px; display: inline-flex; margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

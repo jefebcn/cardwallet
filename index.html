@@ -15,8 +15,7 @@
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/app.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/assets/tw.js"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css" />
   <noscript><style>
     .reveal{opacity:1!important;transform:none!important}
     #hero-l1,#hero-l2,#hero-l3{transform:none!important}
@@ -345,7 +344,90 @@
             <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-parchment text-forest"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M11 18h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
             <h3 class="h-display mt-5 font-display font-semibold text-3xl sm:text-4xl">Un'app moderna, davvero</h3>
             <p class="mt-4 text-parchment/70 leading-relaxed text-lg">Notifiche in tempo reale, categorie di spesa, budget e controllo totale. Tutto in italiano, tutto dal telefono — zero file, zero moduli.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-2.5 rounded-xl border border-parchment/25 bg-parchment/[0.06] px-4 py-2.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-parchment shrink-0"><path d="M17.05 12.54c0-2.02 1.65-2.99 1.72-3.04-.94-1.37-2.4-1.56-2.92-1.58-1.24-.13-2.42.73-3.05.73-.63 0-1.6-.71-2.63-.69-1.35.02-2.6.79-3.3 2-1.4 2.44-.36 6.05 1.01 8.03.67.97 1.47 2.05 2.52 2.01 1.01-.04 1.39-.65 2.61-.65 1.22 0 1.56.65 2.63.63 1.09-.02 1.78-.99 2.44-1.96.77-1.12 1.09-2.21 1.11-2.27-.02-.01-2.13-.82-2.15-3.25zM15.06 6.69c.56-.68.94-1.62.83-2.56-.81.03-1.79.54-2.37 1.21-.52.6-.97 1.56-.85 2.48.9.07 1.83-.46 2.39-1.13z"/></svg>
+                <span class="text-left leading-tight"><span class="block text-[9px] uppercase tracking-wide text-parchment/55">Presto su</span><span class="block text-sm font-semibold text-parchment -mt-0.5">App Store</span></span>
+              </span>
+              <span class="inline-flex items-center gap-2.5 rounded-xl border border-parchment/25 bg-parchment/[0.06] px-4 py-2.5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="text-parchment shrink-0"><path d="M3.6 2.4c-.2.2-.3.5-.3.9v17.4c0 .4.1.7.3.9l.1.1L13.3 12 3.7 2.3l-.1.1zM17 8.3l-2.6-1.5-2.9 2.9 2.9 2.9L17 11l.1-.1c.8-.5.8-1.6 0-2l-.1-.6zM4.5 2.1l8.8 8.8 2.8-2.8L5.5 1.9c-.4-.2-.7-.2-1 .2zM13.3 13.1L4.5 21.9c.3.3.7.4 1 .2l10.6-6.1-2.8-2.9z"/></svg>
+                <span class="text-left leading-tight"><span class="block text-[9px] uppercase tracking-wide text-parchment/55">Presto su</span><span class="block text-sm font-semibold text-parchment -mt-0.5">Google Play</span></span>
+              </span>
+            </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONFRONTO ============ -->
+    <section class="bg-parchment border-t border-stone/15">
+      <div class="mx-auto max-w-5xl px-5 sm:px-8 py-16 md:py-28">
+        <div class="max-w-2xl">
+          <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stone">Il confronto</p>
+          <h2 class="reveal h-display mt-4 font-display font-bold text-3xl sm:text-5xl text-ink">Perché Crest, e non gli altri.</h2>
+          <p class="reveal mt-5 text-ink/70 leading-relaxed text-base sm:text-lg" data-delay="1">I wallet esteri non aprono conti a San Marino. Le banche locali non sono al passo. Crest nasce esattamente per colmare questo vuoto.</p>
+        </div>
+
+        <div class="reveal mt-9 sm:mt-12 overflow-hidden rounded-2xl border border-stone/20 shadow-xl shadow-ink/5" data-delay="1">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-parchment-dim/50">
+                <th class="p-3 sm:p-5 text-left text-xs sm:text-sm font-medium text-ink/45 align-bottom">Cosa puoi fare</th>
+                <th class="p-3 sm:p-5 align-bottom bg-forest/[0.05] border-x border-forest/10">
+                  <span class="flex flex-col items-center gap-1.5">
+                    <img src="/assets/logo-forest.svg" width="15" height="19" alt="" />
+                    <span class="font-display text-sm sm:text-base font-bold text-forest leading-none">Crest</span>
+                  </span>
+                </th>
+                <th class="p-3 sm:p-5 text-center align-bottom"><span class="font-display text-xs sm:text-sm font-semibold text-ink/50 leading-tight">Wallet<br />esteri</span></th>
+                <th class="p-3 sm:p-5 text-center align-bottom"><span class="font-display text-xs sm:text-sm font-semibold text-ink/50 leading-tight">Banche<br />locali</span></th>
+              </tr>
+            </thead>
+            <tbody class="text-xs sm:text-base">
+              <tr class="border-t border-stone/15">
+                <td class="p-3 sm:p-5 font-medium text-ink/85">Disponibile a San Marino</td>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-yes"></span></td>
+              </tr>
+              <tr class="border-t border-stone/15">
+                <td class="p-3 sm:p-5 font-medium text-ink/85">IBAN dedicato</td>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-yes"></span></td>
+              </tr>
+              <tr class="border-t border-stone/15">
+                <td class="p-3 sm:p-5 font-medium text-ink/85">App moderna in italiano</td>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-mid"></span></td>
+              </tr>
+              <tr class="border-t border-stone/15">
+                <td class="p-3 sm:p-5 font-medium text-ink/85">Trasferimenti istantanei</td>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-mid"></span></td>
+              </tr>
+              <tr class="border-t border-stone/15">
+                <td class="p-3 sm:p-5 font-medium text-ink/85">Commissioni trasparenti</td>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-mid"></span></td>
+              </tr>
+              <tr class="border-t border-stone/15">
+                <td class="p-3 sm:p-5 font-medium text-ink/85">Apertura 100% da telefono</td>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10 rounded-bl"><span class="cmp-yes"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="reveal mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-ink/45" data-delay="1">
+          <span class="inline-flex items-center gap-1.5"><span class="cmp-yes cmp-sm"></span> Sì</span>
+          <span class="inline-flex items-center gap-1.5"><span class="cmp-mid cmp-sm"></span> In parte</span>
+          <span class="inline-flex items-center gap-1.5"><span class="cmp-no cmp-sm"></span> No</span>
+          <span class="ml-auto">«Wallet esteri»: Revolut, Wise, N26 — non disponibili a San Marino.</span>
         </div>
       </div>
     </section>

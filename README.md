@@ -7,7 +7,7 @@ San Marino non è UE né SEE: Revolut, Wise e N26 non operano qui. Crest nasce p
 ## Stack
 
 - HTML statico multi-pagina (nessun build step)
-- Tailwind CSS via CDN + config condivisa (`assets/tw.js`)
+- Tailwind CSS **precompilato** in un file statico (`assets/tailwind.css`) — niente CDN runtime, stili immediati e affidabili
 - Vanilla JS (`assets/app.js`) — nav/footer iniettati, motion, cookie banner
 - Font **General Sans** (Fontshare) — alternativa libera ad Aeonik (font di Revolut, commerciale)
 - Form lista d'attesa **nativo** (nessun servizio terzo visibile) → `/api/subscribe` → Google Sheet
@@ -24,7 +24,8 @@ privacy.html        Privacy Policy
 cookie.html         Cookie Policy
 termini.html        Termini e condizioni
 admin.html          Pannello lista d'attesa (vedi sotto)
-assets/tw.js        Config Tailwind (palette + font)
+tailwind.config.js  Config Tailwind (palette + font + keyframes)
+assets/tailwind.css Tailwind compilato (generato, vedi sotto)
 assets/app.css      Stili condivisi + animazioni
 assets/app.js       Nav, footer, motion, cookie, form lista d'attesa
 robots.txt · vercel.json
@@ -177,6 +178,23 @@ Dashboard per consultare gli iscritti, con statistiche, ricerca ed export CSV. L
 Vedi `.env.example`. Per provare in locale serve un runtime che esegua le funzioni `/api` (es. `vercel dev`).
 
 > Nota: lo stack è su Vercel Functions perché il sito è già lì. Il codice è portabile su **Cloudflare Pages Functions** con piccole modifiche alle firme.
+
+## CSS (Tailwind statico)
+
+Il sito **non** usa più la CDN `cdn.tailwindcss.com` (sconsigliata in produzione e a volte lenta a colorare la pagina). Le classi sono compilate una volta in `assets/tailwind.css` con la CLI standalone di Tailwind (nessun Node necessario).
+
+Per rigenerare il CSS dopo aver aggiunto/cambiato classi nell'HTML o in `assets/app.js`:
+
+```bash
+# scarica la CLI standalone una volta (linux x64; vedi releases per altri OS)
+curl -sSL -o tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-linux-x64
+chmod +x tailwindcss
+# compila (minificato)
+printf '@tailwind base;@tailwind components;@tailwind utilities;' > tw-input.css
+./tailwindcss -c tailwind.config.js -i tw-input.css -o assets/tailwind.css --minify
+```
+
+`tailwind.config.js` scansiona `./*.html` e `./assets/*.js`, quindi cattura anche le classi nella nav/footer iniettate da `app.js`. `assets/app.css` resta separato (stili custom + animazioni) e si carica dopo.
 
 ## Sviluppo locale
 
