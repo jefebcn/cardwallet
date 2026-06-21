@@ -123,6 +123,49 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ================================================================
+     MOUSE PARALLAX — il gruppo device reagisce al cursore (3D depth)
+     Scrive su --px-x/--px-y (proprietà `translate`), niente conflitti.
+  ================================================================ */
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (canHover && hero) {
+    var pxLayers = Array.prototype.slice.call(hero.querySelectorAll('.px-layer'));
+    var targetX = 0, targetY = 0, curX = 0, curY = 0, rafId = null;
+
+    function loop() {
+      curX += (targetX - curX) * 0.08;
+      curY += (targetY - curY) * 0.08;
+      pxLayers.forEach(function (el) {
+        var depth = parseFloat(el.getAttribute('data-px')) || 0;
+        el.style.setProperty('--px-x', (curX * depth).toFixed(2) + 'px');
+        el.style.setProperty('--px-y', (curY * depth).toFixed(2) + 'px');
+      });
+      if (Math.abs(targetX - curX) > 0.001 || Math.abs(targetY - curY) > 0.001) {
+        rafId = requestAnimationFrame(loop);
+      } else { rafId = null; }
+    }
+    // disattivo la transizione CSS: qui guida il rAF (più fluido)
+    pxLayers.forEach(function (el) { el.style.transition = 'none'; });
+    window.addEventListener('pointermove', function (e) {
+      targetX = (e.clientX / window.innerWidth - 0.5) * 2;   // -1 .. 1
+      targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (!rafId) rafId = requestAnimationFrame(loop);
+    }, { passive: true });
+    // leggera inclinazione 3D del telefono col mouse
+    var phoneEl = hero.querySelector('.phone.px-layer');
+    if (phoneEl) {
+      var phoneFloat = phoneEl.closest('.device-float');
+      if (phoneFloat) phoneFloat.style.perspective = '1200px';
+      gsap.set(phoneEl, { transformStyle: 'preserve-3d' });
+      var rotX = gsap.quickTo(phoneEl, 'rotationX', { duration: 0.6, ease: 'power2.out' });
+      var rotY = gsap.quickTo(phoneEl, 'rotationY', { duration: 0.6, ease: 'power2.out' });
+      window.addEventListener('pointermove', function (e) {
+        rotY((e.clientX / window.innerWidth - 0.5) * 10);
+        rotX((e.clientY / window.innerHeight - 0.5) * -7);
+      }, { passive: true });
+    }
+  }
+
+  /* ================================================================
      REVEAL CON STAGGER — elementi .reveal in tutte le sezioni
   ================================================================ */
   gsap.set('.reveal', { opacity: 0, y: 34 });
