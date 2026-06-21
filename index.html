@@ -378,6 +378,13 @@
               <!-- Fallback on-brand (visibile finché Tally non è configurato) -->
               <form class="js-fallback-form space-y-4" novalidate>
                 <div>
+                  <label for="nome" class="block text-sm font-500 text-ink/80 mb-1.5">Nome</label>
+                  <input
+                    id="nome" name="nome" type="text" required autocomplete="given-name"
+                    placeholder="Come ti chiami?"
+                    class="w-full rounded-xl border border-stone/30 bg-parchment px-4 py-3 text-ink placeholder:text-sand focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition" />
+                </div>
+                <div>
                   <label for="email" class="block text-sm font-500 text-ink/80 mb-1.5">Email</label>
                   <input
                     id="email" name="email" type="email" required autocomplete="email"
