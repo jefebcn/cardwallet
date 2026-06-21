@@ -85,7 +85,7 @@
           <div class="inline-flex items-center gap-2 rounded-full border border-parchment/25 px-3 py-1.5 text-sm text-parchment/85">\
             <svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7l7 13h-4l-3-5.6L13 20H9z" fill="#F4EDE0"/></svg>San Marino · IT\
           </div>\
-          <a href="mailto:ciao@crest.sm" class="mt-4 block text-sm text-parchment/80 link-underline w-max">ciao@crest.sm</a>\
+          <a href="mailto:supportcrest@proton.me" class="mt-4 block text-sm text-parchment/80 link-underline w-max">supportcrest@proton.me</a>\
         </div>\
       </div>\
       <div class="mt-12 pt-6 border-t border-parchment/15 space-y-4 text-xs text-parchment/55">\
