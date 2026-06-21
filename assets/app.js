@@ -16,6 +16,7 @@
       <div class="hidden md:flex items-center gap-8 text-sm text-ink/70">\
         <a href="/#soluzione" class="link-underline hover:text-ink">Prodotto</a>\
         <a href="/#come-funziona" class="link-underline hover:text-ink">Come funziona</a>\
+        <a href="/#piani" class="link-underline hover:text-ink">Prezzi</a>\
         <a href="/faq" class="link-underline hover:text-ink">FAQ</a>\
         <a href="/chi-siamo" class="link-underline hover:text-ink">Chi siamo</a>\
       </div>\
@@ -30,6 +31,7 @@
       <div class="px-5 py-4 flex flex-col gap-1 text-ink/80">\
         <a href="/#soluzione" class="py-2.5 link-underline w-max">Prodotto</a>\
         <a href="/#come-funziona" class="py-2.5 link-underline w-max">Come funziona</a>\
+        <a href="/#piani" class="py-2.5 link-underline w-max">Prezzi</a>\
         <a href="/faq" class="py-2.5 link-underline w-max">FAQ</a>\
         <a href="/chi-siamo" class="py-2.5 link-underline w-max">Chi siamo</a>\
         <a href="/contatti" class="py-2.5 link-underline w-max">Contatti</a>\
