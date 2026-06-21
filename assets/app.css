@@ -1,0 +1,85 @@
+/* ============================================================
+   Crest — stili condivisi
+   Motion ispirato a Revolut, palette Terra, font General Sans
+   ============================================================ */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: #1E3A2F; color: #F4EDE0; }
+
+/* tipografia display: stretta come Revolut/Aeonik */
+.h-display { letter-spacing: -0.035em; line-height: 0.98; }
+
+/* ---- Reveal allo scroll ---- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); will-change: opacity, transform; }
+.reveal.is-in { opacity: 1; transform: none; }
+.reveal[data-delay="1"] { transition-delay: .08s; }
+.reveal[data-delay="2"] { transition-delay: .16s; }
+.reveal[data-delay="3"] { transition-delay: .24s; }
+.reveal[data-delay="4"] { transition-delay: .32s; }
+
+/* ---- Parallax (gestito da app.js via --py) ---- */
+.parallax { transform: translate3d(0, var(--py, 0), 0); will-change: transform; }
+
+/* ---- Sfondo "mesh" caldo Terra (no purple) ---- */
+.mesh-terra {
+  background-color: #F4EDE0;
+  background-image:
+    radial-gradient(40% 55% at 78% 18%, rgba(194,96,46,0.18) 0%, transparent 60%),
+    radial-gradient(45% 50% at 12% 8%, rgba(30,58,47,0.12) 0%, transparent 55%),
+    radial-gradient(50% 60% at 60% 100%, rgba(125,99,72,0.14) 0%, transparent 60%);
+}
+
+/* curve di livello — richiamo Monte Titano */
+.contour {
+  background-image: repeating-radial-gradient(110% 80% at 80% -10%, transparent 0 38px, rgba(30,58,47,0.05) 38px 39px);
+}
+
+/* ---- Marquee ---- */
+.marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* ---- Bottoni ---- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 9999px; font-weight: 600; transition: transform .25s var(--ease-out), background-color .2s, color .2s, border-color .2s; }
+.btn:active { transform: scale(.97); }
+.btn-primary { background: #1E3A2F; color: #F4EDE0; }
+.btn-primary:hover { background: #16291F; }
+.btn-clay { background: #C2603A; color: #F4EDE0; }
+.btn-clay:hover { background: #A84E2B; }
+.btn-ghost { border: 1px solid rgba(125,99,72,.4); color: #110F08; }
+.btn-ghost:hover { border-color: #1E3A2F; color: #1E3A2F; }
+
+/* link underline animato */
+.link-underline { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1.5px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .35s var(--ease-out); }
+.link-underline:hover { background-size: 100% 1.5px; }
+
+/* card tilt hero */
+.card-tilt { transform: rotate(4deg); }
+
+/* mockup telefono */
+.phone { border-radius: 2.4rem; box-shadow: 0 40px 80px -30px rgba(17,15,8,.55); }
+
+/* prose per pagine legali */
+.prose-crest { color: rgba(17,15,8,.82); line-height: 1.7; }
+.prose-crest h2 { font-weight: 600; font-size: 1.5rem; letter-spacing: -0.02em; color: #110F08; margin: 2.2rem 0 .8rem; }
+.prose-crest h3 { font-weight: 600; font-size: 1.12rem; color: #110F08; margin: 1.6rem 0 .5rem; }
+.prose-crest p { margin: 0 0 1rem; }
+.prose-crest ul { margin: 0 0 1rem; padding-left: 1.2rem; list-style: disc; }
+.prose-crest li { margin: .3rem 0; }
+.prose-crest a { color: #1E3A2F; text-decoration: underline; text-underline-offset: 3px; }
+.prose-crest strong { color: #110F08; font-weight: 600; }
+
+/* nascondi scrollbar orizzontale marquee */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  .parallax { transform: none !important; }
+  .marquee-track, .animate-float, .animate-floatslow { animation: none !important; }
+}

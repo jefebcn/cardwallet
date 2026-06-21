@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Crest</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#1E3A2F" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E3A2F'/%3E%3Cpath d='M16 7l7 13h-4l-3-5.6L13 20H9z' fill='%23F4EDE0'/%3E%3C/svg%3E" />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/app.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/assets/tw.js"></script>
+</head>
+<body class="bg-parchment-dim/40 text-ink font-sans min-h-screen">
+
+  <!-- ============ LOGIN ============ -->
+  <div id="loginView" class="min-h-screen grid place-items-center px-5">
+    <div class="w-full max-w-sm">
+      <div class="flex items-center gap-2.5 justify-center mb-8">
+        <svg width="30" height="30" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#1E3A2F"/><path d="M16 7l7 13h-4l-3-5.6L13 20H9z" fill="#F4EDE0"/></svg>
+        <span class="font-display text-2xl font-semibold tracking-tightest">Crest</span>
+      </div>
+      <div class="rounded-2xl bg-parchment border border-stone/20 p-7 shadow-xl shadow-ink/5">
+        <h1 class="font-display text-xl font-semibold">Area riservata</h1>
+        <p class="mt-1 text-sm text-ink/60">Gestione lista d'attesa.</p>
+        <form id="loginForm" class="mt-5 space-y-3">
+          <input id="code" type="password" autocomplete="current-password" placeholder="Codice di accesso" class="w-full rounded-xl border border-stone/30 bg-parchment-dim/40 px-4 py-3 outline-none focus:border-forest" />
+          <button type="submit" class="btn btn-primary w-full py-3">Entra</button>
+          <p id="loginErr" class="text-sm text-clay-dark hidden">Codice non valido.</p>
+        </form>
+      </div>
+      <p class="mt-4 text-center text-xs text-ink/45">Accesso protetto solo lato client. <a href="/" class="underline">Torna al sito</a></p>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div id="dashView" class="hidden">
+    <header class="sticky top-0 z-10 bg-parchment/90 backdrop-blur border-b border-stone/15">
+      <div class="mx-auto max-w-6xl px-5 sm:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-2.5"><svg width="26" height="26" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#1E3A2F"/><path d="M16 7l7 13h-4l-3-5.6L13 20H9z" fill="#F4EDE0"/></svg><span class="font-display text-lg font-semibold tracking-tightest">Crest · Admin</span></div>
+        <div class="flex items-center gap-2">
+          <button id="refreshBtn" class="btn btn-ghost px-4 py-2 text-sm">Aggiorna</button>
+          <button id="exportBtn" class="btn btn-primary px-4 py-2 text-sm">Esporta CSV</button>
+          <button id="logoutBtn" class="p-2 text-ink/60 hover:text-ink" title="Esci" aria-label="Esci"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2M9 12h11m0 0l-3-3m3 3l-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-5 sm:px-8 py-8">
+      <!-- stat cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="rounded-2xl bg-forest text-parchment p-5"><p class="text-parchment/60 text-sm">Iscritti totali</p><p id="statTotal" class="font-display text-4xl font-bold mt-1">—</p></div>
+        <div class="rounded-2xl bg-parchment border border-stone/20 p-5"><p class="text-ink/55 text-sm">Ultimi 7 giorni</p><p id="stat7" class="font-display text-4xl font-bold mt-1 text-forest">—</p></div>
+        <div class="rounded-2xl bg-parchment border border-stone/20 p-5"><p class="text-ink/55 text-sm">Oggi</p><p id="statToday" class="font-display text-4xl font-bold mt-1 text-forest">—</p></div>
+        <div class="rounded-2xl bg-parchment border border-stone/20 p-5"><p class="text-ink/55 text-sm">Castello più frequente</p><p id="statCastle" class="font-display text-xl font-semibold mt-2 text-forest">—</p></div>
+      </div>
+
+      <!-- distribuzione per castello -->
+      <div id="castleBox" class="mt-6 rounded-2xl bg-parchment border border-stone/20 p-6 hidden">
+        <h2 class="font-display font-semibold">Distribuzione per castello</h2>
+        <div id="castleBars" class="mt-4 space-y-2.5"></div>
+      </div>
+
+      <!-- tabella -->
+      <div class="mt-6 rounded-2xl bg-parchment border border-stone/20 overflow-hidden">
+        <div class="p-4 sm:p-5 border-b border-stone/15 flex items-center gap-3">
+          <div class="relative flex-1 max-w-xs">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-ink/40" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.7"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <input id="search" type="search" placeholder="Cerca nome o email…" class="w-full rounded-lg border border-stone/30 bg-parchment-dim/40 pl-9 pr-3 py-2 text-sm outline-none focus:border-forest" />
+          </div>
+          <span id="rowCount" class="text-sm text-ink/55 ml-auto"></span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr id="tableHead" class="text-left text-ink/55 border-b border-stone/15"></tr></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <div id="emptyState" class="p-10 text-center text-ink/55 hidden"></div>
+      </div>
+
+      <p class="mt-6 text-xs text-ink/45 leading-relaxed">I dati provengono dal Google Sheet collegato a Tally (pubblicazione in formato CSV). Questa area è protetta solo lato client e non sostituisce un'autenticazione server: non inserire qui informazioni sensibili e proteggi l'URL della pagina.</p>
+    </main>
+  </div>
+
+  <script>
+  /* ============================================================
+     CONFIGURAZIONE ADMIN
+     1) ACCESS_CODE: cambia il codice di accesso qui sotto.
+     2) SHEET_CSV_URL: in Google Sheets (quello collegato a Tally) →
+        File → Condividi → Pubblica sul web → seleziona il foglio,
+        formato "Valori separati da virgola (.csv)" → copia il link
+        e incollalo qui sotto. Lascia vuoto per vedere lo stato demo.
+     ============================================================ */
+  var ACCESS_CODE = 'crest2026';
+  var SHEET_CSV_URL = '';
+
+  (function () {
+    'use strict';
+    var login = document.getElementById('loginView');
+    var dash = document.getElementById('dashView');
+    var rows = [], headers = [], colMap = {};
+
+    // ---- auth (soft, lato client) ----
+    function showDash() { login.classList.add('hidden'); dash.classList.remove('hidden'); load(); }
+    if (sessionStorage.getItem('crest-admin') === '1') showDash();
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (document.getElementById('code').value === ACCESS_CODE) {
+        sessionStorage.setItem('crest-admin', '1'); showDash();
+      } else { document.getElementById('loginErr').classList.remove('hidden'); }
+    });
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+      sessionStorage.removeItem('crest-admin'); location.reload();
+    });
+
+    // ---- CSV parser ----
+    function parseCSV(text) {
+      var out = [], row = [], field = '', i = 0, q = false, c;
+      while (i < text.length) {
+        c = text[i];
+        if (q) {
+          if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+          else if (c === '"') { q = false; }
+          else { field += c; }
+        } else {
+          if (c === '"') q = true;
+          else if (c === ',') { row.push(field); field = ''; }
+          else if (c === '\n') { row.push(field); out.push(row); row = []; field = ''; }
+          else if (c === '\r') { /* skip */ }
+          else field += c;
+        }
+        i++;
+      }
+      if (field.length || row.length) { row.push(field); out.push(row); }
+      return out.filter(function (r) { return r.some(function (x) { return x.trim() !== ''; }); });
+    }
+
+    function detectCols() {
+      colMap = { nome: -1, email: -1, castello: -1, data: -1 };
+      headers.forEach(function (h, idx) {
+        var k = (h || '').toLowerCase();
+        if (colMap.email < 0 && k.indexOf('email') > -1) colMap.email = idx;
+        else if (colMap.nome < 0 && (k.indexOf('nome') > -1 || k.indexOf('chiami') > -1)) colMap.nome = idx;
+        else if (colMap.castello < 0 && (k.indexOf('castello') > -1 || k.indexOf('residenz') > -1)) colMap.castello = idx;
+        else if (colMap.data < 0 && (k.indexOf('submitted') > -1 || k.indexOf('data') > -1 || k.indexOf('time') > -1 || k.indexOf('created') > -1)) colMap.data = idx;
+      });
+    }
+
+    function parseDate(s) { var d = new Date(s); return isNaN(d) ? null : d; }
+
+    function render() {
+      // stats
+      document.getElementById('statTotal').textContent = rows.length;
+      var now = new Date(), today = 0, week = 0;
+      var castles = {};
+      rows.forEach(function (r) {
+        if (colMap.data > -1) {
+          var d = parseDate(r[colMap.data]);
+          if (d) {
+            var diff = (now - d) / 86400000;
+            if (diff < 1 && d.toDateString() === now.toDateString()) today++;
+            if (diff <= 7) week++;
+          }
+        }
+        if (colMap.castello > -1) { var cv = (r[colMap.castello] || '').trim(); if (cv) castles[cv] = (castles[cv] || 0) + 1; }
+      });
+      document.getElementById('stat7').textContent = colMap.data > -1 ? week : '—';
+      document.getElementById('statToday').textContent = colMap.data > -1 ? today : '—';
+
+      var top = Object.keys(castles).sort(function (a, b) { return castles[b] - castles[a]; });
+      document.getElementById('statCastle').textContent = top.length ? top[0] : '—';
+
+      // bars
+      var box = document.getElementById('castleBox'), bars = document.getElementById('castleBars');
+      if (top.length) {
+        box.classList.remove('hidden');
+        var max = castles[top[0]];
+        bars.innerHTML = top.map(function (c) {
+          var pct = Math.round(castles[c] / max * 100);
+          return '<div><div class="flex justify-between text-sm mb-1"><span>' + esc(c) + '</span><span class="text-ink/55">' + castles[c] + '</span></div><div class="h-2 rounded-full bg-parchment-dim overflow-hidden"><div class="h-full bg-forest" style="width:' + pct + '%"></div></div></div>';
+        }).join('');
+      } else { box.classList.add('hidden'); }
+
+      // table head
+      var keep = [];
+      ['nome', 'email', 'castello', 'data'].forEach(function (k) { if (colMap[k] > -1) keep.push(colMap[k]); });
+      if (!keep.length) keep = headers.map(function (_, i) { return i; });
+      document.getElementById('tableHead').innerHTML = keep.map(function (i) { return '<th class="px-4 py-3 font-medium">' + esc(headers[i] || '') + '</th>'; }).join('');
+
+      drawBody(keep, '');
+      document.getElementById('search').oninput = function () { drawBody(keep, this.value.toLowerCase()); };
+    }
+
+    function drawBody(keep, query) {
+      var body = document.getElementById('tableBody'), empty = document.getElementById('emptyState');
+      var filtered = rows.filter(function (r) {
+        if (!query) return true;
+        return r.join(' ').toLowerCase().indexOf(query) > -1;
+      });
+      document.getElementById('rowCount').textContent = filtered.length + ' iscritt' + (filtered.length === 1 ? 'o' : 'i');
+      if (!filtered.length) {
+        body.innerHTML = ''; empty.classList.remove('hidden');
+        empty.textContent = rows.length ? 'Nessun risultato per la ricerca.' : 'Nessun iscritto ancora.';
+        return;
+      }
+      empty.classList.add('hidden');
+      body.innerHTML = filtered.slice(0, 500).map(function (r) {
+        return '<tr class="border-b border-stone/10 hover:bg-parchment-dim/30">' + keep.map(function (i) {
+          return '<td class="px-4 py-3">' + esc(r[i] || '') + '</td>';
+        }).join('') + '</tr>';
+      }).join('');
+    }
+
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+    function showEmpty(msg) {
+      document.getElementById('statTotal').textContent = '0';
+      ['stat7', 'statToday'].forEach(function (id) { document.getElementById(id).textContent = '—'; });
+      document.getElementById('statCastle').textContent = '—';
+      document.getElementById('tableHead').innerHTML = '';
+      document.getElementById('tableBody').innerHTML = '';
+      var e = document.getElementById('emptyState'); e.classList.remove('hidden'); e.textContent = msg;
+    }
+
+    function load() {
+      if (!SHEET_CSV_URL) {
+        showEmpty('Configura SHEET_CSV_URL in admin.html per visualizzare gli iscritti reali dal Google Sheet collegato a Tally.');
+        return;
+      }
+      showEmpty('Caricamento…');
+      fetch(SHEET_CSV_URL + (SHEET_CSV_URL.indexOf('?') > -1 ? '&' : '?') + 't=' + Date.now())
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then(function (text) {
+          var data = parseCSV(text);
+          if (!data.length) { showEmpty('Il foglio è vuoto.'); return; }
+          headers = data[0]; rows = data.slice(1);
+          detectCols(); render();
+        })
+        .catch(function () { showEmpty('Impossibile caricare i dati. Verifica che il Google Sheet sia pubblicato in formato CSV.'); });
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', load);
+    document.getElementById('exportBtn').addEventListener('click', function () {
+      if (!rows.length) return;
+      var csv = [headers].concat(rows).map(function (r) {
+        return r.map(function (f) { return '"' + String(f).replace(/"/g, '""') + '"'; }).join(',');
+      }).join('\n');
+      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'crest-lista-attesa-' + new Date().toISOString().slice(0, 10) + '.csv';
+      a.click();
+    });
+  })();
+  </script>
+</body>
+</html>
