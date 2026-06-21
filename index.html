@@ -421,14 +421,60 @@
           <div class="reveal mt-8 flex items-baseline gap-3 border-t border-parchment/20 pt-6" data-delay="2"><span class="font-display text-5xl font-bold text-clay" data-count-to="318">0</span><span class="text-parchment/70 leading-tight">residenti<br />già in lista</span></div>
         </div>
         <div class="md:col-span-7">
-          <div class="rounded-2xl bg-parchment text-ink p-6 sm:p-8">
-            <iframe data-tally-src="https://tally.so/embed/Xx9M7Y?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="320" frameborder="0" marginheight="0" marginwidth="0" title="Lista d'attesa Crest" class="js-tally-iframe"></iframe>
-            <form class="js-fallback-form space-y-4" novalidate style="display:none">
-              <div><label for="nome" class="block text-sm font-medium text-ink/80 mb-1.5">Nome</label><input id="nome" name="nome" type="text" required class="w-full rounded-xl border border-stone/30 bg-parchment px-4 py-3 outline-none focus:border-forest" placeholder="Come ti chiami?" /></div>
-              <div><label for="email" class="block text-sm font-medium text-ink/80 mb-1.5">Email</label><input id="email" name="email" type="email" required class="w-full rounded-xl border border-stone/30 bg-parchment px-4 py-3 outline-none focus:border-forest" placeholder="nome@esempio.sm" /></div>
-              <button type="submit" class="btn btn-clay w-full py-3.5">Unisciti alla lista d'attesa</button>
+          <div class="rounded-2xl bg-parchment text-ink p-6 sm:p-8 shadow-xl shadow-ink/10">
+            <form id="waitlistForm" class="space-y-4" novalidate>
+              <div>
+                <label for="wl-nome" class="block text-sm font-medium text-ink/80 mb-1.5">Nome</label>
+                <input id="wl-nome" name="nome" type="text" required autocomplete="given-name" enterkeyhint="next"
+                  class="w-full rounded-xl border border-stone/30 bg-parchment px-4 py-3.5 text-base outline-none transition focus:border-forest focus:ring-2 focus:ring-forest/15"
+                  placeholder="Come ti chiami?" />
+              </div>
+              <div>
+                <label for="wl-email" class="block text-sm font-medium text-ink/80 mb-1.5">Email</label>
+                <input id="wl-email" name="email" type="email" required autocomplete="email" inputmode="email" enterkeyhint="next"
+                  class="w-full rounded-xl border border-stone/30 bg-parchment px-4 py-3.5 text-base outline-none transition focus:border-forest focus:ring-2 focus:ring-forest/15"
+                  placeholder="nome@esempio.sm" />
+              </div>
+              <div>
+                <label for="wl-castello" class="block text-sm font-medium text-ink/80 mb-1.5">Castello di residenza <span class="text-ink/40 font-normal">(facoltativo)</span></label>
+                <div class="relative">
+                  <select id="wl-castello" name="castello"
+                    class="w-full appearance-none rounded-xl border border-stone/30 bg-parchment px-4 py-3.5 text-base text-ink outline-none transition focus:border-forest focus:ring-2 focus:ring-forest/15">
+                    <option value="">Preferisco non dirlo</option>
+                    <option>Città di San Marino</option>
+                    <option>Borgo Maggiore</option>
+                    <option>Serravalle</option>
+                    <option>Domagnano</option>
+                    <option>Fiorentino</option>
+                    <option>Acquaviva</option>
+                    <option>Faetano</option>
+                    <option>Montegiardino</option>
+                    <option>Chiesanuova</option>
+                  </select>
+                  <svg class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink/40" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <!-- honeypot anti-spam: invisibile agli utenti -->
+              <div class="hidden" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off" /></label></div>
+
+              <label class="flex items-start gap-2.5 text-sm text-ink/65 leading-relaxed">
+                <input id="wl-consent" type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 rounded border-stone/40 text-forest accent-forest" />
+                <span>Acconsento al trattamento della mia email per ricevere aggiornamenti su Crest, come da <a href="/privacy" class="text-forest underline underline-offset-2">Privacy Policy</a>.</span>
+              </label>
+
+              <button type="submit" id="wl-submit" class="btn btn-clay w-full py-4 text-base">
+                <span class="wl-label">Unisciti alla lista d'attesa</span>
+                <span class="wl-spin hidden"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5" opacity="0.25"/><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+              </button>
+              <p id="wl-error" class="hidden text-sm text-clay-dark font-medium" role="alert"></p>
+              <p class="text-xs text-ink/45 text-center">Niente spam. Ti scriviamo solo quando c'è qualcosa di concreto.</p>
             </form>
-            <div class="js-fallback-done hidden text-center py-8"><span class="inline-flex w-12 h-12 items-center justify-center rounded-full bg-forest text-parchment"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3 class="mt-4 font-display text-xl font-semibold">Ci sei.</h3><p class="mt-1 text-ink/70">Ti scriviamo appena Crest è pronto.</p></div>
+
+            <div id="waitlistDone" class="hidden text-center py-10">
+              <span class="inline-flex w-14 h-14 items-center justify-center rounded-full bg-forest text-parchment"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <h3 class="mt-5 font-display text-2xl font-semibold">Ci sei.</h3>
+              <p class="mt-2 text-ink/65 max-w-xs mx-auto">Sei in lista d'attesa. Ti scriviamo appena Crest è pronto — niente spam, promesso.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -438,7 +484,6 @@
 
   <footer id="site-footer"></footer>
 
-  <script async src="https://tally.so/widgets/embed.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
   <script src="/assets/app.js"></script>

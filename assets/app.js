@@ -179,21 +179,58 @@
       }, { passive: true });
     }
 
-    // Tally: mostra iframe se configurato, nascondi fallback
-    var iframe = document.querySelector('.js-tally-iframe');
-    if (iframe && iframe.getAttribute('data-tally-src').indexOf('TALLY_FORM_ID') === -1) {
-      iframe.removeAttribute('hidden');
-      var fb = document.querySelector('.js-fallback-form');
-      if (fb) fb.style.display = 'none';
-    }
-    var form = document.querySelector('.js-fallback-form');
-    var done = document.querySelector('.js-fallback-done');
-    if (form) {
-      form.addEventListener('submit', function (ev) {
+    // Lista d'attesa: form nativo -> POST /api/subscribe (niente servizi terzi)
+    var wlForm = document.getElementById('waitlistForm');
+    var wlDone = document.getElementById('waitlistDone');
+    if (wlForm) {
+      var wlBtn = document.getElementById('wl-submit');
+      var wlErr = document.getElementById('wl-error');
+      var wlLabel = wlForm.querySelector('.wl-label');
+      var wlSpin = wlForm.querySelector('.wl-spin');
+
+      var setBusy = function (busy) {
+        wlBtn.disabled = busy;
+        wlBtn.classList.toggle('opacity-70', busy);
+        if (wlLabel) wlLabel.classList.toggle('hidden', busy);
+        if (wlSpin) wlSpin.classList.toggle('hidden', !busy);
+      };
+      var showErr = function (msg) {
+        if (!wlErr) return;
+        wlErr.textContent = msg; wlErr.classList.remove('hidden');
+      };
+
+      wlForm.addEventListener('submit', function (ev) {
         ev.preventDefault();
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        form.classList.add('hidden');
-        if (done) done.classList.remove('hidden');
+        if (wlErr) wlErr.classList.add('hidden');
+        if (!wlForm.checkValidity()) { wlForm.reportValidity(); return; }
+
+        var payload = {
+          nome: (wlForm.nome.value || '').trim(),
+          email: (wlForm.email.value || '').trim(),
+          castello: wlForm.castello ? wlForm.castello.value : '',
+          website: wlForm.website ? wlForm.website.value : ''
+        };
+
+        setBusy(true);
+        fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (res.ok && res.j && res.j.ok) {
+              wlForm.classList.add('hidden');
+              if (wlDone) wlDone.classList.remove('hidden');
+            } else {
+              showErr((res.j && res.j.error) || 'Qualcosa è andato storto. Riprova.');
+              setBusy(false);
+            }
+          })
+          .catch(function () {
+            showErr('Errore di rete. Controlla la connessione e riprova.');
+            setBusy(false);
+          });
       });
     }
 
