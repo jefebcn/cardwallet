@@ -83,6 +83,23 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 /* barra di avanzamento scroll (GSAP) */
 #scrollProgress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, #1E3A2F, #C2603A); z-index: 60; pointer-events: none; }
 
+/* ---- Nav trasparente sul hero scuro ---- */
+#site-nav > div { transition: background-color 0.45s ease, border-color 0.45s ease; }
+#site-nav.nav-hero > div {
+  background-color: rgba(17,15,8,0.06) !important;
+  border-bottom-color: transparent !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+#site-nav.nav-hero a { color: rgba(244,237,224,0.80) !important; }
+#site-nav.nav-hero span.font-display { color: rgba(244,237,224,0.95) !important; }
+#site-nav.nav-hero .btn-primary {
+  background-color: rgba(244,237,224,0.12) !important;
+  color: rgba(244,237,224,0.88) !important;
+  border: 1.5px solid rgba(244,237,224,0.22) !important;
+}
+#site-nav.nav-hero #navToggle svg path { stroke: rgba(244,237,224,0.85); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none; }
