@@ -35,7 +35,17 @@ robots.txt · vercel.json
 - **Palette "Terra"** — parchment `#F4EDE0`, forest `#1E3A2F`, stone `#7D6348`, ink `#110F08`, sand `#A89880`, accento clay `#C2603A`.
 - **Font** — General Sans (display + testo), pesi 400–700.
 - **Motion** — hero cinematografico (fondo scuro con aurora animata, grana film, parallax col mouse, ingresso GSAP), reveal allo scroll, card fluttuanti, marquee, counter animati. Rispetta `prefers-reduced-motion` e disattiva il parallax-mouse su touch.
-- **Identità** — "Crest" = vetta del Monte Titano + cimiero araldico della Repubblica.
+- **Identità** — "Crest" = vetta del Monte Titano. Il logo è una **C** sormontata dal profilo del Monte Titano con le sue cime innevate.
+
+### Logo
+
+File vettoriali in `assets/`:
+
+- `logo.svg` — mark in `currentColor` (eredita il colore del testo).
+- `logo-forest.svg` / `logo-parchment.svg` — versioni a colore fisso per sfondi chiari/scuri.
+- `favicon.svg` — tile forest con il mark parchment (favicon del sito).
+
+Il mark è vettoriale: scala nitido a qualsiasi dimensione. La navbar usa `logo` inline che vira da forest a parchment sopra l'hero scuro.
 
 ## Lista d'attesa interna
 

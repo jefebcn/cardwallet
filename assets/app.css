@@ -149,6 +149,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 
 /* ---- Nav trasparente sul hero scuro ---- */
 #site-nav > div { transition: background-color 0.45s ease, border-color 0.45s ease; }
+#site-nav .brand-mark { color: #1E3A2F; transition: color 0.45s ease; }
 #site-nav.nav-hero > div {
   background-color: rgba(17,15,8,0.45) !important;
   border-bottom-color: rgba(244,237,224,0.08) !important;
@@ -157,6 +158,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 }
 #site-nav.nav-hero a { color: rgba(244,237,224,0.90) !important; }
 #site-nav.nav-hero span.font-display { color: #F4EDE0 !important; }
+#site-nav.nav-hero .brand-mark { color: #F4EDE0; }
 #site-nav.nav-hero .btn-primary {
   background-color: rgba(244,237,224,0.12) !important;
   color: rgba(244,237,224,0.88) !important;
