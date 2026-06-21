@@ -87,40 +87,20 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
    HERO — movimento ambientale continuo (stile Revolut)
    ============================================================ */
 
-/* foto lifestyle a tutta pagina, trattata in duotone Terra caldo.
-   Duotone luminance-based: ombre bruno caldo, luci sabbia — montato
-   con due layer in blend (multiply sulle luci, screen sulle ombre). */
-.hero-photo {
-  position: absolute; inset: -4%;
-  background: url('/assets/img/hero.jpg') center 44% / cover no-repeat;
-  filter: grayscale(1) contrast(1.1) brightness(1.05);
-}
-.hero-duo-high {                 /* le luci diventano sabbia calda */
-  position: absolute; inset: 0; pointer-events: none;
-  background: #EDC99B; mix-blend-mode: multiply;
-}
-.hero-duo-shadow {               /* le ombre diventano bruno caldo (non nero) */
-  position: absolute; inset: 0; pointer-events: none;
-  background: #2a1d16; mix-blend-mode: screen;
-}
-/* vignette: scurisce bordi/basso per leggibilità testo e per stacco del telefono */
+/* vignette: bordi scuri per leggibilità testo in basso, profondità ai bordi */
 .hero-vignette {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    linear-gradient(to top, rgba(17,15,8,0.94) 0%, rgba(17,15,8,0.45) 34%, rgba(17,15,8,0.05) 62%, transparent 100%),
-    linear-gradient(to right, rgba(17,15,8,0.55) 0%, transparent 32%),
-    radial-gradient(120% 100% at 70% 30%, transparent 40%, rgba(17,15,8,0.45) 100%);
+    linear-gradient(to top, rgba(17,15,8,0.92) 0%, rgba(17,15,8,0.40) 28%, rgba(17,15,8,0.08) 55%, transparent 80%),
+    radial-gradient(80% 80% at 50% 60%, transparent 48%, rgba(17,15,8,0.55) 100%);
 }
-/* l'aurora sopra la foto resta sottile: aggiunge solo luce */
-.aurora.over-photo { mix-blend-mode: screen; opacity: 0.42; }
-.aurora.over-photo .aurora-blob { opacity: 0.5; filter: blur(95px); }
 
 /* aurora: blob luminosi che derivano lentamente */
 .aurora { position: absolute; inset: -25%; pointer-events: none; }
 .aurora-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; will-change: transform; }
 .aurora-1 { width: 60vw; height: 60vw; top: -18%; left: 38%; background: radial-gradient(circle at 50% 50%, rgba(30,58,47,0.95), transparent 68%); animation: drift1 22s ease-in-out infinite; }
-.aurora-2 { width: 48vw; height: 48vw; bottom: -16%; left: -10%; background: radial-gradient(circle at 50% 50%, rgba(125,99,72,0.55), transparent 66%); animation: drift2 28s ease-in-out infinite; }
-.aurora-3 { width: 40vw; height: 40vw; bottom: 4%; right: -6%; background: radial-gradient(circle at 50% 50%, rgba(194,96,46,0.40), transparent 64%); animation: drift3 25s ease-in-out infinite; }
+.aurora-2 { width: 48vw; height: 48vw; bottom: -16%; left: -10%; background: radial-gradient(circle at 50% 50%, rgba(125,99,72,0.65), transparent 66%); animation: drift2 28s ease-in-out infinite; }
+.aurora-3 { width: 40vw; height: 40vw; bottom: 4%; right: -6%; background: radial-gradient(circle at 50% 50%, rgba(194,96,46,0.55), transparent 64%); animation: drift3 25s ease-in-out infinite; }
 
 @keyframes drift1 {
   0%,100% { transform: translate(0,0) scale(1); }
@@ -170,13 +150,13 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 /* ---- Nav trasparente sul hero scuro ---- */
 #site-nav > div { transition: background-color 0.45s ease, border-color 0.45s ease; }
 #site-nav.nav-hero > div {
-  background-color: rgba(17,15,8,0.06) !important;
-  border-bottom-color: transparent !important;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background-color: rgba(17,15,8,0.45) !important;
+  border-bottom-color: rgba(244,237,224,0.08) !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
-#site-nav.nav-hero a { color: rgba(244,237,224,0.80) !important; }
-#site-nav.nav-hero span.font-display { color: rgba(244,237,224,0.95) !important; }
+#site-nav.nav-hero a { color: rgba(244,237,224,0.90) !important; }
+#site-nav.nav-hero span.font-display { color: #F4EDE0 !important; }
 #site-nav.nav-hero .btn-primary {
   background-color: rgba(244,237,224,0.12) !important;
   color: rgba(244,237,224,0.88) !important;

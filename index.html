@@ -35,12 +35,8 @@
 
       <!-- Background layers -->
       <div class="absolute inset-0 bg-ink overflow-hidden" aria-hidden="true">
-        <!-- foto lifestyle duotone (leggero parallax) -->
-        <div class="hero-photo px-layer" data-px="-7"></div>
-        <div class="hero-duo-high"></div>
-        <div class="hero-duo-shadow"></div>
-        <!-- aurora animata sottile sopra la foto + parallax mouse -->
-        <div class="aurora over-photo px-layer" data-px="-10">
+        <!-- aurora animata + parallax mouse -->
+        <div class="aurora px-layer" data-px="-10">
           <div class="aurora-blob aurora-1"></div>
           <div class="aurora-blob aurora-2"></div>
           <div class="aurora-blob aurora-3"></div>
@@ -178,12 +174,26 @@
     </div>
 
     <!-- ============ METRICHE ============ -->
-    <section class="bg-parchment">
-      <div class="mx-auto max-w-6xl px-5 sm:px-8 py-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div class="reveal"><p class="font-display text-4xl sm:text-5xl font-bold text-forest"><span data-count-to="60">60</span>k+</p><p class="mt-2 text-sm text-ink/60">residenti tagliati fuori<br />dai wallet moderni</p></div>
-        <div class="reveal" data-delay="1"><p class="font-display text-4xl sm:text-5xl font-bold text-forest"><span data-count-to="9">9</span></p><p class="mt-2 text-sm text-ink/60">Castelli della<br />Repubblica</p></div>
-        <div class="reveal" data-delay="2"><p class="font-display text-4xl sm:text-5xl font-bold text-forest"><span data-count-to="0">0</span></p><p class="mt-2 text-sm text-ink/60">filiali da visitare,<br />code allo sportello</p></div>
-        <div class="reveal" data-delay="3"><p class="font-display text-4xl sm:text-5xl font-bold text-forest"><span data-count-to="100">100</span>%</p><p class="mt-2 text-sm text-ink/60">gestito dal telefono,<br />in pochi minuti</p></div>
+    <section class="bg-parchment border-b border-stone/15">
+      <div class="mx-auto max-w-6xl px-5 sm:px-8 py-20 md:py-24">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0">
+          <div class="reveal text-center px-4 md:px-10 md:border-r md:border-stone/20">
+            <p class="font-display text-6xl sm:text-7xl font-bold text-ink h-display tabular-nums"><span data-count-to="60">60</span><span class="text-clay">k</span></p>
+            <p class="mt-4 text-sm text-ink/55 leading-relaxed">residenti sammarinesi<br />esclusi dai wallet moderni</p>
+          </div>
+          <div class="reveal text-center px-4 md:px-10 md:border-r md:border-stone/20" data-delay="1">
+            <p class="font-display text-6xl sm:text-7xl font-bold text-forest h-display tabular-nums"><span data-count-to="9">9</span></p>
+            <p class="mt-4 text-sm text-ink/55 leading-relaxed">Castelli della<br />Repubblica</p>
+          </div>
+          <div class="reveal text-center px-4 md:px-10 md:border-r md:border-stone/20" data-delay="2">
+            <p class="font-display text-6xl sm:text-7xl font-bold text-ink h-display tabular-nums"><span data-count-to="0">0</span></p>
+            <p class="mt-4 text-sm text-ink/55 leading-relaxed">filiali da visitare,<br />zero code allo sportello</p>
+          </div>
+          <div class="reveal text-center px-4 md:px-10" data-delay="3">
+            <p class="font-display text-6xl sm:text-7xl font-bold text-forest h-display tabular-nums"><span data-count-to="100">100</span>%</p>
+            <p class="mt-4 text-sm text-ink/55 leading-relaxed">gestito dal telefono,<br />in pochi minuti</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -221,11 +231,39 @@
           <p class="mt-4 text-ink/70 leading-relaxed text-lg">Un conto vero per ricevere lo stipendio, pagare e domiciliare le utenze. Niente più sportello obbligatorio, niente più moduli cartacei.</p>
         </div>
         <div class="reveal order-first md:order-last" data-delay="1">
-          <div data-gsap-rise class="rounded-3xl bg-forest text-parchment p-8 sm:p-10 contour">
-            <p class="text-parchment/55 text-sm">Il tuo conto</p>
-            <p class="font-display text-2xl font-semibold mt-2 tracking-wide">SM·· ···· ···· ···· 3017</p>
-            <div class="mt-6 h-px bg-parchment/15"></div>
-            <div class="mt-6 flex items-end justify-between"><div><p class="text-parchment/55 text-sm">Disponibile</p><p class="font-display text-3xl font-semibold">€ 2.480,50</p></div><span class="rounded-full bg-clay px-3 py-1 text-xs font-medium">Attivo</span></div>
+          <div data-gsap-rise class="rounded-3xl bg-forest text-parchment overflow-hidden contour">
+            <div class="p-8 sm:p-10">
+              <p class="text-parchment/50 text-[10px] tracking-[0.22em] uppercase font-semibold">Conto Crest</p>
+              <p class="font-display text-xs font-medium mt-1.5 tracking-wider text-parchment/35">SM76 ···· ···· ···· ···· 3017</p>
+              <div class="mt-5 flex items-end justify-between">
+                <div>
+                  <p class="text-parchment/50 text-sm">Disponibile</p>
+                  <p class="font-display text-4xl font-bold mt-0.5 h-display">€ 2.480,50</p>
+                </div>
+                <span class="rounded-full bg-clay px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide">Attivo</span>
+              </div>
+            </div>
+            <div class="border-t border-parchment/10 p-5 sm:p-6 space-y-2.5">
+              <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-full bg-clay/20 text-clay text-[10px] font-bold grid place-items-center shrink-0">S</span>
+                <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">Stipendio luglio</p><p class="text-parchment/40 text-xs mt-0.5">Oggi · 09:14</p></div>
+                <span class="text-sm font-bold text-clay shrink-0">+€1.900</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-full bg-parchment/8 text-parchment/55 grid place-items-center shrink-0">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.8"/></svg>
+                </span>
+                <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">Coop Borgo Maggiore</p><p class="text-parchment/40 text-xs mt-0.5">Ieri · 18:35</p></div>
+                <span class="text-sm text-parchment/55 shrink-0">−€43</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-full bg-parchment/8 text-parchment/55 grid place-items-center shrink-0">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 8h13l-3-3M20 16H7l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">Affitto luglio</p><p class="text-parchment/40 text-xs mt-0.5">Programm. · 1° lug.</p></div>
+                <span class="text-sm text-parchment/55 shrink-0">−€650</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -257,9 +295,32 @@
           <p class="mt-4 text-ink/70 leading-relaxed text-lg">Invia e ricevi denaro in pochi secondi, con commissioni sempre trasparenti. Niente sorprese sul cambio, niente attese di giorni.</p>
         </div>
         <div class="reveal order-first md:order-last" data-delay="1">
-          <div data-gsap-rise class="rounded-3xl bg-parchment-dim/60 border border-stone/20 p-6 sm:p-8 space-y-3">
-            <div class="flex items-center gap-3 rounded-2xl bg-parchment p-4"><span class="w-10 h-10 rounded-full bg-clay/15 text-clay grid place-items-center font-display font-semibold">G</span><div class="flex-1"><p class="font-medium">A Giulia</p><p class="text-ink/50 text-sm">Istantaneo</p></div><span class="font-display font-semibold">€ 40,00</span></div>
-            <div class="flex items-center gap-3 rounded-2xl bg-parchment p-4"><span class="w-10 h-10 rounded-full bg-forest/10 text-forest grid place-items-center font-display font-semibold">A</span><div class="flex-1"><p class="font-medium">Affitto</p><p class="text-ink/50 text-sm">Programmato · 1° del mese</p></div><span class="font-display font-semibold">€ 650,00</span></div>
+          <div data-gsap-rise class="rounded-3xl bg-parchment-dim/60 border border-stone/20 overflow-hidden">
+            <div class="px-5 py-4 border-b border-stone/15 flex items-center justify-between">
+              <p class="font-display text-sm font-semibold text-ink">Trasferimenti</p>
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-forest/10 text-forest text-xs font-semibold px-2.5 py-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-forest live-dot"></span>Istantaneo
+              </span>
+            </div>
+            <div class="p-4 sm:p-5 space-y-2">
+              <div class="flex items-center gap-3 rounded-2xl bg-parchment p-4 shadow-sm">
+                <span class="w-10 h-10 rounded-full bg-clay/15 text-clay grid place-items-center font-display font-bold text-sm shrink-0">G</span>
+                <div class="flex-1 min-w-0"><p class="font-semibold truncate">A Giulia</p><p class="text-ink/50 text-sm mt-0.5">Istantaneo · Ora</p></div>
+                <span class="font-display font-bold text-ink/75 shrink-0">−€40</span>
+              </div>
+              <div class="flex items-center gap-3 rounded-2xl bg-parchment p-4 shadow-sm">
+                <span class="w-10 h-10 rounded-full bg-forest/10 text-forest grid place-items-center font-display font-bold text-sm shrink-0">A</span>
+                <div class="flex-1 min-w-0"><p class="font-semibold truncate">Affitto luglio</p><p class="text-ink/50 text-sm mt-0.5">Programmato · 1° lug.</p></div>
+                <span class="font-display font-bold text-ink/75 shrink-0">−€650</span>
+              </div>
+              <div class="flex items-center gap-3 rounded-2xl bg-clay/8 border border-clay/20 p-4">
+                <span class="w-10 h-10 rounded-full bg-clay/15 text-clay grid place-items-center shrink-0">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                </span>
+                <div class="flex-1 min-w-0"><p class="font-semibold text-clay truncate">Nuovo trasferimento</p><p class="text-ink/45 text-sm mt-0.5">Tocca per inviare</p></div>
+                <svg class="shrink-0 text-clay" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -297,22 +358,55 @@
           <p class="reveal mt-5 md:mt-0 md:max-w-xs text-ink/70 leading-relaxed" data-delay="1">Oggi la lista d'attesa. Al lancio, il conto aperto dal divano di casa.</p>
         </div>
         <div class="mt-14 grid md:grid-cols-3 gap-y-12 md:gap-10 relative">
-          <div class="hidden md:block absolute top-7 left-[16%] right-[16%] h-px bg-stone/30" aria-hidden="true"></div>
-          <div class="reveal relative"><div class="grid place-items-center w-14 h-14 rounded-full bg-forest text-parchment font-display text-xl relative z-10">1</div><h3 class="mt-6 font-display text-xl font-semibold text-ink">Lascia la tua email</h3><p class="mt-2 text-ink/70 leading-relaxed">Ti aggiungiamo alla lista d'attesa. Senza impegno, senza documenti, in dieci secondi.</p></div>
-          <div class="reveal relative" data-delay="1"><div class="grid place-items-center w-14 h-14 rounded-full bg-forest text-parchment font-display text-xl relative z-10">2</div><h3 class="mt-6 font-display text-xl font-semibold text-ink">Sei tra i primi</h3><p class="mt-2 text-ink/70 leading-relaxed">Al lancio, gli iscritti alla lista accedono prima di tutti — e ricevono le prime carte.</p></div>
-          <div class="reveal relative" data-delay="2"><div class="grid place-items-center w-14 h-14 rounded-full bg-forest text-parchment font-display text-xl relative z-10">3</div><h3 class="mt-6 font-display text-xl font-semibold text-ink">Apri il conto in minuti</h3><p class="mt-2 text-ink/70 leading-relaxed">Dal telefono, con un documento. L'IBAN e la carta virtuale sono pronti subito.</p></div>
+          <div class="hidden md:block absolute top-8 left-[19%] right-[19%] h-px bg-stone/25" aria-hidden="true"></div>
+          <div class="reveal relative">
+            <div class="grid place-items-center w-16 h-16 rounded-full bg-forest text-parchment font-display text-2xl font-bold relative z-10 shadow-md">1</div>
+            <h3 class="mt-6 font-display text-xl font-semibold text-ink">Lascia la tua email</h3>
+            <p class="mt-3 text-ink/65 leading-relaxed">Ti aggiungiamo alla lista d'attesa. Senza impegno, senza documenti, in dieci secondi.</p>
+          </div>
+          <div class="reveal relative" data-delay="1">
+            <div class="grid place-items-center w-16 h-16 rounded-full bg-forest text-parchment font-display text-2xl font-bold relative z-10 shadow-md">2</div>
+            <h3 class="mt-6 font-display text-xl font-semibold text-ink">Sei tra i primi</h3>
+            <p class="mt-3 text-ink/65 leading-relaxed">Al lancio, gli iscritti alla lista accedono prima di tutti — e ricevono le prime carte.</p>
+          </div>
+          <div class="reveal relative" data-delay="2">
+            <div class="grid place-items-center w-16 h-16 rounded-full bg-forest text-parchment font-display text-2xl font-bold relative z-10 shadow-md">3</div>
+            <h3 class="mt-6 font-display text-xl font-semibold text-ink">Apri il conto in minuti</h3>
+            <p class="mt-3 text-ink/65 leading-relaxed">Dal telefono, con un documento. L'IBAN e la carta virtuale sono pronti subito.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ============ SICUREZZA ============ -->
-    <section class="bg-parchment">
+    <section class="bg-ink text-parchment">
       <div class="mx-auto max-w-6xl px-5 sm:px-8 py-20 md:py-28">
-        <div class="max-w-2xl"><p class="text-xs font-semibold tracking-[0.2em] uppercase text-stone">Fiducia</p><h2 class="reveal h-display mt-4 font-display font-bold text-3xl sm:text-5xl text-ink">Costruito sulla trasparenza.</h2></div>
+        <div class="max-w-2xl">
+          <p class="text-xs font-semibold tracking-[0.2em] uppercase text-clay">Fiducia</p>
+          <h2 class="reveal h-display mt-4 font-display font-bold text-3xl sm:text-5xl text-parchment">Costruito sulla trasparenza.</h2>
+        </div>
         <div class="mt-12 grid sm:grid-cols-3 gap-5">
-          <div class="reveal rounded-2xl border border-stone/20 p-7"><span class="inline-flex w-11 h-11 items-center justify-center rounded-xl bg-forest text-parchment"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3 class="mt-5 font-display text-xl font-semibold">Dati protetti</h3><p class="mt-2 text-ink/70 leading-relaxed">Crittografia sui dati e controllo della carta in tempo reale, direttamente dall'app.</p></div>
-          <div class="reveal rounded-2xl border border-stone/20 p-7" data-delay="1"><span class="inline-flex w-11 h-11 items-center justify-center rounded-xl bg-forest text-parchment"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3 class="mt-5 font-display text-xl font-semibold">Commissioni chiare</h3><p class="mt-2 text-ink/70 leading-relaxed">Sai sempre quanto paghi, prima di confermare. Nessun costo nascosto, mai.</p></div>
-          <div class="reveal rounded-2xl border border-stone/20 p-7" data-delay="2"><span class="inline-flex w-11 h-11 items-center justify-center rounded-xl bg-forest text-parchment"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8h14M5 16h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><h3 class="mt-5 font-display text-xl font-semibold">Fatto per la Repubblica</h3><p class="mt-2 text-ink/70 leading-relaxed">Pensato per i residenti sammarinesi e le regole locali, non un prodotto adattato all'ultimo.</p></div>
+          <div class="reveal rounded-2xl border border-parchment/10 bg-parchment/[0.05] p-8 hover:bg-parchment/[0.08] transition-colors">
+            <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-parchment/10 text-parchment">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-xl font-semibold text-parchment">Dati protetti</h3>
+            <p class="mt-2 text-parchment/60 leading-relaxed">Crittografia sui dati e controllo della carta in tempo reale, direttamente dall'app.</p>
+          </div>
+          <div class="reveal rounded-2xl border border-parchment/10 bg-parchment/[0.05] p-8 hover:bg-parchment/[0.08] transition-colors" data-delay="1">
+            <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-parchment/10 text-parchment">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-xl font-semibold text-parchment">Commissioni chiare</h3>
+            <p class="mt-2 text-parchment/60 leading-relaxed">Sai sempre quanto paghi, prima di confermare. Nessun costo nascosto, mai.</p>
+          </div>
+          <div class="reveal rounded-2xl border border-parchment/10 bg-parchment/[0.05] p-8 hover:bg-parchment/[0.08] transition-colors" data-delay="2">
+            <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-parchment/10 text-parchment">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8h14M5 16h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-xl font-semibold text-parchment">Fatto per la Repubblica</h3>
+            <p class="mt-2 text-parchment/60 leading-relaxed">Pensato per i residenti sammarinesi e le regole locali, non un prodotto adattato all'ultimo.</p>
+          </div>
         </div>
       </div>
     </section>
