@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crest — Il wallet digitale per San Marino</title>
+  <meta name="description" content="Crest è il conto digitale costruito per i residenti di San Marino: IBAN, carta e trasferimenti istantanei. Finalmente accessibili. Unisciti alla lista d'attesa." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Crest — Il wallet digitale per San Marino" />
+  <meta property="og:description" content="Revolut e Wise ti dicono di no. Crest no. Il conto digitale moderno per i residenti della Repubblica di San Marino." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+
+  <!-- Favicon: inline SVG peak mark, no extra asset -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E3A2F'/%3E%3Cpath d='M16 7l7 13h-4l-3-5.6L13 20H9z' fill='%23F4EDE0'/%3E%3C/svg%3E" />
+
+  <!-- Fonts: Fraunces (display) + Schibsted Grotesk (body) — deliberately not Inter/Roboto/Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment: '#F4EDE0',
+            'parchment-dim': '#EBE1D0',
+            forest: '#1E3A2F',
+            'forest-dark': '#16291F',
+            stone: '#7D6348',
+            ink: '#110F08',
+            sand: '#A89880',
+          },
+          fontFamily: {
+            display: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['"Schibsted Grotesk"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { -webkit-font-smoothing: antialiased; }
+    ::selection { background: #1E3A2F; color: #F4EDE0; }
+
+    /* Subtle topographic contour motif — evokes Monte Titano */
+    .contour {
+      background-image:
+        radial-gradient(120% 90% at 80% 0%, rgba(125,99,72,0.10) 0%, transparent 55%),
+        repeating-radial-gradient(110% 80% at 78% -10%, transparent 0 38px, rgba(30,58,47,0.05) 38px 39px);
+    }
+
+    .card-tilt { transform: rotate(3deg); }
+    @media (min-width: 768px) { .card-tilt { transform: rotate(4deg) translateY(-6px); } }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.is-in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    .link-underline { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1.5px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .35s ease; }
+    .link-underline:hover { background-size: 100% 1.5px; }
+  </style>
+</head>
+
+<body class="bg-parchment text-ink font-sans antialiased selection:bg-forest">
+
+  <!-- ============ NAV ============ -->
+  <header class="sticky top-0 z-50 bg-parchment/85 backdrop-blur-md border-b border-stone/15">
+    <nav class="mx-auto max-w-6xl px-5 sm:px-8 h-16 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-2.5 group" aria-label="Crest — home">
+        <svg width="28" height="28" viewBox="0 0 32 32" class="shrink-0" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#1E3A2F"/>
+          <path d="M16 7l7 13h-4l-3-5.6L13 20H9z" fill="#F4EDE0"/>
+        </svg>
+        <span class="font-display text-xl font-600 tracking-tight">Crest</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 text-sm text-ink/70">
+        <a href="#problema" class="link-underline hover:text-ink transition-colors">Il problema</a>
+        <a href="#soluzione" class="link-underline hover:text-ink transition-colors">La soluzione</a>
+        <a href="#come-funziona" class="link-underline hover:text-ink transition-colors">Come funziona</a>
+      </div>
+
+      <a href="#lista" class="inline-flex items-center gap-2 rounded-full bg-forest px-4 sm:px-5 py-2 text-sm font-500 text-parchment hover:bg-forest-dark transition-colors">
+        Unisciti alla lista
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="contour relative overflow-hidden">
+      <div class="mx-auto max-w-6xl px-5 sm:px-8 pt-16 pb-20 md:pt-24 md:pb-28 grid md:grid-cols-12 gap-12 items-center">
+
+        <!-- Left: copy (asymmetric, weighted left) -->
+        <div class="md:col-span-7">
+          <div class="inline-flex items-center gap-2 rounded-full border border-stone/30 bg-parchment-dim/60 px-3 py-1 text-xs font-500 tracking-wide text-stone uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-stone"></span>
+            Repubblica di San Marino · in arrivo nel 2026
+          </div>
+
+          <h1 class="mt-6 font-display font-600 tracking-tight text-ink text-[2.6rem] leading-[1.02] sm:text-6xl md:text-[4.1rem] md:leading-[0.98]">
+            Vivi a San Marino.<br />
+            Per Revolut e Wise<br />
+            <span class="italic text-forest">non esisti.</span>
+          </h1>
+
+          <p class="mt-7 max-w-xl text-lg leading-relaxed text-ink/75">
+            San Marino non è UE né SEE, così le app che il resto d'Europa dà per scontate restano bloccate al confine. <span class="text-ink font-500">Crest è il wallet digitale costruito per i residenti della Repubblica</span> — IBAN, carta e trasferimenti istantanei. Finalmente accessibili.
+          </p>
+
+          <div class="mt-9 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <a href="#lista" class="inline-flex items-center justify-center gap-2 rounded-full bg-forest px-7 py-3.5 text-base font-500 text-parchment hover:bg-forest-dark transition-colors">
+              Unisciti alla lista d'attesa
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#come-funziona" class="inline-flex items-center justify-center gap-2 rounded-full border border-stone/40 px-7 py-3.5 text-base font-500 text-ink hover:border-forest hover:text-forest transition-colors">
+              Scopri come funziona
+            </a>
+          </div>
+
+          <div class="mt-8 flex items-center gap-3 text-sm text-ink/60">
+            <div class="flex -space-x-2" aria-hidden="true">
+              <span class="w-7 h-7 rounded-full bg-stone/80 border-2 border-parchment"></span>
+              <span class="w-7 h-7 rounded-full bg-forest/80 border-2 border-parchment"></span>
+              <span class="w-7 h-7 rounded-full bg-sand border-2 border-parchment"></span>
+            </div>
+            <span>Già <span class="font-600 text-ink" data-count-to="318">318</span> sammarinesi in lista d'attesa.</span>
+          </div>
+        </div>
+
+        <!-- Right: card mockup (asymmetric, tilted) -->
+        <div class="md:col-span-5 flex justify-center md:justify-end">
+          <div class="relative">
+            <!-- back plate -->
+            <div class="absolute inset-0 rounded-2xl bg-stone/25 translate-x-4 translate-y-5 rotate-6"></div>
+
+            <!-- card -->
+            <div class="card-tilt relative w-[300px] sm:w-[340px] aspect-[1.586/1] rounded-2xl bg-forest text-parchment p-6 shadow-2xl shadow-forest/30 overflow-hidden">
+              <!-- contour texture inside card -->
+              <svg class="absolute -right-10 -bottom-10 opacity-[0.12]" width="240" height="240" viewBox="0 0 240 240" fill="none" aria-hidden="true">
+                <path d="M120 40l70 130H50z" stroke="#F4EDE0" stroke-width="1"/>
+                <path d="M120 70l52 96H68z" stroke="#F4EDE0" stroke-width="1"/>
+                <path d="M120 100l34 60H86z" stroke="#F4EDE0" stroke-width="1"/>
+              </svg>
+
+              <div class="relative flex items-start justify-between">
+                <div class="flex items-center gap-2">
+                  <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7l7 13h-4l-3-5.6L13 20H9z" fill="#F4EDE0"/></svg>
+                  <span class="font-display text-lg font-600">Crest</span>
+                </div>
+                <span class="text-[10px] tracking-[0.2em] text-parchment/60 uppercase">Libertas</span>
+              </div>
+
+              <!-- chip -->
+              <div class="relative mt-7 w-11 h-8 rounded-md bg-gradient-to-br from-sand to-stone/80"></div>
+
+              <div class="relative mt-5 font-display text-lg sm:text-xl tracking-[0.18em] text-parchment/95">
+                4920&nbsp;&nbsp;··&nbsp;·&nbsp;·&nbsp;&nbsp;3017
+              </div>
+
+              <div class="relative mt-4 flex items-end justify-between text-[11px] tracking-wide text-parchment/70 uppercase">
+                <span>M. Rossi</span>
+                <span>San Marino · MMXXVI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ IL PROBLEMA ============ -->
+    <section id="problema" class="bg-forest text-parchment">
+      <div class="mx-auto max-w-6xl px-5 sm:px-8 py-20 md:py-28">
+        <div class="grid md:grid-cols-12 gap-10 md:gap-16">
+          <div class="md:col-span-5">
+            <p class="text-xs font-600 tracking-[0.2em] uppercase text-sand">Il problema</p>
+            <h2 class="reveal mt-4 font-display font-500 text-3xl sm:text-4xl md:text-[2.9rem] leading-[1.05] tracking-tight">
+              A San Marino, la finanza moderna si ferma al confine.
+            </h2>
+            <p class="reveal mt-6 text-parchment/70 leading-relaxed max-w-md">
+              Sessantamila residenti, una Repubblica indipendente nel cuore d'Italia — e nessun accesso agli strumenti finanziari che il resto d'Europa usa ogni giorno.
+            </p>
+          </div>
+
+          <div class="md:col-span-7 grid gap-px bg-parchment/10 rounded-2xl overflow-hidden border border-parchment/10">
+            <!-- 1 -->
+            <div class="reveal bg-forest p-7 sm:p-8 flex gap-5">
+              <span class="font-display text-2xl text-sand/80 shrink-0 w-8">01</span>
+              <div>
+                <h3 class="font-display text-xl font-500">Le app che tutti usano ti escludono</h3>
+                <p class="mt-2 text-parchment/65 leading-relaxed">Revolut, Wise, N26: San Marino non è UE né SEE, quindi non aprono conti qui. Resti tagliato fuori dagli strumenti che gli altri danno per scontati.</p>
+              </div>
+            </div>
+            <!-- 2 -->
+            <div class="reveal bg-forest p-7 sm:p-8 flex gap-5">
+              <span class="font-display text-2xl text-sand/80 shrink-0 w-8">02</span>
+              <div>
+                <h3 class="font-display text-xl font-500">Le banche locali sono ferme a ieri</h3>
+                <p class="mt-2 text-parchment/65 leading-relaxed">Carisp e Banca di San Marino funzionano, ma con app datate, commissioni poco trasparenti e tutto ancora legato allo sportello.</p>
+              </div>
+            </div>
+            <!-- 3 -->
+            <div class="reveal bg-forest p-7 sm:p-8 flex gap-5">
+              <span class="font-display text-2xl text-sand/80 shrink-0 w-8">03</span>
+              <div>
+                <h3 class="font-display text-xl font-500">Mandare denaro oltre confine costa caro</h3>
+                <p class="mt-2 text-parchment/65 leading-relaxed">Bonifici internazionali lenti, cambi sfavorevoli e commissioni nascoste ogni volta che il denaro attraversa il confine. Che, qui, è ogni giorno.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LA SOLUZIONE ============ -->
+    <section id="soluzione" class="bg-parchment">
+      <div class="mx-auto max-w-6xl px-5 sm:px-8 py-20 md:py-28">
+        <div class="max-w-2xl">
+          <p class="text-xs font-600 tracking-[0.2em] uppercase text-stone">La soluzione</p>
+          <h2 class="reveal mt-4 font-display font-500 text-3xl sm:text-4xl md:text-[2.9rem] leading-[1.05] tracking-tight text-ink">
+            Un wallet completo, pensato dal Titano in giù.
+          </h2>
+          <p class="reveal mt-6 text-ink/70 leading-relaxed">
+            Tutto quello che serve per gestire il denaro nel 2026 — costruito attorno a chi vive e lavora nella Repubblica.
+          </p>
+        </div>
+
+        <!-- asymmetric grid: first card spans wider -->
+        <div class="mt-12 grid md:grid-cols-6 gap-5">
+          <!-- IBAN (wide) -->
+          <article class="reveal md:col-span-4 rounded-2xl border border-stone/20 bg-parchment-dim/40 p-8 flex flex-col sm:flex-row gap-6">
+            <div class="shrink-0">
+              <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-forest text-parchment">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5L12 4l8 5.5M5 9v9h14V9M9 18v-5h6v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div>
+              <h3 class="font-display text-2xl font-500 text-ink">IBAN dedicato</h3>
+              <p class="mt-2 text-ink/70 leading-relaxed">Un conto vero, con il tuo IBAN, per ricevere lo stipendio, pagare e domiciliare le utenze. Niente più sportello obbligatorio.</p>
+            </div>
+          </article>
+
+          <!-- Carta -->
+          <article class="reveal md:col-span-2 rounded-2xl border border-stone/20 bg-parchment-dim/40 p-8">
+            <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-forest text-parchment">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-2xl font-500 text-ink">Carta virtuale e fisica</h3>
+            <p class="mt-2 text-ink/70 leading-relaxed">Paga online e in negozio in tutta Europa, con controllo totale dall'app.</p>
+          </article>
+
+          <!-- Trasferimenti -->
+          <article class="reveal md:col-span-2 rounded-2xl border border-stone/20 bg-parchment-dim/40 p-8">
+            <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-forest text-parchment">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3 class="mt-5 font-display text-2xl font-500 text-ink">Trasferimenti istantanei</h3>
+            <p class="mt-2 text-ink/70 leading-relaxed">Invia e ricevi denaro in pochi secondi, con commissioni sempre trasparenti.</p>
+          </article>
+
+          <!-- App (wide) -->
+          <article class="reveal md:col-span-4 rounded-2xl border border-stone/20 bg-forest text-parchment p-8 flex flex-col sm:flex-row gap-6">
+            <div class="shrink-0">
+              <span class="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-parchment text-forest">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M11 18h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+            <div>
+              <h3 class="font-display text-2xl font-500">Un'app moderna, davvero</h3>
+              <p class="mt-2 text-parchment/70 leading-relaxed">Notifiche in tempo reale, categorie di spesa, budget e controllo totale. Tutto dal telefono — zero file, zero moduli cartacei.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COME FUNZIONA ============ -->
+    <section id="come-funziona" class="bg-parchment-dim/50 border-y border-stone/15">
+      <div class="mx-auto max-w-6xl px-5 sm:px-8 py-20 md:py-28">
+        <div class="md:flex md:items-end md:justify-between gap-10">
+          <div class="max-w-xl">
+            <p class="text-xs font-600 tracking-[0.2em] uppercase text-stone">Come funziona</p>
+            <h2 class="reveal mt-4 font-display font-500 text-3xl sm:text-4xl md:text-[2.9rem] leading-[1.05] tracking-tight text-ink">
+              Tre passi. Nessuna fila.
+            </h2>
+          </div>
+          <p class="reveal mt-5 md:mt-0 md:max-w-xs text-ink/70 leading-relaxed">
+            Oggi la lista d'attesa. Al lancio, il conto aperto dal divano di casa.
+          </p>
+        </div>
+
+        <div class="mt-14 grid md:grid-cols-3 gap-y-12 md:gap-10 relative">
+          <!-- connecting line on desktop -->
+          <div class="hidden md:block absolute top-7 left-[16%] right-[16%] h-px bg-stone/30" aria-hidden="true"></div>
+
+          <!-- step 1 -->
+          <div class="reveal relative">
+            <div class="flex items-center justify-center w-14 h-14 rounded-full bg-forest text-parchment font-display text-xl relative z-10">1</div>
+            <h3 class="mt-6 font-display text-xl font-500 text-ink">Lascia la tua email</h3>
+            <p class="mt-2 text-ink/70 leading-relaxed">Ti aggiungiamo alla lista d'attesa. Senza impegno, senza documenti, in dieci secondi.</p>
+          </div>
+          <!-- step 2 -->
+          <div class="reveal relative">
+            <div class="flex items-center justify-center w-14 h-14 rounded-full bg-forest text-parchment font-display text-xl relative z-10">2</div>
+            <h3 class="mt-6 font-display text-xl font-500 text-ink">Sei tra i primi</h3>
+            <p class="mt-2 text-ink/70 leading-relaxed">Al lancio, gli iscritti alla lista accedono prima di tutti — e ricevono le prime carte.</p>
+          </div>
+          <!-- step 3 -->
+          <div class="reveal relative">
+            <div class="flex items-center justify-center w-14 h-14 rounded-full bg-forest text-parchment font-display text-xl relative z-10">3</div>
+            <h3 class="mt-6 font-display text-xl font-500 text-ink">Apri il conto in minuti</h3>
+            <p class="mt-2 text-ink/70 leading-relaxed">Dal telefono, con un documento. L'IBAN e la carta virtuale sono pronti subito.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LISTA D'ATTESA ============ -->
+    <section id="lista" class="bg-parchment">
+      <div class="mx-auto max-w-5xl px-5 sm:px-8 py-20 md:py-28">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+          <!-- left: pitch + counter -->
+          <div class="md:col-span-5">
+            <p class="text-xs font-600 tracking-[0.2em] uppercase text-stone">Lista d'attesa</p>
+            <h2 class="reveal mt-4 font-display font-500 text-3xl sm:text-4xl md:text-[2.7rem] leading-[1.05] tracking-tight text-ink">
+              Le prime carte vanno a chi c'è dall'inizio.
+            </h2>
+            <p class="reveal mt-6 text-ink/70 leading-relaxed">
+              Crest si costruisce con i sammarinesi, non per loro. Iscriviti: ti scriviamo solo quando c'è qualcosa di concreto — niente spam, mai.
+            </p>
+
+            <div class="reveal mt-8 flex items-baseline gap-3 border-t border-stone/20 pt-6">
+              <span class="font-display text-5xl font-600 text-forest" data-count-to="318">0</span>
+              <span class="text-ink/70 leading-tight">residenti<br />già in lista</span>
+            </div>
+          </div>
+
+          <!-- right: form -->
+          <div class="md:col-span-7">
+            <div class="rounded-2xl border border-stone/25 bg-parchment-dim/40 p-6 sm:p-8">
+
+              <!--
+                ╔═══════════════════════════════════════════════════════════════╗
+                ║  INTEGRAZIONE TALLY.SO                                         ║
+                ║  1. Crea il form su https://tally.so                          ║
+                ║  2. Form → Share → Embed → copia l'ID (es. "wAbCdE")          ║
+                ║  3. Sostituisci  TALLY_FORM_ID  qui sotto con quell'ID        ║
+                ║  4. Togli l'attributo  hidden  dall'<iframe> e cancella       ║
+                ║     il blocco fallback (.js-fallback-form) qui sotto.         ║
+                ║  Lo script embed.js in fondo alla pagina fa il resto.         ║
+                ╚═══════════════════════════════════════════════════════════════╝
+              -->
+              <iframe
+                hidden
+                data-tally-src="https://tally.so/embed/TALLY_FORM_ID?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+                loading="lazy"
+                width="100%"
+                height="220"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0"
+                title="Lista d'attesa Crest"
+                class="js-tally-iframe"></iframe>
+
+              <!-- Fallback on-brand (visibile finché Tally non è configurato) -->
+              <form class="js-fallback-form space-y-4" novalidate>
+                <div>
+                  <label for="email" class="block text-sm font-500 text-ink/80 mb-1.5">Email</label>
+                  <input
+                    id="email" name="email" type="email" required autocomplete="email"
+                    placeholder="nome@esempio.sm"
+                    class="w-full rounded-xl border border-stone/30 bg-parchment px-4 py-3 text-ink placeholder:text-sand focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition" />
+                </div>
+                <div>
+                  <label for="citta" class="block text-sm font-500 text-ink/80 mb-1.5">Castello di residenza <span class="text-sand font-400">(facoltativo)</span></label>
+                  <select id="citta" name="citta"
+                    class="w-full rounded-xl border border-stone/30 bg-parchment px-4 py-3 text-ink focus:border-forest focus:ring-2 focus:ring-forest/20 outline-none transition appearance-none">
+                    <option value="">Seleziona…</option>
+                    <option>Città di San Marino</option>
+                    <option>Borgo Maggiore</option>
+                    <option>Serravalle</option>
+                    <option>Domagnano</option>
+                    <option>Fiorentino</option>
+                    <option>Acquaviva</option>
+                    <option>Faetano</option>
+                    <option>Montegiardino</option>
+                    <option>Chiesanuova</option>
+                    <option>Altro / fuori Repubblica</option>
+                  </select>
+                </div>
+                <button type="submit"
+                  class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-forest px-6 py-3.5 text-base font-500 text-parchment hover:bg-forest-dark transition-colors">
+                  Unisciti alla lista d'attesa
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <p class="text-xs text-ink/50 leading-relaxed">
+                  Iscrivendoti accetti di essere contattato via email riguardo a Crest. Nessuna condivisione con terzi.
+                </p>
+              </form>
+
+              <!-- stato di conferma fallback -->
+              <div class="js-fallback-done hidden text-center py-8">
+                <span class="inline-flex w-12 h-12 items-center justify-center rounded-full bg-forest text-parchment">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <h3 class="mt-4 font-display text-xl font-500 text-ink">Ci sei.</h3>
+                <p class="mt-1 text-ink/70">Ti scriviamo appena Crest è pronto.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-forest text-parchment">
+    <div class="mx-auto max-w-6xl px-5 sm:px-8 py-14">
+      <div class="grid sm:grid-cols-12 gap-8 items-start">
+        <div class="sm:col-span-6">
+          <div class="flex items-center gap-2.5">
+            <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7l7 13h-4l-3-5.6L13 20H9z" fill="#F4EDE0"/></svg>
+            <span class="font-display text-xl font-600">Crest</span>
+          </div>
+          <p class="mt-4 max-w-sm text-parchment/65 leading-relaxed">
+            Finanza moderna per la Repubblica di San Marino. Costruita dalla vetta del Titano.
+          </p>
+        </div>
+
+        <nav class="sm:col-span-3 text-sm" aria-label="Pagina">
+          <p class="text-parchment/50 uppercase tracking-wider text-xs mb-3">Naviga</p>
+          <ul class="space-y-2 text-parchment/80">
+            <li><a href="#problema" class="link-underline hover:text-parchment">Il problema</a></li>
+            <li><a href="#soluzione" class="link-underline hover:text-parchment">La soluzione</a></li>
+            <li><a href="#come-funziona" class="link-underline hover:text-parchment">Come funziona</a></li>
+            <li><a href="#lista" class="link-underline hover:text-parchment">Lista d'attesa</a></li>
+          </ul>
+        </nav>
+
+        <div class="sm:col-span-3 text-sm">
+          <p class="text-parchment/50 uppercase tracking-wider text-xs mb-3">Contatti</p>
+          <a href="mailto:ciao@crest.sm" class="link-underline text-parchment/80 hover:text-parchment">ciao@crest.sm</a>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-6 border-t border-parchment/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-xs text-parchment/55">
+        <p>© 2026 Crest · <span class="tracking-[0.15em]">LIBERTAS</span></p>
+        <p class="max-w-md sm:text-right leading-relaxed">
+          Crest non è ancora una banca né un istituto autorizzato. È una lista d'attesa per un prodotto in costruzione.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tally embed loader (attivo solo quando l'iframe Tally è configurato) -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // ----- Reveal on scroll -----
+      var reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.15 });
+        reveals.forEach(function (el) { io.observe(el); });
+      } else {
+        reveals.forEach(function (el) { el.classList.add('is-in'); });
+      }
+
+      // ----- Animated counters -----
+      function animateCount(el) {
+        var target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
+        var dur = 1400, start = null;
+        function step(ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts - start) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+          el.textContent = Math.round(eased * target).toString();
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = target.toString();
+        }
+        requestAnimationFrame(step);
+      }
+      var counters = document.querySelectorAll('[data-count-to]');
+      if ('IntersectionObserver' in window) {
+        var cio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { animateCount(e.target); cio.unobserve(e.target); }
+          });
+        }, { threshold: 0.6 });
+        counters.forEach(function (el) { cio.observe(el); });
+      } else {
+        counters.forEach(animateCount);
+      }
+
+      // ----- Tally detection: se il form è configurato, mostra l'iframe e nascondi il fallback -----
+      var iframe = document.querySelector('.js-tally-iframe');
+      var configured = iframe && iframe.getAttribute('data-tally-src').indexOf('TALLY_FORM_ID') === -1;
+      if (configured) {
+        iframe.removeAttribute('hidden');
+        var fb = document.querySelector('.js-fallback-form');
+        if (fb) fb.style.display = 'none';
+      }
+
+      // ----- Fallback form (preview senza backend) -----
+      var form = document.querySelector('.js-fallback-form');
+      var done = document.querySelector('.js-fallback-done');
+      if (form) {
+        form.addEventListener('submit', function (ev) {
+          ev.preventDefault();
+          if (!form.checkValidity()) { form.reportValidity(); return; }
+          form.classList.add('hidden');
+          if (done) done.classList.remove('hidden');
+          // Nota: senza Tally configurato i dati non vengono salvati. Vedi commento HTML sopra il form.
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
