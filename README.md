@@ -34,8 +34,12 @@ robots.txt · vercel.json
 
 - **Palette "Terra"** — parchment `#F4EDE0`, forest `#1E3A2F`, stone `#7D6348`, ink `#110F08`, sand `#A89880`, accento clay `#C2603A`.
 - **Font** — General Sans (display + testo), pesi 400–700.
-- **Motion** — reveal allo scroll, parallax, card fluttuanti, marquee, counter animati (puro CSS + IntersectionObserver, rispetta `prefers-reduced-motion`).
+- **Motion** — hero cinematografico (foto duotone, aurora animata, parallax col mouse, ingresso GSAP), reveal allo scroll, card fluttuanti, marquee, counter animati. Rispetta `prefers-reduced-motion` e disattiva il parallax-mouse su touch.
 - **Identità** — "Crest" = vetta del Monte Titano + cimiero araldico della Repubblica.
+
+### Foto hero
+
+`assets/img/hero.jpg` — foto da [Unsplash](https://unsplash.com/photos/8f129e1688ce) (licenza Unsplash, uso libero anche commerciale, nessuna attribuzione richiesta). Trattata in duotone Terra via CSS (`grayscale` + blend `multiply`/`screen`): ombre bruno caldo, luci sabbia. Per cambiarla, sostituisci il file mantenendo lo stesso nome.
 
 ## Form Tally
 

@@ -87,6 +87,34 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
    HERO — movimento ambientale continuo (stile Revolut)
    ============================================================ */
 
+/* foto lifestyle a tutta pagina, trattata in duotone Terra caldo.
+   Duotone luminance-based: ombre bruno caldo, luci sabbia — montato
+   con due layer in blend (multiply sulle luci, screen sulle ombre). */
+.hero-photo {
+  position: absolute; inset: -4%;
+  background: url('/assets/img/hero.jpg') center 44% / cover no-repeat;
+  filter: grayscale(1) contrast(1.1) brightness(1.05);
+}
+.hero-duo-high {                 /* le luci diventano sabbia calda */
+  position: absolute; inset: 0; pointer-events: none;
+  background: #EDC99B; mix-blend-mode: multiply;
+}
+.hero-duo-shadow {               /* le ombre diventano bruno caldo (non nero) */
+  position: absolute; inset: 0; pointer-events: none;
+  background: #2a1d16; mix-blend-mode: screen;
+}
+/* vignette: scurisce bordi/basso per leggibilità testo e per stacco del telefono */
+.hero-vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(17,15,8,0.94) 0%, rgba(17,15,8,0.45) 34%, rgba(17,15,8,0.05) 62%, transparent 100%),
+    linear-gradient(to right, rgba(17,15,8,0.55) 0%, transparent 32%),
+    radial-gradient(120% 100% at 70% 30%, transparent 40%, rgba(17,15,8,0.45) 100%);
+}
+/* l'aurora sopra la foto resta sottile: aggiunge solo luce */
+.aurora.over-photo { mix-blend-mode: screen; opacity: 0.42; }
+.aurora.over-photo .aurora-blob { opacity: 0.5; filter: blur(95px); }
+
 /* aurora: blob luminosi che derivano lentamente */
 .aurora { position: absolute; inset: -25%; pointer-events: none; }
 .aurora-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; will-change: transform; }

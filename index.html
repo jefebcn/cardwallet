@@ -35,17 +35,21 @@
 
       <!-- Background layers -->
       <div class="absolute inset-0 bg-ink overflow-hidden" aria-hidden="true">
-        <!-- aurora animata (deriva lenta) + parallax mouse -->
-        <div class="aurora px-layer" data-px="-10">
+        <!-- foto lifestyle duotone (leggero parallax) -->
+        <div class="hero-photo px-layer" data-px="-7"></div>
+        <div class="hero-duo-high"></div>
+        <div class="hero-duo-shadow"></div>
+        <!-- aurora animata sottile sopra la foto + parallax mouse -->
+        <div class="aurora over-photo px-layer" data-px="-10">
           <div class="aurora-blob aurora-1"></div>
           <div class="aurora-blob aurora-2"></div>
           <div class="aurora-blob aurora-3"></div>
         </div>
-        <div class="contour absolute inset-0 opacity-[0.22] px-layer" data-px="-6"></div>
+        <div class="contour absolute inset-0 opacity-[0.16] px-layer" data-px="-6"></div>
         <!-- grana film -->
         <div class="grain"></div>
-        <!-- Bottom vignette for text legibility -->
-        <div class="absolute inset-x-0 bottom-0 h-[80%]" style="background:linear-gradient(to top,rgba(17,15,8,.94) 0%,rgba(17,15,8,.55) 38%,transparent 100%)"></div>
+        <!-- vignette per leggibilità testo + stacco telefono -->
+        <div class="hero-vignette"></div>
       </div>
 
       <!-- Floating phone mockup (desktop center-right, mobile top-center smaller) -->
