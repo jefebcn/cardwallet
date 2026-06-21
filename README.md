@@ -46,26 +46,102 @@ Flusso: `form sito → /api/subscribe → Apps Script (webhook) → Google Sheet
 ### Setup del foglio (una volta sola)
 
 1. Crea un Google Sheet con intestazioni nella prima riga: `Data | Nome | Email | Castello`.
-2. **Estensioni → Apps Script**, incolla questo codice e salva:
-
-   ```js
-   const SECRET = 'INCOLLA_QUI_LO_STESSO_SHEET_WEBHOOK_SECRET';
-   function doPost(e) {
-     const d = JSON.parse(e.postData.contents || '{}');
-     if (d.secret !== SECRET) {
-       return ContentService.createTextOutput('forbidden').setMimeType(ContentService.MimeType.TEXT);
-     }
-     const sh = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-     sh.appendRow([d.data || new Date().toISOString(), d.nome || '', d.email || '', d.castello || '']);
-     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
-   }
-   ```
-
+2. **Estensioni → Apps Script**, incolla il codice qui sotto e salva.
 3. **Distribuisci → Nuova distribuzione → Tipo: App web** → *Esegui come: me*, *Accesso: chiunque* → copia l'URL `…/exec`.
 4. Su Vercel imposta `SHEET_WEBHOOK_URL` (l'URL appena copiato) e `SHEET_WEBHOOK_SECRET` (lo stesso valore di `SECRET`).
 5. Per l'admin, **File → Condividi → Pubblica sul web → CSV** e imposta `SHEET_CSV_URL`.
 
 Niente database: il foglio è l'unica fonte dei dati, leggibile anche direttamente da Google Sheets.
+
+#### Google Apps Script — codice completo
+
+Accoda la riga al foglio **e** invia una mail di notifica a ogni nuova iscrizione.
+
+```js
+// ── Configurazione ────────────────────────────────────────────────────────────
+const SECRET            = 'INCOLLA_QUI_LO_STESSO_SHEET_WEBHOOK_SECRET';
+const NOTIFY_EMAIL      = 'supportcrest@proton.me';   // indirizzo di notifica
+const NOTIFY_ENABLED    = true;                        // metti false per silenziare
+// ─────────────────────────────────────────────────────────────────────────────
+
+function doPost(e) {
+  try {
+    const d = JSON.parse((e.postData && e.postData.contents) || '{}');
+
+    // Verifica segreto condiviso
+    if (!d.secret || d.secret !== SECRET) {
+      return respond({ ok: false, error: 'forbidden' }, 403);
+    }
+
+    const nome     = String(d.nome     || '').trim();
+    const email    = String(d.email    || '').trim();
+    const castello = String(d.castello || '').trim();
+    const data     = d.data ? new Date(d.data) : new Date();
+
+    // Accoda al foglio
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    sheet.appendRow([
+      Utilities.formatDate(data, Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss'),
+      nome,
+      email,
+      castello
+    ]);
+
+    // Notifica email
+    if (NOTIFY_ENABLED && NOTIFY_EMAIL) {
+      const castello_str = castello ? ' · ' + castello : '';
+      MailApp.sendEmail({
+        to:      NOTIFY_EMAIL,
+        subject: '🔔 Nuovo iscritto Crest: ' + nome,
+        body: [
+          'Nuovo iscritto alla lista d\'attesa Crest.',
+          '',
+          'Nome:     ' + nome,
+          'Email:    ' + email,
+          'Castello: ' + (castello || '—'),
+          'Data:     ' + data.toISOString(),
+          '',
+          'Vedi tutti gli iscritti: https://crest.sm/admin',
+        ].join('\n'),
+        htmlBody: '<p style="font-family:sans-serif;color:#110F08">' +
+          '<strong>Nuovo iscritto alla lista d\'attesa Crest.</strong></p>' +
+          '<table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">' +
+          row('Nome',     nome) +
+          row('Email',    '<a href="mailto:' + email + '">' + email + '</a>') +
+          row('Castello', castello || '—') +
+          row('Data',     data.toLocaleString('it-IT')) +
+          '</table>' +
+          '<p style="margin-top:20px"><a href="https://crest.sm/admin" ' +
+          'style="background:#1E3A2F;color:#F4EDE0;padding:10px 20px;border-radius:8px;' +
+          'text-decoration:none;font-family:sans-serif;font-size:13px">Apri pannello admin</a></p>'
+      });
+    }
+
+    return respond({ ok: true });
+
+  } catch (err) {
+    console.error(err);
+    return respond({ ok: false, error: String(err) }, 500);
+  }
+}
+
+// Helper: riga HTML per la tabella email
+function row(label, value) {
+  return '<tr><td style="padding:4px 16px 4px 0;color:#7D6348;font-size:12px;' +
+         'text-transform:uppercase;letter-spacing:.05em">' + label + '</td>' +
+         '<td style="padding:4px 0;font-weight:600">' + value + '</td></tr>';
+}
+
+// Helper: risposta JSON
+function respond(obj, status) {
+  const out = ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+  return out;
+}
+```
+
+> **Autorizzazioni**: al primo `doPost` (o al test manuale di `doPost`) Google chiederà di autorizzare `MailApp` e `SpreadsheetApp` — è normale. Accetta con l'account Google proprietario del foglio. Se non vuoi ricevere notifiche, metti `NOTIFY_ENABLED = false`.
 
 ## Pannello admin (`/admin`)
 
