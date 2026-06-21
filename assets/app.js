@@ -128,9 +128,9 @@
       menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') menu.classList.add('hidden'); });
     }
 
-    // reveal
-    var reveals = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window) {
+    // reveal — se GSAP è caricato, lo gestisce gsap-anim.js (evita conflitti)
+    var reveals = window.gsap ? [] : document.querySelectorAll('.reveal');
+    if (reveals.length && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
       }, { threshold: 0.14 });
@@ -160,8 +160,8 @@
       counters.forEach(function (el) { cio.observe(el); });
     } else { counters.forEach(countTo); }
 
-    // parallax
-    var px = document.querySelectorAll('.parallax');
+    // parallax — se GSAP è caricato lo gestisce gsap-anim.js (scrub fluido)
+    var px = window.gsap ? [] : document.querySelectorAll('.parallax');
     if (px.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       var ticking = false;
       window.addEventListener('scroll', function () {

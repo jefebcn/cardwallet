@@ -77,6 +77,12 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* quando GSAP è attivo prende lui il controllo delle reveal */
+.gsap-on .reveal { transition: none; }
+
+/* barra di avanzamento scroll (GSAP) */
+#scrollProgress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, #1E3A2F, #C2603A); z-index: 60; pointer-events: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none; }
