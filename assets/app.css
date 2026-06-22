@@ -157,6 +157,10 @@ html, body { overflow-x: clip; }
 .px-layer { translate: var(--px-x, 0) var(--px-y, 0); transition: translate .4s cubic-bezier(0.22,1,0.36,1); will-change: translate; }
 
 /* ---- Nav trasparente sul hero scuro ---- */
+/* header wrapper must not form a containing block, or the inner sticky bar
+   would only stay fixed within the header's own (nav-height) box and scroll
+   away after ~64px. display:contents lets the sticky bar use <body>. */
+#site-nav { display: contents; }
 #site-nav > div { transition: background-color 0.45s ease, border-color 0.45s ease; }
 #site-nav .brand-mark { color: #1E3A2F; transition: color 0.45s ease; }
 #site-nav.nav-hero > div {
