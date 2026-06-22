@@ -21,7 +21,7 @@
         <a href="/chi-siamo" class="link-underline hover:text-ink">Chi siamo</a>\
       </div>\
       <div class="flex items-center gap-2 sm:gap-3">\
-        <a href="/app" class="hidden sm:inline-flex items-center gap-1.5 btn border border-stone/30 text-ink/70 hover:border-stone/60 hover:text-ink px-4 py-2 text-sm">\
+        <a href="/app" class="nav-app-btn hidden sm:inline-flex items-center gap-1.5 btn border border-stone/30 text-ink/70 hover:border-stone/60 hover:text-ink px-4 py-2 text-sm">\
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 17v.5"/></svg>\
           Prova l’app\
         </a>\
@@ -161,17 +161,22 @@
         var val = eased * target;
         el.textContent = (target % 1 === 0 ? Math.round(val) : val.toFixed(1)) + suffix;
         if (p < 1) requestAnimationFrame(step);
+        else el.setAttribute('data-counted', '1');
       }
       requestAnimationFrame(step);
     }
     var counters = document.querySelectorAll('[data-count-to]');
 
-    // Load real waitlist count from Supabase and update all [data-count-to] counters
+    // Load real waitlist count from Supabase — updates ONLY the waitlist counters
     fetch('/api/waitlist-count')
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (j && typeof j.count === 'number' && j.count > 0) {
-          counters.forEach(function (el) { el.setAttribute('data-count-to', j.count); });
+          document.querySelectorAll('[data-waitlist]').forEach(function (el) {
+            el.setAttribute('data-count-to', j.count);
+            // if already animated/visible, refresh the displayed value
+            if (el.getAttribute('data-counted') === '1') countTo(el);
+          });
         }
       })
       .catch(function () {});
@@ -245,11 +250,10 @@
             if (res.ok && res.j && res.j.ok) {
               wlForm.classList.add('hidden');
               if (wlDone) wlDone.classList.remove('hidden');
-              // Increment all visible counters by 1
-              document.querySelectorAll('[data-count-to]').forEach(function (el) {
+              // Increment only the waitlist counters by 1
+              document.querySelectorAll('[data-waitlist]').forEach(function (el) {
                 var prev = parseFloat(el.getAttribute('data-count-to')) || 0;
-                var next = prev + 1;
-                el.setAttribute('data-count-to', next);
+                el.setAttribute('data-count-to', prev + 1);
                 countTo(el);
               });
             } else {
