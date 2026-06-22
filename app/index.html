@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crest — Prototipo App</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+  <meta name="theme-color" content="#1E3A2F">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script type="text/babel" src="crest-supabase.jsx"></script>
+  <script type="text/babel" src="crest-auth.jsx"></script>
+  <script type="text/babel" src="ios-frame.jsx"></script>
+  <script src="assets/mark-b64.js"></script>
+  <script type="text/babel" src="crest-ui.jsx"></script>
+  <script type="text/babel" src="crest-onboarding.jsx"></script>
+  <script type="text/babel" src="crest-send.jsx"></script>
+  <script type="text/babel" src="crest-screens.jsx"></script>
+  <script type="text/babel" src="crest-profile.jsx"></script>
+  <script type="text/babel" src="crest-extra.jsx"></script>
+  <script type="text/babel" src="crest-exchange.jsx"></script>
+  <script type="text/babel" src="crest-notifications.jsx"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+    body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(120% 90% at 50% 0%, #1d352a 0%, #14241d 45%, #0d1813 100%);
+      font-family: 'Schibsted Grotesk', -apple-system, system-ui, sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── beta banner ─────────────────────────────────── */
+    #beta-banner {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 44px;
+      background: rgba(168,133,78,0.15);
+      border-bottom: 1px solid rgba(168,133,78,0.25);
+      gap: 12px;
+    }
+    #beta-banner .beta-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+    #beta-banner .beta-pill {
+      flex-shrink: 0;
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #A8854E;
+      background: rgba(168,133,78,0.18);
+      border: 1px solid rgba(168,133,78,0.35);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+    #beta-banner .beta-text {
+      font-size: 12.5px;
+      color: rgba(244,241,232,0.6);
+      letter-spacing: 0.1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #beta-banner .beta-back {
+      flex-shrink: 0;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: rgba(244,241,232,0.55);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.15s;
+    }
+    #beta-banner .beta-back:hover { color: rgba(244,241,232,0.9); }
+    #beta-banner .beta-back svg { opacity: 0.7; }
+
+    /* ── app stage ───────────────────────────────────── */
+    #root {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    input { font-family: inherit; }
+    input::placeholder { color: #9BA89F; }
+
+    .crest-screen { height: 100%; animation: screenIn .32s cubic-bezier(.22,.61,.36,1) both; }
+    @keyframes screenIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    @keyframes crestSpin { to { transform: rotate(360deg); } }
+    .crest-spin { animation: crestSpin .8s linear infinite; display: inline-block; }
+
+    @keyframes crestPulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.08); opacity: .82; } }
+    .crest-mark-pulse { animation: crestPulse 1.6s ease-in-out infinite; }
+
+    @keyframes crestPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+    .crest-pop { animation: crestPop .5s cubic-bezier(.34,1.56,.64,1) both; }
+
+    .crest-stage { position: relative; }
+    .crest-hint {
+      position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+      font-family: 'Schibsted Grotesk', sans-serif; font-size: 12px; letter-spacing: .3px;
+      color: rgba(244,241,232,.4); display: flex; align-items: center; gap: 7px; user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- beta preview banner -->
+  <div id="beta-banner">
+    <div class="beta-left">
+      <span class="beta-pill">Prototipo</span>
+      <span class="beta-text">Anteprima interattiva — il conto vero aprirà nel 2026</span>
+    </div>
+    <a href="/" class="beta-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Torna al sito
+    </a>
+  </div>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback } = React;
+
+    const TABBED  = { home:1, card:1, analysis:1, profile:1 };
+    const DARK    = { splash:1, welcome:1, 'kyc-loading':1, 'kyc-success':1, 'send-loading':1, home:1 };
+    const UNSAFE  = { 'kyc-loading':1, 'send-loading':1, 'send-success':1, 'send-review':1,
+                      'send-amount':1, 'send-recipient':1, 'tx-detail':1, receive:1 };
+
+    function useFit() {
+      const [scale, setScale] = useState(1);
+      useEffect(() => {
+        const fit = () => {
+          const bannerH = document.getElementById('beta-banner')?.offsetHeight || 44;
+          const avH = window.innerHeight - bannerH - 16;
+          const avW = window.innerWidth - 24;
+          const s = Math.min(1, avH / 874, avW / 402);
+          setScale(s);
+        };
+        fit();
+        window.addEventListener('resize', fit);
+        return () => window.removeEventListener('resize', fit);
+      }, []);
+      return scale;
+    }
+
+    function App() {
+      const scale = useFit();
+
+      /* ── navigation ──────────────────────────────────────── */
+      const [view, setView] = useState(() => {
+        const s = localStorage.getItem('crest:view');
+        if (!s) return 'splash';
+        return UNSAFE[s] ? 'home' : s;
+      });
+      const go = useCallback((v) => {
+        setView(v);
+        try { localStorage.setItem('crest:view', v); } catch (e) {}
+      }, []);
+
+      /* ── auth + profile ──────────────────────────────────── */
+      const [user,    setUser]    = useState(null);
+      const [profile, setProfile] = useState(null);
+
+      /* ── data ────────────────────────────────────────────── */
+      const [balance,   setBalance]   = useState(2480.50);
+      const [frozen,    setFrozen]    = useState(false);
+      const [kyc,       setKyc]       = useState({ name:'', email:'', phone:'', castle:'', password:'' });
+      const [flow,      setFlow]      = useState({ to:null, amount:0 });
+      const [currentTx, setCurrentTx] = useState(null);
+      const [txs,       setTxs]       = useState(TX);
+
+      /* ── restore session on mount ────────────────────────── */
+      useEffect(() => {
+        sbGetSession().then(async session => {
+          if (!session) return;
+          try {
+            const [p, t] = await Promise.all([
+              sbGetProfile(session.user.id),
+              sbGetTransactions(session.user.id),
+            ]);
+            setUser(session.user);
+            setProfile(p);
+            setBalance(p.balance ?? 2480.50);
+            setTxs(t.length ? t : TX);
+            const sv = localStorage.getItem('crest:view');
+            if (!sv || UNSAFE[sv] || sv === 'splash' || sv === 'welcome') go('home');
+          } catch (e) { console.warn('[Crest] restore:', e.message); }
+        });
+      }, []);
+
+      /* ── auth callbacks ──────────────────────────────────── */
+      const onLogin = useCallback((u, p, t) => {
+        setUser(u); setProfile(p);
+        setBalance(p?.balance ?? 2480.50);
+        setTxs(t?.length ? t : TX);
+      }, []);
+
+      const onSignupDone = useCallback(async (u, p) => {
+        setUser(u); setProfile(p);
+        setBalance(p?.balance ?? 2480.50);
+        const t = await sbGetTransactions(u.id).catch(() => []);
+        setTxs(t.length ? t : TX);
+      }, []);
+
+      /* ── actions ─────────────────────────────────────────── */
+      const openTx = (tx) => { setCurrentTx(tx); go('tx-detail'); };
+
+      const confirmSend = async (f) => {
+        const newBal = +(balance - f.amount).toFixed(2);
+        const tx = {
+          name: f.to?.name || 'Trasferimento', amount: -f.amount,
+          meta: 'Oggi · adesso', icon: f.to?.icon || 'T',
+          cat: 'Trasferimenti', note: 'Trasferimento istantaneo',
+        };
+        if (user) {
+          try { await sbCreateTransaction(user.id, tx, newBal); }
+          catch (e) { console.warn('[Crest] send:', e.message); }
+        }
+        setBalance(newBal);
+        setProfile(p => p ? { ...p, balance: newBal } : p);
+        setTxs(prev => [{ id:'n'+Date.now(), ...tx, bg:f.to?.bg, fg:f.to?.fg }, ...prev]);
+      };
+
+      const restart = async () => {
+        if (user) await sbSignOut().catch(() => {});
+        setUser(null); setProfile(null);
+        setBalance(2480.50); setFrozen(false);
+        setKyc({ name:'', email:'', phone:'', castle:'', password:'' });
+        setTxs(TX); go('splash');
+      };
+
+      /* ── derived display values ──────────────────────────── */
+      const userName  = profile?.full_name  || kyc.name  || 'Mario Rossi';
+      const userEmail = user?.email         || kyc.email || 'mario@email.sm';
+      const userIban  = profile?.iban       || 'SM76 ···· ···· 3017';
+
+      /* ── screen router ───────────────────────────────────── */
+      const screenFor = () => {
+        switch (view) {
+          case 'splash':         return <SplashScreen go={go} />;
+          case 'welcome':        return <WelcomeScreen go={go} />;
+          case 'login':          return <LoginScreen go={go} onLogin={onLogin} />;
+          case 'kyc-form':       return <KycForm go={go} data={kyc} setData={setKyc} />;
+          case 'kyc-verify':     return <KycVerify go={go} />;
+          case 'kyc-loading':    return <KycLoading go={go} kyc={kyc} onSignupDone={onSignupDone} />;
+          case 'kyc-success':    return <KycSuccess go={go} data={kyc} />;
+          case 'home':           return <Home go={go} balance={balance} txs={txs} openTx={openTx} userName={userName} />;
+          case 'card':           return <CardScreen go={go} frozen={frozen} setFrozen={setFrozen} userName={userName} userIban={userIban} />;
+          case 'card-limits':    return <CardLimits go={go} />;
+          case 'analysis':       return <Analysis go={go} />;
+          case 'profile':        return <Profile go={go} restart={restart} userName={userName} userEmail={userEmail} />;
+          case 'transactions':   return <Transactions go={go} txs={txs} openTx={openTx} />;
+          case 'tx-detail':      return <TxDetail go={go} tx={currentTx} />;
+          case 'send-recipient': return <SendRecipient go={go} setFlow={setFlow} />;
+          case 'send-amount':    return <SendAmount go={go} flow={flow} setFlow={setFlow} balance={balance} />;
+          case 'send-review':    return <SendReview go={go} flow={flow} confirmSend={confirmSend} />;
+          case 'send-loading':   return <SendLoading go={go} />;
+          case 'send-success':   return <SendSuccess go={go} flow={flow} />;
+          case 'receive':        return <Receive go={go} />;
+          case 'roadmap':        return <Roadmap go={go} />;
+          case 'compliance':     return <Compliance go={go} />;
+          case 'plans':          return <Plans go={go} />;
+          case 'savings':        return <Savings go={go} />;
+          case 'exchange':       return <ExchangeScreen go={go} balance={balance} />;
+          case 'notifications':  return <NotificationsScreen go={go} />;
+          default:               return <Home go={go} balance={balance} txs={txs} openTx={openTx} userName={userName} />;
+        }
+      };
+
+      const screen = screenFor();
+      const body = TABBED[view]
+        ? <div style={{ height:'100%', display:'flex', flexDirection:'column' }}>{screen}<TabBar active={view} onTab={go} /></div>
+        : screen;
+
+      return (
+        <div className="crest-stage" style={{ transform:`scale(${scale})`, transformOrigin:'center center' }}>
+          <IOSDevice dark={!!DARK[view]}>
+            <div key={view} className="crest-screen">{body}</div>
+          </IOSDevice>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
