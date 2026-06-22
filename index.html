@@ -9,8 +9,10 @@
   <meta property="og:description" content="Revolut e Wise ti dicono di no. Crest no. Il conto digitale moderno per i residenti della Repubblica di San Marino." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="it_IT" />
-  <meta name="theme-color" content="#110F08" />
+  <meta name="theme-color" content="#1E3A2F" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
@@ -47,8 +49,8 @@
         <div class="hero-vignette"></div>
       </div>
 
-      <!-- Floating phone mockup (desktop center-right, mobile top-center smaller) -->
-      <div class="absolute inset-0 flex items-center justify-center md:justify-end pointer-events-none z-10 pt-16 md:pt-0 md:pr-[7%] lg:pr-[13%]" aria-hidden="true">
+      <!-- Floating phone mockup — desktop only; hidden on mobile to keep hero legible -->
+      <div class="absolute inset-0 hidden md:flex items-center justify-end pointer-events-none z-10 md:pr-[7%] lg:pr-[13%]" aria-hidden="true">
         <div id="hero-device" style="position:relative;opacity:0;transform:translateY(52px) scale(.86)">
          <div class="device-float" style="position:relative">
 
@@ -229,9 +231,25 @@
           <h3 class="h-display mt-5 font-display font-semibold text-3xl sm:text-4xl text-ink">Un IBAN tutto tuo</h3>
           <p class="mt-4 text-ink/70 leading-relaxed text-lg">Un conto vero per ricevere lo stipendio, pagare e domiciliare le utenze. Niente più sportello obbligatorio, niente più moduli cartacei.</p>
         </div>
-        <div class="reveal order-first md:order-last" data-delay="1">
-          <div data-gsap-rise class="rounded-3xl bg-forest text-parchment overflow-hidden contour">
+        <div class="reveal order-first md:order-last relative" data-delay="1">
+          <!-- glow halo behind card -->
+          <div aria-hidden="true" style="position:absolute;inset:-16px;border-radius:2.5rem;pointer-events:none;filter:blur(40px);opacity:0.5;background:radial-gradient(ellipse at 68% 20%, rgba(194,96,46,0.65) 0%, rgba(30,58,47,0.8) 48%, transparent 80%)"></div>
+          <div data-gsap-rise class="relative rounded-3xl bg-forest text-parchment overflow-hidden contour">
             <div class="p-8 sm:p-10">
+              <!-- card header: logo + contactless -->
+              <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                  <svg width="11" height="14" viewBox="0 0 79.3 100" fill="#F4EDE0" aria-hidden="true"><path fill-rule="evenodd" d="M42.3 4.3 C41.1 5.5 39.5 7 38.7 7.6 C37.5 8.5 37 9.1 35.9 11 C34.7 12.9 33.7 14.1 32.4 14.9 C32 15.1 29.5 13.3 28.8 12.2 C28.5 11.8 27.8 11.3 27.4 11.1 L26.7 10.7 L24.7 12.9 C23.6 14.2 22.2 15.7 21.7 16.4 C20.9 17.3 20.3 17.7 19.2 18.2 C17.6 18.7 17.3 19 13.8 23.5 C13.2 24.3 11.8 26 10.8 27.4 C6.2 33 3.2 40.2 2.7 46.8 C2.6 48 2.5 49.5 2.5 50.2 C2 56.3 4.5 65.8 8 71.8 C23.3 97.3 60.3 98 76.2 73.1 C77.3 71.4 77.3 71.4 75.4 70.3 C74.8 70 72.8 68.8 70.9 67.8 C69 66.7 66.8 65.4 65.9 64.9 C58.7 60.7 56.8 59.6 56.6 59.6 C56.5 59.6 56.3 59.8 56.2 60.1 C55.8 61.5 52.2 64.6 49.7 65.8 C35.6 72.6 21.2 58.1 28.1 44.1 C33.5 33.1 49 32 56 42.2 C56.8 43.3 56.3 43.5 60.2 41.1 C61.4 40.4 62.8 39.6 63.4 39.3 C64 38.9 66.3 37.6 68.5 36.3 C70.8 35 73.6 33.3 74.9 32.6 C76.1 31.9 77.1 31.2 77.1 31 C77.1 30.6 71.4 21.3 70.5 20.4 C70.3 20.1 69.8 19.8 69.4 19.8 C67.9 19.4 67.1 18.7 65.5 15.9 C64.4 14 63.7 13 63.2 12.8 C62.7 12.5 61.5 11.5 60.4 10.5 C58.1 8.2 58.2 8.2 55.7 10.3 C53 12.6 52.8 12.5 50.9 9.1 C49.9 7.4 49.1 6.5 47 4.5 L44.4 2 L42.3 4.3 Z"/></svg>
+                  <span class="font-display text-xs font-semibold tracking-wider text-parchment/55">Crest</span>
+                </div>
+                <!-- NFC / contactless -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="text-parchment/28" aria-hidden="true">
+                  <circle cx="4.5" cy="12" r="1.5" fill="currentColor" opacity="0.75"/>
+                  <path d="M7.8 9.3a4 4 0 0 1 0 5.4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
+                  <path d="M11.2 6.8a8 8 0 0 1 0 10.4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
+                  <path d="M14.6 4.3a12 12 0 0 1 0 15.4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
+                </svg>
+              </div>
               <p class="text-parchment/50 text-[10px] tracking-[0.22em] uppercase font-semibold">Conto Crest</p>
               <p class="font-display text-xs font-medium mt-1.5 tracking-wider text-parchment/35">SM76 ···· ···· ···· ···· 3017</p>
               <div class="mt-5 flex items-end justify-between">
