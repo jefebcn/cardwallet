@@ -189,6 +189,31 @@ html, body { overflow-x: clip; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 12h12' stroke='%23C2603A' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E"); }
 .cmp-sm { width: 16px; height: 16px; background-size: 10px 10px; display: inline-flex; margin: 0; }
 
+/* ---- Piani: card interattive + accenti colore ---- */
+.plan-card {
+  position: relative;
+  transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .35s var(--ease-out);
+}
+.plan-card:hover { transform: translateY(-8px); }
+/* striscia d'accento in alto, rivelata all'hover */
+.plan-card::before {
+  content: ''; position: absolute; top: 0; left: 1.75rem; right: 1.75rem; height: 3px;
+  border-radius: 0 0 3px 3px; transform: scaleX(0); transform-origin: 50% 0;
+  transition: transform .4s var(--ease-out);
+}
+.plan-card:hover::before { transform: scaleX(1); }
+.plan-standard::before { background: #7D6348; }
+.plan-standard:hover { border-color: rgba(125,99,72,.5); box-shadow: 0 24px 50px -28px rgba(125,99,72,.5); }
+.plan-premium::before { background: #C2603A; }
+.plan-premium:hover { border-color: rgba(194,96,46,.5); box-shadow: 0 24px 50px -28px rgba(194,96,46,.55); }
+.plan-plus::before { background: #C2603A; }
+.plan-plus:hover { box-shadow: 0 30px 60px -25px rgba(30,58,47,.6); }
+/* icona tonda d'accento per piano */
+.plan-icon { display: inline-flex; width: 44px; height: 44px; border-radius: 14px; align-items: center; justify-content: center; }
+.plan-icon-standard { background: rgba(125,99,72,.14); color: #7D6348; }
+.plan-icon-plus { background: rgba(194,96,46,.20); color: #F4EDE0; }
+.plan-icon-premium { background: rgba(194,96,46,.14); color: #C2603A; }
+
 /* ---- Piani: spunte nelle liste di funzionalità ---- */
 .plan-check {
   display: inline-flex; width: 18px; height: 18px; flex: none; margin-top: 1px;
