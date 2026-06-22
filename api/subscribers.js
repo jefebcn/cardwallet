@@ -1,26 +1,9 @@
 'use strict';
 const { verifyToken, parseCookies, COOKIE } = require('../lib/auth');
 
-function parseCSV(text) {
-  const out = [];
-  let row = [], field = '', i = 0, q = false, c;
-  while (i < text.length) {
-    c = text[i];
-    if (q) {
-      if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
-      else if (c === '"') q = false;
-      else field += c;
-    } else {
-      if (c === '"') q = true;
-      else if (c === ',') { row.push(field); field = ''; }
-      else if (c === '\n') { row.push(field); out.push(row); row = []; field = ''; }
-      else if (c !== '\r') field += c;
-    }
-    i++;
-  }
-  if (field.length || row.length) { row.push(field); out.push(row); }
-  return out.filter(function (r) { return r.some(function (x) { return String(x).trim() !== ''; }); });
-}
+var SUPA_URL = 'https://pfgjsgnafgcbjrpoivgz.supabase.co';
+var SUPA_KEY = process.env.SUPABASE_ANON_KEY ||
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmZ2pzZ25hZmdjYmpycG9pdmd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMDA4OTQsImV4cCI6MjA5NzY3Njg5NH0.q-4SqgrGo7LW0j9sPUzH_QTsgVNHRBxfUGvqJVGsp30';
 
 module.exports = async function (req, res) {
   const secret = process.env.SESSION_SECRET || '';
@@ -31,22 +14,35 @@ module.exports = async function (req, res) {
     return;
   }
 
-  const url = process.env.SHEET_CSV_URL || '';
-  if (!url) {
-    res.status(200).json({ headers: [], rows: [], configured: false });
-    return;
-  }
-
   try {
-    const r = await fetch(url, { redirect: 'follow' });
+    const r = await fetch(
+      SUPA_URL + '/rest/v1/waitlist?select=created_at,nome,email,castello&order=created_at.desc',
+      {
+        headers: {
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY,
+        },
+      }
+    );
+
     if (!r.ok) throw new Error(String(r.status));
-    const text = await r.text();
-    const data = parseCSV(text);
-    const headers = data[0] || [];
-    const rows = data.slice(1);
+    const rows = await r.json();
+
+    // Format as { headers, rows } matching the previous Google Sheets shape
+    const headers = ['Data', 'Nome', 'Email', 'Castello'];
+    const formatted = rows.map(function (row) {
+      return [
+        row.created_at ? new Date(row.created_at).toLocaleString('it-IT') : '',
+        row.nome || '',
+        row.email || '',
+        row.castello || '',
+      ];
+    });
+
     res.setHeader('Cache-Control', 'no-store');
-    res.status(200).json({ headers: headers, rows: rows, configured: true });
+    res.status(200).json({ headers: headers, rows: formatted, configured: true });
   } catch (e) {
-    res.status(502).json({ error: 'Impossibile leggere il foglio. Verifica SHEET_CSV_URL (pubblicato in formato CSV).' });
+    console.error('[subscribers] Supabase error', e.message);
+    res.status(502).json({ error: 'Impossibile leggere gli iscritti da Supabase.' });
   }
 };
