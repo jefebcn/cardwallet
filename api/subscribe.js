@@ -75,16 +75,21 @@ module.exports = async function (req, res) {
       return;
     }
 
+    // Log the raw response for debugging (visible in Vercel function logs)
+    console.error('[subscribe] Apps Script raw response (HTTP ' + r.status + '):', txt.slice(0, 400));
+
     // Diagnostica leggibile per capire cosa correggere lato Apps Script
     var hint;
     if (!r.ok) {
-      hint = 'lo script ha risposto con stato HTTP ' + r.status + '.';
+      hint = 'HTTP ' + r.status + ' — lo script ha rifiutato la richiesta.';
+    } else if (data && data.error === 'forbidden') {
+      hint = 'segreto non corrispondente: SHEET_WEBHOOK_SECRET in Vercel ≠ SECRET nello script.';
     } else if (data && data.error) {
-      hint = data.error === 'forbidden'
-        ? 'segreto non corrispondente (SHEET_WEBHOOK_SECRET ≠ SECRET nello script).'
-        : 'errore nello script: ' + data.error + ' (verifica SHEET_ID / autorizzazioni).';
+      hint = 'errore nello script: ' + data.error;
+    } else if (!data) {
+      hint = 'risposta non JSON — possibile cause: URL /dev invece di /exec, deployment non pubblicato, o funzione respond() mancante nello script.';
     } else {
-      hint = 'risposta non valida: controlla che nel deployment l\'accesso sia impostato su "Chiunque".';
+      hint = 'risposta inattesa dallo script: ' + JSON.stringify(data).slice(0, 120);
     }
     res.status(502).json({ error: 'Iscrizione non registrata — ' + hint });
   } catch (e) {
