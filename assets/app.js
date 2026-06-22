@@ -165,6 +165,17 @@
       requestAnimationFrame(step);
     }
     var counters = document.querySelectorAll('[data-count-to]');
+
+    // Load real waitlist count from Supabase and update all [data-count-to] counters
+    fetch('/api/waitlist-count')
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && typeof j.count === 'number' && j.count > 0) {
+          counters.forEach(function (el) { el.setAttribute('data-count-to', j.count); });
+        }
+      })
+      .catch(function () {});
+
     if ('IntersectionObserver' in window) {
       var cio = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) { countTo(e.target); cio.unobserve(e.target); } });
@@ -234,6 +245,13 @@
             if (res.ok && res.j && res.j.ok) {
               wlForm.classList.add('hidden');
               if (wlDone) wlDone.classList.remove('hidden');
+              // Increment all visible counters by 1
+              document.querySelectorAll('[data-count-to]').forEach(function (el) {
+                var prev = parseFloat(el.getAttribute('data-count-to')) || 0;
+                var next = prev + 1;
+                el.setAttribute('data-count-to', next);
+                countTo(el);
+              });
             } else {
               showErr((res.j && res.j.error) || 'Qualcosa è andato storto. Riprova.');
               setBusy(false);
