@@ -42,7 +42,7 @@
         <div class="pt-2 pb-1 border-t border-stone/15 mt-1">\
           <a href="/app" class="inline-flex items-center gap-2 py-2.5 text-sm font-semibold text-forest">\
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 17v.5"/></svg>\
-            Prova l'app →\
+            Prova l’app →\
           </a>\
         </div>\
       </div>\
