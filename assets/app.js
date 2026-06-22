@@ -20,7 +20,11 @@
         <a href="/faq" class="link-underline hover:text-ink">FAQ</a>\
         <a href="/chi-siamo" class="link-underline hover:text-ink">Chi siamo</a>\
       </div>\
-      <div class="flex items-center gap-3">\
+      <div class="flex items-center gap-2 sm:gap-3">\
+        <a href="/app" class="hidden sm:inline-flex items-center gap-1.5 btn border border-stone/30 text-ink/70 hover:border-stone/60 hover:text-ink px-4 py-2 text-sm">\
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 17v.5"/></svg>\
+          Prova l’app\
+        </a>\
         <a href="/#lista" class="btn btn-primary px-4 sm:px-5 py-2 text-sm">Unisciti alla lista</a>\
         <button id="navToggle" class="md:hidden p-2 -mr-2" aria-label="Apri menu" aria-expanded="false">\
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="#110F08" stroke-width="1.8" stroke-linecap="round"/></svg>\
@@ -35,6 +39,12 @@
         <a href="/faq" class="py-2.5 link-underline w-max">FAQ</a>\
         <a href="/chi-siamo" class="py-2.5 link-underline w-max">Chi siamo</a>\
         <a href="/contatti" class="py-2.5 link-underline w-max">Contatti</a>\
+        <div class="pt-2 pb-1 border-t border-stone/15 mt-1">\
+          <a href="/app" class="inline-flex items-center gap-2 py-2.5 text-sm font-semibold text-forest">\
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 17v.5"/></svg>\
+            Prova l'app →\
+          </a>\
+        </div>\
       </div>\
     </div>\
   </div>';
