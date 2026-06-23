@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700,800&f[]=zodiak@400,401&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#1E3A2F; --forest-dark:#16291F; --ink:#110F08;
+    --parchment:#F4EDE0; --parchment-dim:#EBE1D0; --parchment-deep:#E2D6C0;
+    --clay:#C2603A; --clay-dark:#A84E2B; --stone:#7D6348; --sand:#A89880;
+    --font:"General Sans",system-ui,-apple-system,sans-serif;
+    --serif:"Zodiak","General Sans",Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  body{background:#222;font-family:var(--font);}
+
+  /* render rig: each slide is captured by Playwright via [data-slide] */
+  .wrap{display:flex;flex-wrap:wrap;gap:40px;padding:40px;}
+  .slide{position:relative;overflow:hidden;flex-shrink:0;}
+  .post{width:1080px;height:1080px;}
+  .story{width:1080px;height:1920px;}
+
+  /* ---- surfaces ---- */
+  .bg-forest{background:radial-gradient(125% 100% at 50% -10%,#26473A 0%,var(--forest) 45%,var(--forest-dark) 100%);color:var(--parchment);}
+  .bg-ink{background:radial-gradient(130% 110% at 80% -10%,#23201A 0%,var(--ink) 60%,#0a0905 100%);color:var(--parchment);}
+  .bg-parchment{background:radial-gradient(120% 100% at 0% 0%,#FBF6EC 0%,var(--parchment) 55%,var(--parchment-deep) 100%);color:var(--ink);}
+  .bg-clay{background:radial-gradient(120% 110% at 50% -10%,#D2724B 0%,var(--clay) 50%,var(--clay-dark) 100%);color:var(--parchment);}
+
+  /* grain + vignette overlays for premium texture */
+  .grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .vign::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(0,0,0,.28) 100%);}
+
+  /* ---- type ---- */
+  .pad{position:absolute;inset:0;display:flex;flex-direction:column;}
+  .p96{padding:96px;}
+  .p110{padding:110px 96px;}
+  .eyebrow{font-size:24px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;}
+  .display{font-weight:600;letter-spacing:-.035em;line-height:.96;}
+  .serif-it{font-family:var(--serif);font-style:italic;font-weight:400;}
+  .muted{opacity:.62;}
+  .muted2{opacity:.45;}
+
+  /* crest mark */
+  .mark{display:block;}
+
+  /* lockup row */
+  .lockup{display:flex;align-items:center;gap:18px;}
+  .lockup .word{font-weight:600;letter-spacing:-.02em;}
+
+  /* pills / chips */
+  .pill{display:inline-flex;align-items:center;gap:14px;border-radius:999px;padding:16px 28px;
+    font-size:23px;font-weight:600;letter-spacing:.04em;}
+  .dot{width:13px;height:13px;border-radius:50%;background:var(--clay);}
+
+  /* footer brand line */
+  .foot{position:absolute;left:96px;right:96px;bottom:84px;display:flex;align-items:center;justify-content:space-between;}
+  .foot .url{font-size:26px;font-weight:600;letter-spacing:.02em;}
+
+  /* big stat */
+  .statnum{font-weight:700;letter-spacing:-.04em;line-height:.9;}
+
+  /* card visual */
+  .card{position:relative;border-radius:38px;overflow:hidden;
+    box-shadow:0 50px 90px rgba(0,0,0,.5),inset 0 0 0 1.5px rgba(244,237,224,.14);}
+  .card-sheen{position:absolute;inset:0;background:
+    linear-gradient(135deg,rgba(244,237,224,.12) 0%,transparent 28%,transparent 72%,rgba(244,237,224,.08) 100%);}
+
+  /* check list */
+  .row{display:flex;align-items:center;gap:26px;}
+  .tick{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .cross{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+</style>
+</head>
+<body>
+<!-- reusable Crest "C" monogram -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="crest" viewBox="0 0 79.3 100">
+    <path fill="currentColor" fill-rule="evenodd" d="M42.3 4.3 C41.1 5.5 39.5 7 38.7 7.6 C37.5 8.5 37 9.1 35.9 11 C34.7 12.9 33.7 14.1 32.4 14.9 C32 15.1 29.5 13.3 28.8 12.2 C28.5 11.8 27.8 11.3 27.4 11.1 L26.7 10.7 L24.7 12.9 C23.6 14.2 22.2 15.7 21.7 16.4 C20.9 17.3 20.3 17.7 19.2 18.2 C17.6 18.7 17.3 19 13.8 23.5 C13.2 24.3 11.8 26 10.8 27.4 C6.2 33 3.2 40.2 2.7 46.8 C2.6 48 2.5 49.5 2.5 50.2 C2 56.3 4.5 65.8 8 71.8 C23.3 97.3 60.3 98 76.2 73.1 C77.3 71.4 77.3 71.4 75.4 70.3 C74.8 70 72.8 68.8 70.9 67.8 C69 66.7 66.8 65.4 65.9 64.9 C58.7 60.7 56.8 59.6 56.6 59.6 C56.5 59.6 56.3 59.8 56.2 60.1 C55.8 61.5 52.2 64.6 49.7 65.8 C35.6 72.6 21.2 58.1 28.1 44.1 C33.5 33.1 49 32 56 42.2 C56.8 43.3 56.3 43.5 60.2 41.1 C61.4 40.4 62.8 39.6 63.4 39.3 C64 38.9 66.3 37.6 68.5 36.3 C70.8 35 73.6 33.3 74.9 32.6 C76.1 31.9 77.1 31.2 77.1 31 C77.1 30.6 71.4 21.3 70.5 20.4 C70.3 20.1 69.8 19.8 69.4 19.8 C67.9 19.4 67.1 18.7 65.5 15.9 C64.4 14 63.7 13 63.2 12.8 C62.7 12.5 61.5 11.5 60.4 10.5 C58.1 8.2 58.2 8.2 55.7 10.3 C53 12.6 52.8 12.5 50.9 9.1 C49.9 7.4 49.1 6.5 47 4.5 L44.4 2 L42.3 4.3 Z M43.6 6.9 C43.3 7.8 42.6 9.2 42.2 10 C41.3 11.8 41.4 11.9 42.6 11 L43.6 10.4 L43.6 11.6 C43.6 12.7 43.4 12.9 42.3 14.1 C41.7 14.8 40.5 16.4 39.8 17.5 C38.3 20.1 38.1 20.1 38.2 18.1 C38.2 17.3 38.2 16.5 38.1 16.4 C37.9 16.2 36.3 17.5 34.5 19.4 C33 20.9 29.5 23.6 29.3 23.4 C29.1 23.2 30.2 21.5 31.3 20.2 C31.9 19.6 32.5 18.5 32.8 18 C33.1 17.4 33.8 16.4 34.5 15.9 C35.3 15.2 36.1 14.1 37.1 12.4 C38.2 10.3 38.7 9.8 39.8 9 C40.5 8.5 41.8 7.4 42.5 6.4 C44.1 4.5 44.4 4.6 43.6 6.9 Z M57.6 11.9 C57.4 13.1 57.4 13.4 57.7 14 C58.2 14.8 58.2 14.8 57.1 15.9 C56.4 16.7 55.9 17 55.8 16.9 C55.5 16.6 54.7 16.8 53.5 17.3 C53.1 17.5 52.5 18.3 52 19.2 C50.9 21.2 50.6 21.4 48.2 22.1 C46.6 22.5 45.8 22.9 44.1 24.2 C41.5 26.3 41.4 26.2 43.5 23.5 C46 20.3 46.4 19.9 48.1 19.1 C49.4 18.4 49.8 18.1 50.8 16.5 C51.8 15.1 52.3 14.6 53.5 14 C54.3 13.6 55.6 12.7 56.3 11.9 C58 10.2 57.9 10.2 57.6 11.9 Z M26 14.9 C25.4 17.3 25.4 17.4 25.9 17.3 C27.5 16.9 26.5 18.6 24.4 20.1 C23 20.9 22.3 21.6 21.4 23 C20.1 25 19.9 25.1 19.6 24 C19.4 23 19.4 23 16.5 25 C15.1 26 13.8 27 13.5 27.1 C12.9 27.5 13 27.3 14.8 25 C18.6 20.3 18.7 20.2 19.6 20.1 C20.8 19.8 22 18.7 24.4 15.8 C26.5 13.2 26.5 13.2 26 14.9 Z M69.2 22 C69.6 22.3 71.3 24.8 72.4 26.6 C72.5 26.8 72 26.4 71.2 25.8 C70.4 25.1 69.5 24.4 69.1 24.1 C68.4 23.7 67.4 22.1 67.4 21.5 C67.4 21.2 68.4 21.5 69.2 22 Z"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+
+<!-- ════════ 01 · LAUNCH TEASER ════════ -->
+<div class="slide post bg-forest grain vign" data-slide="01-teaser">
+  <div class="pad" style="align-items:center;justify-content:center;text-align:center;">
+    <svg class="mark" width="150" height="189" style="color:var(--parchment);margin-bottom:54px"><use href="#crest"/></svg>
+    <div class="display" style="font-size:150px;">Crest</div>
+    <div class="serif-it" style="font-size:42px;color:var(--clay);margin-top:18px;">Libertas</div>
+    <div class="muted" style="font-size:30px;font-weight:500;margin-top:60px;max-width:720px;line-height:1.5;">
+      Il primo wallet digitale costruito<br>per la Repubblica di San Marino.
+    </div>
+  </div>
+  <div class="foot">
+    <div class="pill" style="background:rgba(244,237,224,.08);border:1.5px solid rgba(244,237,224,.18);">
+      <span class="dot"></span>In arrivo nel 2026
+    </div>
+    <div class="url muted">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 02 · MANIFESTO ════════ -->
+<div class="slide post bg-ink grain vign" data-slide="02-manifesto">
+  <div class="pad p110" style="justify-content:center;">
+    <div class="eyebrow" style="color:var(--clay);margin-bottom:50px;">Repubblica di San Marino</div>
+    <div class="display" style="font-size:118px;">
+      Il tuo<br>denaro,<br><span class="serif-it" style="font-weight:400;color:var(--clay);">senza confini.</span>
+    </div>
+    <div class="muted" style="font-size:31px;font-weight:500;margin-top:56px;max-width:760px;line-height:1.5;">
+      IBAN, carta e trasferimenti istantanei. Finalmente anche qui.
+    </div>
+  </div>
+  <div class="foot">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--parchment)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;">Crest</span>
+    </div>
+    <div class="url muted2">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 03 · THE PROBLEM (no/sì) ════════ -->
+<div class="slide post bg-parchment grain" data-slide="03-no-si">
+  <div class="pad p110" style="justify-content:center;">
+    <div class="eyebrow" style="color:var(--clay);margin-bottom:56px;">Escluso dalle banche digitali?</div>
+    <div class="display" style="font-size:96px;color:var(--ink);">
+      Revolut dice no.<br>Wise dice no.<br>N26 dice no.
+    </div>
+    <div class="display" style="font-size:96px;color:var(--clay);margin-top:40px;">
+      Crest dice sì.
+    </div>
+  </div>
+  <div class="foot" style="color:var(--ink)">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--forest)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;color:var(--forest);">Crest</span>
+    </div>
+    <div class="url" style="opacity:.45">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 04 · FEATURE · IBAN ════════ -->
+<div class="slide post bg-forest grain vign" data-slide="04-iban">
+  <div class="pad p110" style="justify-content:flex-start;">
+    <div class="eyebrow" style="color:var(--clay);margin-bottom:auto;">01 — Il conto</div>
+    <div class="display" style="font-size:104px;margin-top:40px;">Un IBAN<br>tutto tuo.</div>
+    <div class="muted" style="font-size:31px;font-weight:500;margin-top:44px;max-width:720px;line-height:1.5;">
+      Sammarinese, dedicato, pronto in pochi minuti. Ricevi lo stipendio, paga, accredita. Come dovrebbe essere.
+    </div>
+    <div style="margin-top:64px;border-radius:26px;padding:38px 44px;background:rgba(244,237,224,.07);border:1.5px solid rgba(244,237,224,.16);width:max-content;">
+      <div class="eyebrow" style="font-size:19px;color:rgba(244,237,224,.5);margin-bottom:16px;">IBAN dedicato</div>
+      <div style="font-size:52px;font-weight:600;letter-spacing:.06em;">SM76 ···· ···· 3017</div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--parchment)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;">Crest</span>
+    </div>
+    <div class="url muted2">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 05 · FEATURE · CARTA (card hero) ════════ -->
+<div class="slide post bg-ink grain vign" data-slide="05-carta">
+  <div class="pad" style="align-items:center;justify-content:center;">
+    <!-- the card -->
+    <div class="card" style="width:760px;height:479px;transform:rotate(-6deg);
+         background:linear-gradient(145deg,#234638 0%,#1E3A2F 55%,#16291F 100%);">
+      <div class="card-sheen"></div>
+      <div style="position:absolute;inset:0;padding:52px;display:flex;flex-direction:column;justify-content:space-between;color:var(--parchment)">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="lockup" style="gap:13px;">
+            <svg width="30" height="38" style="color:var(--parchment)"><use href="#crest"/></svg>
+            <span style="font-size:30px;font-weight:600;">Crest</span>
+          </div>
+          <span class="serif-it" style="font-size:23px;color:rgba(244,237,224,.6);letter-spacing:.1em;">Libertas</span>
+        </div>
+        <div>
+          <div style="font-size:40px;font-weight:500;letter-spacing:.14em;color:rgba(244,237,224,.92);">4920 ·· ·· 3017</div>
+          <div style="display:flex;justify-content:space-between;margin-top:28px;align-items:flex-end;">
+            <span style="font-size:26px;font-weight:500;letter-spacing:.04em;">M. ROSSI</span>
+            <span style="font-size:24px;font-weight:600;color:var(--clay);">VISA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="display" style="font-size:84px;text-align:center;margin-top:90px;color:var(--parchment)">Carta virtuale<br>e fisica.</div>
+    <div class="muted" style="font-size:30px;font-weight:500;margin-top:34px;text-align:center;">Paga ovunque. Online, in negozio, all'estero.</div>
+  </div>
+  <div class="foot">
+    <div class="url muted2">crest.sm</div>
+    <div class="eyebrow" style="font-size:20px;color:rgba(244,237,224,.4)">In arrivo · 2026</div>
+  </div>
+</div>
+
+<!-- ════════ 06 · FEATURE · TRASFERIMENTI ════════ -->
+<div class="slide post bg-clay grain vign" data-slide="06-istantanei">
+  <div class="pad p110" style="justify-content:center;text-align:center;align-items:center;">
+    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" style="margin-bottom:54px">
+      <path d="M21 3.5L10.5 14M21 3.5l-6.5 17.5-3.9-7.6-7.6-3.9z" stroke="#F4EDE0" stroke-width="1.6" stroke-linejoin="round"/>
+    </svg>
+    <div class="display" style="font-size:108px;">Invia denaro<br>in un secondo.</div>
+    <div style="font-size:31px;font-weight:500;margin-top:48px;max-width:680px;line-height:1.5;opacity:.85;">
+      Tra utenti Crest è istantaneo e gratuito. All'estero, a un cambio onesto.
+    </div>
+  </div>
+  <div class="foot">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--parchment)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;">Crest</span>
+    </div>
+    <div class="url muted2">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 07 · FEATURE · COMMISSIONI TRASPARENTI ════════ -->
+<div class="slide post bg-parchment grain" data-slide="07-commissioni">
+  <div class="pad p110" style="justify-content:center;">
+    <div class="eyebrow" style="color:var(--clay);margin-bottom:50px;">Nessuna sorpresa</div>
+    <div class="display" style="font-size:112px;color:var(--ink);">
+      Commissioni<br>trasparenti.
+    </div>
+    <div style="display:flex;align-items:baseline;gap:30px;margin-top:64px;">
+      <span class="statnum" style="font-size:240px;color:var(--clay);">0</span>
+      <span style="font-size:46px;font-weight:600;color:var(--ink);line-height:1.2;max-width:420px;">costi nascosti.<br>Sempre.</span>
+    </div>
+  </div>
+  <div class="foot" style="color:var(--ink)">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--forest)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;color:var(--forest);">Crest</span>
+    </div>
+    <div class="url" style="opacity:.45">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 08 · STATS ════════ -->
+<div class="slide post bg-forest grain vign" data-slide="08-stats">
+  <div class="pad p110" style="justify-content:center;padding-bottom:200px;">
+    <div class="eyebrow" style="color:var(--clay);margin-bottom:64px;">Una Repubblica. Un conto.</div>
+    <div style="display:flex;flex-direction:column;gap:48px;">
+      <div style="display:flex;align-items:baseline;gap:40px;border-bottom:1.5px solid rgba(244,237,224,.14);padding-bottom:46px;">
+        <span class="statnum" style="font-size:138px;">34<span style="color:var(--clay)">k</span></span>
+        <span style="font-size:33px;font-weight:500;" class="muted">residenti finalmente<br>serviti come merita l'Europa</span>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:40px;border-bottom:1.5px solid rgba(244,237,224,.14);padding-bottom:46px;">
+        <span class="statnum" style="font-size:138px;">9</span>
+        <span style="font-size:33px;font-weight:500;" class="muted">castelli,<br>un'unica app in italiano</span>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:40px;">
+        <span class="statnum" style="font-size:138px;">0</span>
+        <span style="font-size:33px;font-weight:500;" class="muted">filiali, code<br>e moduli cartacei</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--parchment)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;">Crest</span>
+    </div>
+    <div class="url muted2">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 09 · WAITLIST CTA ════════ -->
+<div class="slide post bg-ink grain vign" data-slide="09-waitlist">
+  <div class="pad p110" style="justify-content:center;text-align:center;align-items:center;">
+    <svg class="mark" width="96" height="121" style="color:var(--clay);margin-bottom:50px"><use href="#crest"/></svg>
+    <div class="display" style="font-size:112px;">Unisciti alla<br>lista d'attesa.</div>
+    <div class="muted" style="font-size:32px;font-weight:500;margin-top:46px;max-width:720px;line-height:1.5;">
+      Gli iscritti accedono per primi al lancio e ricevono le prime carte. Senza impegno, in dieci secondi.
+    </div>
+    <div style="margin-top:72px;background:var(--clay);color:var(--parchment);border-radius:999px;padding:30px 64px;font-size:36px;font-weight:600;letter-spacing:.01em;">
+      crest.sm
+    </div>
+    <div style="margin-top:40px;font-size:27px;font-weight:500;" class="muted2">
+      Già <strong style="color:var(--parchment);font-weight:700">318 sammarinesi</strong> in lista
+    </div>
+  </div>
+</div>
+
+<!-- ════════ 10 · LOCAL PRIDE ════════ -->
+<div class="slide post bg-clay grain vign" data-slide="10-repubblica">
+  <div class="pad p110" style="justify-content:center;">
+    <div class="serif-it" style="font-size:40px;margin-bottom:34px;opacity:.85">Repubblica di San Marino · 301 d.C.</div>
+    <div class="display" style="font-size:118px;">
+      Costruito<br>per la<br>Repubblica.
+    </div>
+    <div style="font-size:31px;font-weight:500;margin-top:52px;max-width:740px;line-height:1.5;opacity:.88">
+      Non un wallet straniero adattato. Un conto pensato da zero per chi vive il Titano.
+    </div>
+  </div>
+  <div class="foot">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--parchment)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;">Crest</span>
+    </div>
+    <div class="serif-it muted" style="font-size:30px;">Libertas</div>
+  </div>
+</div>
+
+<!-- ════════ 11 · COMPARISON ════════ -->
+<div class="slide post bg-parchment grain" data-slide="11-confronto">
+  <div class="pad p110" style="justify-content:center;">
+    <div class="eyebrow" style="color:var(--clay);margin-bottom:54px;">Crest vs. wallet esteri</div>
+    <div style="display:flex;flex-direction:column;gap:40px;font-size:42px;font-weight:600;color:var(--ink)">
+      <div class="row" style="justify-content:space-between;">
+        <span>Disponibile a San Marino</span>
+        <span style="display:flex;gap:24px;align-items:center;">
+          <span class="cross" style="background:rgba(17,15,8,.07)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#A84E2B" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          <span class="tick" style="background:var(--forest)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#F4EDE0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </div>
+      <div class="row" style="justify-content:space-between;border-top:1.5px solid rgba(17,15,8,.1);padding-top:40px;">
+        <span>IBAN dedicato sammarinese</span>
+        <span style="display:flex;gap:24px;align-items:center;">
+          <span class="cross" style="background:rgba(17,15,8,.07)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#A84E2B" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          <span class="tick" style="background:var(--forest)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#F4EDE0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </div>
+      <div class="row" style="justify-content:space-between;border-top:1.5px solid rgba(17,15,8,.1);padding-top:40px;">
+        <span>App e assistenza in italiano</span>
+        <span style="display:flex;gap:24px;align-items:center;">
+          <span class="cross" style="background:rgba(17,15,8,.07)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#A84E2B" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          <span class="tick" style="background:var(--forest)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#F4EDE0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:90px;margin-top:30px;font-size:24px;font-weight:600;color:rgba(17,15,8,.4)">
+      <span>Esteri</span><span style="color:var(--forest)">Crest</span>
+    </div>
+  </div>
+  <div class="foot" style="color:var(--ink)">
+    <span style="font-size:22px;opacity:.4">Wallet esteri: Revolut, Wise, N26 — non disponibili a San Marino.</span>
+    <div class="url" style="opacity:.45">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 12 · QUOTE / WHY ════════ -->
+<div class="slide post bg-forest grain vign" data-slide="12-confine">
+  <div class="pad p110" style="justify-content:center;">
+    <div style="font-size:160px;line-height:.6;color:var(--clay);font-family:var(--serif);margin-bottom:10px;">&ldquo;</div>
+    <div class="display serif-it" style="font-size:82px;font-weight:400;line-height:1.12;">
+      A San Marino la finanza<br>moderna si ferma<br>al confine.<br>
+      <span style="font-family:var(--font);font-style:normal;font-weight:600;color:var(--clay)">Noi lo spostiamo.</span>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="lockup">
+      <svg width="34" height="43" style="color:var(--parchment)"><use href="#crest"/></svg>
+      <span class="word" style="font-size:34px;">Crest</span>
+    </div>
+    <div class="url muted2">crest.sm</div>
+  </div>
+</div>
+
+<!-- ════════ 13 · PROFILE AVATAR ════════ -->
+<div class="slide post bg-forest grain vign" data-slide="13-avatar">
+  <div class="pad" style="align-items:center;justify-content:center;">
+    <svg class="mark" width="300" height="378" style="color:var(--parchment)"><use href="#crest"/></svg>
+  </div>
+</div>
+
+<!-- ════════ 14 · STORY · TEASER ════════ -->
+<div class="slide story bg-ink grain vign" data-slide="14-story-teaser">
+  <div class="pad" style="padding:140px 96px;align-items:center;text-align:center;">
+    <div class="eyebrow" style="color:var(--clay);margin-top:80px;">Repubblica di San Marino</div>
+    <div style="margin:auto 0;display:flex;flex-direction:column;align-items:center;">
+      <svg class="mark" width="170" height="214" style="color:var(--parchment);margin-bottom:64px"><use href="#crest"/></svg>
+      <div class="display" style="font-size:170px;">Crest</div>
+      <div class="serif-it" style="font-size:48px;color:var(--clay);margin-top:24px;">Libertas</div>
+      <div class="muted" style="font-size:36px;font-weight:500;margin-top:70px;line-height:1.5;max-width:760px;">
+        Il wallet digitale<br>che San Marino aspettava.
+      </div>
+    </div>
+    <div class="pill" style="background:rgba(244,237,224,.08);border:1.5px solid rgba(244,237,224,.2);font-size:28px;padding:22px 40px;margin-bottom:40px;">
+      <span class="dot"></span>In arrivo nel 2026
+    </div>
+  </div>
+</div>
+
+<!-- ════════ 15 · STORY · WAITLIST ════════ -->
+<div class="slide story bg-clay grain vign" data-slide="15-story-waitlist">
+  <div class="pad" style="padding:150px 96px;align-items:center;text-align:center;">
+    <svg class="mark" width="120" height="151" style="color:var(--parchment);margin-top:60px;"><use href="#crest"/></svg>
+    <div style="margin:auto 0;">
+      <div class="display" style="font-size:130px;">Entra<br>per primo.</div>
+      <div style="font-size:38px;font-weight:500;margin-top:54px;line-height:1.5;max-width:780px;opacity:.9">
+        Iscriviti alla lista d'attesa.<br>Le prime carte vanno agli iscritti.
+      </div>
+    </div>
+    <div style="width:100%;">
+      <div style="background:var(--parchment);color:var(--clay-dark);border-radius:999px;padding:36px;font-size:46px;font-weight:700;letter-spacing:.01em;margin-bottom:34px;">
+        crest.sm
+      </div>
+      <div style="font-size:32px;font-weight:600;opacity:.9;display:flex;align-items:center;justify-content:center;gap:16px;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="#F4EDE0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Link in bio · Tocca per iscriverti
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ 16 · STORY · CARD ════════ -->
+<div class="slide story bg-forest grain vign" data-slide="16-story-carta">
+  <div class="pad" style="padding:150px 96px;align-items:center;text-align:center;">
+    <div class="eyebrow" style="color:var(--clay);margin-top:70px;">La tua carta Crest</div>
+    <div style="margin:auto 0;display:flex;flex-direction:column;align-items:center;">
+      <div class="card" style="width:780px;height:492px;transform:rotate(-7deg);margin-bottom:120px;
+           background:linear-gradient(145deg,#2A5443 0%,#1E3A2F 55%,#16291F 100%);">
+        <div class="card-sheen"></div>
+        <div style="position:absolute;inset:0;padding:54px;display:flex;flex-direction:column;justify-content:space-between;color:var(--parchment)">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div class="lockup" style="gap:13px;">
+              <svg width="32" height="40" style="color:var(--parchment)"><use href="#crest"/></svg>
+              <span style="font-size:32px;font-weight:600;">Crest</span>
+            </div>
+            <span class="serif-it" style="font-size:24px;color:rgba(244,237,224,.6);letter-spacing:.1em;">Libertas</span>
+          </div>
+          <div>
+            <div style="font-size:42px;font-weight:500;letter-spacing:.14em;">4920 ·· ·· 3017</div>
+            <div style="display:flex;justify-content:space-between;margin-top:28px;align-items:flex-end;">
+              <span style="font-size:27px;font-weight:500;letter-spacing:.04em;">M. ROSSI</span>
+              <span style="font-size:25px;font-weight:600;color:var(--clay);">VISA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="display" style="font-size:96px;">Una carta<br>che ti somiglia.</div>
+      <div class="muted" style="font-size:34px;font-weight:500;margin-top:42px;line-height:1.5;">Virtuale subito. Fisica, in metallo, al lancio.</div>
+    </div>
+    <div class="lockup" style="margin-bottom:40px;">
+      <svg width="34" height="43" style="color:var(--parchment)"><use href="#crest"/></svg>
+      <span style="font-size:34px;font-weight:600;">crest.sm</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
