@@ -195,8 +195,14 @@ function KycLoading({ go, kyc, onSignupDone }) {
           (async () => {
             try {
               const { user } = await sbSignUp(kyc.email, kyc.password, kyc.name);
-              await sbSeedNewUser(user.id);
-              const profile = await sbGetProfile(user.id);
+              // DB steps are best-effort — a missing profiles table won't block the demo
+              let profile = null;
+              try {
+                await sbSeedNewUser(user.id);
+                profile = await sbGetProfile(user.id);
+              } catch (dbErr) {
+                console.warn('[Crest] post-signup db:', dbErr.message);
+              }
               if (!cancelled) { onSignupDone && onSignupDone(user, profile); setTimeout(() => go('kyc-success'), 700); }
             } catch (e) {
               if (!cancelled) { setAuthErr(e.message || 'Errore di registrazione'); setTimeout(() => go('kyc-form'), 2200); }

@@ -37,9 +37,9 @@ async function sbGetSession() {
 /* ── Profile ──────────────────────────────────────────────── */
 async function sbGetProfile(userId) {
   const { data, error } = await sb
-    .from('profiles').select('*').eq('id', userId).single();
+    .from('profiles').select('*').eq('id', userId).maybeSingle();
   if (error) throw error;
-  return data;
+  return data; // null if no row yet — callers must handle null
 }
 
 async function sbUpdateProfile(userId, updates) {
