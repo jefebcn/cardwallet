@@ -8,6 +8,11 @@
 }
 
 html { scroll-behavior: smooth; }
+/* Lenis smooth scroll (attivo solo su desktop): evita conflitti col nativo */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
 body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: #1E3A2F; color: #F4EDE0; }
 
@@ -161,13 +166,30 @@ html, body { overflow-x: clip; }
    would only stay fixed within the header's own (nav-height) box and scroll
    away after ~64px. display:contents lets the sticky bar use <body>. */
 #site-nav { display: contents; }
-#site-nav > div { transition: background-color 0.45s ease, border-color 0.45s ease; }
+.nav-wrap { position: sticky; top: 0; z-index: 50; }
+/* la barra: piena larghezza su mobile, pillola fluttuante e staccata da sm in su */
+.nav-bar {
+  background-color: rgba(244,237,224,0.85);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(125,99,72,0.15);
+  transition: background-color 0.45s ease, border-color 0.45s ease;
+}
+@media (min-width: 640px) {
+  .nav-wrap { top: 14px; padding: 0 16px; }
+  .nav-bar {
+    max-width: 72rem; margin: 0 auto;
+    border: 1px solid rgba(125,99,72,0.15);
+    border-radius: 18px;
+    box-shadow: 0 18px 45px -26px rgba(17,15,8,0.55);
+  }
+}
+/* tendina mobile: sfondo solido, agganciata sotto la barra */
+#mobileMenu { background-color: #F4EDE0; }
 #site-nav .brand-mark { color: #1E3A2F; transition: color 0.45s ease; }
-#site-nav.nav-hero > div {
+#site-nav.nav-hero .nav-bar {
   background-color: rgba(17,15,8,0.45) !important;
-  border-bottom-color: rgba(244,237,224,0.08) !important;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  border-color: rgba(244,237,224,0.10) !important;
+  -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
 }
 #site-nav.nav-hero a { color: rgba(244,237,224,0.90) !important; }
 #site-nav.nav-hero span.font-display { color: #F4EDE0 !important; }
