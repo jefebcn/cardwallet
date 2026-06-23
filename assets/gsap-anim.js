@@ -8,6 +8,28 @@ window.addEventListener('DOMContentLoaded', function () {
   document.documentElement.classList.add('gsap-on');
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================================================================
+     SMOOTH SCROLL (Lenis) — solo desktop con puntatore fine.
+     Su mobile/touch resta lo scroll nativo (non tocca i fix mobile).
+  ================================================================ */
+  if (window.Lenis && !reduce &&
+      window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) {
+    var lenis = new Lenis({ duration: 1.05, smoothWheel: true, wheelMultiplier: 0.9 });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    // i link àncora usano lo scroll fluido di Lenis
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="#"], a[href^="/#"]');
+      if (!a) return;
+      var hash = a.getAttribute('href').replace(/^\//, '');
+      if (hash.length < 2) return;
+      var tgt = document.querySelector(hash);
+      if (tgt) { e.preventDefault(); lenis.scrollTo(tgt, { offset: -80 }); }
+    });
+    window.__lenis = lenis;
+  }
   if (reduce) {
     gsap.set('.reveal', { opacity: 1, y: 0, clearProps: 'transform' });
     gsap.set(['#hero-l1', '#hero-l2', '#hero-l3'], { y: '0%', clearProps: 'transform' });
