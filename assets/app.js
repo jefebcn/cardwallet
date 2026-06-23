@@ -174,9 +174,12 @@
       .then(function (j) {
         if (j && typeof j.count === 'number' && j.count > 0) {
           document.querySelectorAll('[data-waitlist]').forEach(function (el) {
-            el.setAttribute('data-count-to', j.count);
-            // if already animated/visible, refresh the displayed value
-            if (el.getAttribute('data-counted') === '1') countTo(el);
+            var prev = parseFloat(el.getAttribute('data-count-to')) || 0;
+            // only update + re-animate when the count actually changed
+            if (j.count !== prev) {
+              el.setAttribute('data-count-to', j.count);
+              if (el.getAttribute('data-counted') === '1') countTo(el);
+            }
           });
         }
       })
