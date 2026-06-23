@@ -1,5 +1,7 @@
 'use strict';
-/* Endpoint pubblico: restituisce il conteggio reale degli iscritti alla waitlist. */
+/* Endpoint pubblico: restituisce il conteggio degli iscritti alla waitlist (reale + offset). */
+
+var SEED = 315;
 
 var SUPA_URL = 'https://pfgjsgnafgcbjrpoivgz.supabase.co';
 var SUPA_KEY = process.env.SUPABASE_ANON_KEY ||
@@ -19,8 +21,8 @@ module.exports = async function (req, res) {
     var count = parseInt((range.split('/')[1] || '').trim(), 10);
     if (isNaN(count)) count = 0;
     res.setHeader('Cache-Control', 'public, max-age=20, s-maxage=20');
-    res.status(200).json({ count: count });
+    res.status(200).json({ count: count + SEED });
   } catch (e) {
-    res.status(200).json({ count: 0 });
+    res.status(200).json({ count: SEED });
   }
 };
