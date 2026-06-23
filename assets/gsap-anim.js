@@ -103,17 +103,19 @@ window.addEventListener('DOMContentLoaded', function () {
       ease: 'none',
       scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
     });
-    // testo scivola su e sfuma
-    gsap.to(['#hero-badge', '#hero-sub', '#hero-proof'], {
-      yPercent: 20, opacity: 0,
-      ease: 'none',
-      scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true }
-    });
-    gsap.to(['#hero-l1', '#hero-l2', '#hero-l3'], {
-      yPercent: 12,
-      ease: 'none',
-      scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true }
-    });
+    // testo scivola su e sfuma — solo su desktop (su mobile i testi restano visibili)
+    if (!window.matchMedia('(max-width: 767px)').matches) {
+      gsap.to(['#hero-badge', '#hero-sub', '#hero-proof'], {
+        yPercent: 20, opacity: 0,
+        ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true }
+      });
+      gsap.to(['#hero-l1', '#hero-l2', '#hero-l3'], {
+        yPercent: 12,
+        ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true }
+      });
+    }
     // scroll indicator scompare subito
     gsap.to('#hero-scroll-ind', {
       opacity: 0,
@@ -170,13 +172,19 @@ window.addEventListener('DOMContentLoaded', function () {
   ================================================================ */
   gsap.set('.reveal', { opacity: 0, y: 34 });
   ScrollTrigger.batch('.reveal', {
-    start: 'top 88%',
+    start: 'top 95%',
     once: true,
     onEnter: function (els) {
       gsap.to(els, {
         opacity: 1, y: 0,
         duration: 0.9, ease: 'power3.out',
         stagger: 0.09, overwrite: true
+      });
+      // Re-trigger counters that may have animated while the container was invisible
+      els.forEach(function (el) {
+        el.querySelectorAll('[data-count-to]').forEach(function (counter) {
+          if (typeof window.countTo === 'function') window.countTo(counter);
+        });
       });
     }
   });
@@ -219,4 +227,16 @@ window.addEventListener('DOMContentLoaded', function () {
   });
 
   ScrollTrigger.refresh();
+
+  // Refresh after all resources (fonts, images) are fully loaded
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+
+  // iOS Safari: address bar hides/shows on scroll, changing viewport height
+  if (window.visualViewport) {
+    var vpTimer;
+    window.visualViewport.addEventListener('resize', function () {
+      clearTimeout(vpTimer);
+      vpTimer = setTimeout(function () { ScrollTrigger.refresh(); }, 150);
+    });
+  }
 });

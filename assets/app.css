@@ -183,6 +183,9 @@ html, body { overflow-x: clip; }
   color: rgba(244,237,224,0.90) !important;
 }
 #site-nav .nav-app-btn svg { color: currentColor; }
+/* Mobile menu keeps its cream background and dark text regardless of nav-hero */
+#site-nav.nav-hero #mobileMenu { background-color: #F4EDE0 !important; }
+#site-nav.nav-hero #mobileMenu a { color: rgba(17,15,8,0.80) !important; }
 
 /* ---- Tabella di confronto: indicatori sì / no / parziale ---- */
 .cmp-yes, .cmp-no, .cmp-mid {

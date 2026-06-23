@@ -165,6 +165,7 @@
       }
       requestAnimationFrame(step);
     }
+    window.countTo = countTo;
     var counters = document.querySelectorAll('[data-count-to]');
 
     // Load real waitlist count from Supabase — updates ONLY the waitlist counters
@@ -184,7 +185,7 @@
     if ('IntersectionObserver' in window) {
       var cio = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) { countTo(e.target); cio.unobserve(e.target); } });
-      }, { threshold: 0.6 });
+      }, { threshold: 0.1 });
       counters.forEach(function (el) { cio.observe(el); });
     } else { counters.forEach(countTo); }
 
