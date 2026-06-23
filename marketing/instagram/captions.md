@@ -88,6 +88,43 @@ Sticker "Nuovo" + Link alla lista d'attesa.
 
 ---
 
+## Carosello · "Come funziona in 3 passi" (17→21)
+
+Carica i 5 file **in ordine** come un unico post carosello:
+`17-carousel-cover` → `18-carousel-01` → `19-carousel-02` → `20-carousel-03` → `21-carousel-cta`
+
+Didascalia unica del carosello:
+> Aprire un conto con Crest è semplice come dovrebbe essere. 👉 Scorri.
+> 1️⃣ Iscriviti alla lista d'attesa — 10 secondi, nessun documento.
+> 2️⃣ Al lancio entri tra i primi e ricevi una delle prime carte.
+> 3️⃣ Apri il conto dal telefono: IBAN e carta virtuale pronti subito.
+> La lista d'attesa è aperta ora — link in bio. 🏔️
+> #Crest #SanMarino #fintech #comefunziona #listadattesa #RepubblicaDiSanMarino
+
+---
+
+## Versioni in inglese · per i sammarinesi all'estero (22→26)
+
+Stessi hashtag in chiave internazionale:
+`#Crest #SanMarino #fintech #digitalbanking #IBAN #Sammarinese #Titano #fintechEurope`
+
+### 22 · EN Teaser — `crest-22-en-teaser.png`
+> Something new is coming to the Titano. 🏔️ Crest is the first digital wallet built for the Republic of San Marino. Join the waitlist — link in bio.
+
+### 23 · EN Manifesto — `crest-23-en-manifesto.png`
+> Your money shouldn't stop at a border. With Crest, it doesn't. A modern account, made for San Marino.
+
+### 24 · EN No/Yes — `crest-24-en-no-yes.png`
+> Revolut, Wise and N26 won't open accounts in San Marino. We will. 🇸🇲 Waitlist in bio.
+
+### 25 · EN Diaspora — `crest-25-en-diaspora.png`
+> Sammarinese abroad? Keep San Marino in your pocket. IBAN, card and instant transfers — wherever life takes you. Join the waitlist 👇
+
+### 26 · EN Waitlist — `crest-26-en-waitlist.png`
+> Early members get first access at launch — and the very first cards. Ten seconds, no commitment. crest.sm
+
+---
+
 ## Bio Instagram suggerita
 > **Crest — Libertas** 🏔️
 > Il wallet digitale per la Repubblica di San Marino.
