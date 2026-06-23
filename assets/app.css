@@ -260,6 +260,81 @@ html, body { overflow-x: clip; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12.5l4 4 10-10' stroke='%23F4EDE0' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
+/* ============================================================
+   HIGHLIGHTS — carosello orizzontale (stile ZEN, on-brand Titano)
+   ============================================================ */
+.hl-hint { display: inline-block; color: #C2603A; font-weight: 700; animation: hlnudge 1.6s ease-in-out infinite; }
+@keyframes hlnudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+
+.hl-scroller { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.hl-scroller::-webkit-scrollbar { display: none; }
+.hl-track {
+  display: flex; gap: 1.25rem; width: max-content;
+  padding-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 1.25rem));
+}
+@media (min-width: 640px) {
+  .hl-track { gap: 1.5rem; padding-inline: max(2rem, calc((100vw - 72rem) / 2 + 2rem)); }
+}
+
+.hl-card {
+  scroll-snap-align: start; position: relative; overflow: hidden;
+  flex: 0 0 80%; max-width: 300px; min-height: 326px;
+  display: flex; flex-direction: column;
+  border-radius: 1.5rem; padding: 1.75rem;
+  transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
+}
+@media (min-width: 640px) { .hl-card { flex-basis: 320px; max-width: 320px; } }
+@media (hover: hover) { .hl-card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -28px rgba(17,15,8,.5); } }
+
+.hl-dark { background: linear-gradient(165deg,#1E3A2F 0%,#16291F 100%); color: #F4EDE0; }
+.hl-clay { background: linear-gradient(150deg,#C2603A 0%,#A84E2B 100%); color: #F4EDE0; }
+.hl-light { background: #F4EDE0; border: 1px solid rgba(125,99,72,.2); color: #110F08; }
+
+.hl-icon { display: inline-flex; width: 48px; height: 48px; border-radius: 14px; align-items: center; justify-content: center; position: relative; }
+.hl-icon-light { background: rgba(244,237,224,.12); color: #F4EDE0; }
+.hl-icon-forest { background: rgba(30,58,47,.10); color: #1E3A2F; }
+
+.hl-title { position: relative; font-family: "General Sans", system-ui, sans-serif; font-weight: 600; font-size: 1.35rem; letter-spacing: -0.02em; margin-top: 1.25rem; }
+.hl-text { position: relative; margin-top: .6rem; line-height: 1.55; font-size: .97rem; flex: 1; }
+.hl-dark .hl-text, .hl-clay .hl-text { color: rgba(244,237,224,.74); }
+.hl-light .hl-text { color: rgba(17,15,8,.62); }
+
+.hl-tag { align-self: flex-start; margin-top: 1.25rem; border-radius: 9999px; padding: .35rem .85rem; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.hl-tag-clay { background: #C2603A; color: #F4EDE0; }
+.hl-tag-forest { background: rgba(30,58,47,.10); color: #1E3A2F; }
+.hl-tag-light { background: rgba(244,237,224,.16); color: #F4EDE0; }
+
+.hl-cta { align-self: flex-start; margin-top: 1.25rem; display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; color: #C2603A; transition: gap .25s var(--ease-out); }
+.hl-cta:hover { gap: .75rem; }
+
+/* ---- Pannello soffice arrotondato (stile ZEN) ---- */
+.soft-panel {
+  position: relative; border-radius: 2rem;
+  background:
+    radial-gradient(120% 90% at 85% 0%, rgba(194,96,46,0.07) 0%, transparent 55%),
+    radial-gradient(110% 90% at 0% 100%, rgba(30,58,47,0.06) 0%, transparent 55%),
+    #EBE1D0;
+  border: 1px solid rgba(125,99,72,0.16);
+  box-shadow: 0 30px 70px -45px rgba(17,15,8,0.5);
+}
+@media (min-width: 768px) { .soft-panel { border-radius: 2.5rem; } }
+
+/* ---- Pillola sticky "Unisciti alla lista" (come il QR di ZEN) ---- */
+.wl-fab {
+  position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 45;
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .8rem 1.25rem; border-radius: 9999px;
+  background: #C2603A; color: #F4EDE0; font-weight: 600; font-size: .9rem;
+  box-shadow: 0 16px 38px -14px rgba(194,96,46,0.7);
+  opacity: 0; transform: translateY(16px) scale(.96); pointer-events: none;
+  transition: opacity .4s var(--ease-out), transform .4s var(--ease-out), background-color .2s;
+}
+.wl-fab:hover { background: #A84E2B; }
+.wl-fab.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+/* lascia spazio al cookie banner quando è presente */
+.wl-fab.cookie-up { bottom: 7.5rem; }
+@media (min-width: 640px) { .wl-fab { right: 1.5rem; bottom: 1.5rem; } .wl-fab.cookie-up { bottom: 1.5rem; } }
+
 /* Order utilities (pricing cards mobile reorder) */
 .order-1 { order: 1; }
 .order-2 { order: 2; }
@@ -276,5 +351,6 @@ html, body { overflow-x: clip; }
   .parallax { transform: none !important; }
   .marquee-track, .animate-float, .animate-floatslow { animation: none !important; }
   .aurora-blob, .grain, .card-shine::after, .live-dot, .device-float { animation: none !important; }
+  .hl-hint { animation: none !important; }
   .grain { opacity: 0.04; }
 }

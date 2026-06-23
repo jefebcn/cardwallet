@@ -122,6 +122,9 @@
     </div>\
   </div>';
 
+  /* ---------- Pillola sticky "Unisciti alla lista" (stile QR di ZEN) ---------- */
+  var FAB = '<a href="/#lista" id="waitlistFab" class="wl-fab" aria-label="Unisciti alla lista d\'attesa">Unisciti alla lista <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>';
+
   function inject(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -274,6 +277,31 @@
       });
     }
 
+    // sticky "Unisciti alla lista" — appare dopo l'hero, si nasconde sulla sezione lista o col cookie banner
+    (function initFab() {
+      var holder = document.createElement('div');
+      holder.innerHTML = FAB;
+      var fab = holder.firstChild;
+      document.body.appendChild(fab);
+      var lista = document.getElementById('lista');
+      var listaInView = false;
+      function cookieVisible() { var c = document.getElementById('cookieBar'); return !!(c && !c.classList.contains('hidden')); }
+      function update() {
+        var past = window.scrollY > window.innerHeight * 0.7;
+        fab.classList.toggle('is-visible', past && !listaInView && !cookieVisible());
+      }
+      if (lista && 'IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) { listaInView = es[0].isIntersecting; update(); }, { threshold: 0.05 }).observe(lista);
+      }
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return; ticking = true;
+        requestAnimationFrame(function () { update(); ticking = false; });
+      }, { passive: true });
+      window.__fabUpdate = update;
+      update();
+    })();
+
     // cookie banner
     if (!localStorage.getItem('crest-cookie')) {
       var wrap = document.createElement('div');
@@ -281,10 +309,10 @@
       document.body.appendChild(wrap);
       var bar = document.getElementById('cookieBar');
       if (bar) {
-        setTimeout(function () { bar.classList.remove('hidden'); }, 800);
+        setTimeout(function () { bar.classList.remove('hidden'); if (window.__fabUpdate) window.__fabUpdate(); }, 800);
         bar.addEventListener('click', function (e) {
           var choice = e.target.getAttribute('data-cookie');
-          if (choice) { localStorage.setItem('crest-cookie', choice); bar.remove(); }
+          if (choice) { localStorage.setItem('crest-cookie', choice); bar.remove(); if (window.__fabUpdate) window.__fabUpdate(); }
         });
       }
     }
