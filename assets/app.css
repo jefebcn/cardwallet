@@ -490,6 +490,18 @@ html, body { overflow-x: clip; }
 .rz-dot:hover { background: rgba(125,99,72,.55); }
 .rz-dot.is-active { background: #C2603A; width: 24px; }
 
+/* ============================================================
+   DECORI "nastro" fluente (stile ZEN) — riempiono gli spazi vuoti
+   ============================================================ */
+.deco { position: absolute; pointer-events: none; z-index: 0; }
+.deco svg { display: block; width: 100%; height: auto; overflow: visible; }
+.deco-float { animation: decofloat 16s var(--ease-out) infinite; }
+@keyframes decofloat { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(0,-16px,0); } }
+/* il contenuto resta sopra ai nastri */
+.deco-host { position: relative; overflow: hidden; }
+.deco-host > :not(.deco) { position: relative; z-index: 1; }
+@media (max-width: 767px) { .deco { opacity: .6; } .deco-float { animation: none; } }
+
 /* ---- Pannello soffice arrotondato (stile ZEN) ---- */
 .soft-panel {
   position: relative; border-radius: 2rem;
@@ -538,6 +550,7 @@ html, body { overflow-x: clip; }
   .hl-card, .hl-desc, .hl-more, .hl-plus { transition: none !important; }
   .rz-card { animation: none !important; }
   .rz-slide { transition: opacity .3s ease; transform: none !important; }
+  .deco-float { animation: none !important; }
   .grain { opacity: 0.04; }
 }
 
