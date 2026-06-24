@@ -18,12 +18,15 @@
   /* render rig: each slide is captured by Playwright via [data-slide] */
   .wrap{display:flex;flex-wrap:wrap;gap:40px;padding:40px;}
   .slide{position:relative;overflow:hidden;flex-shrink:0;}
-  .post{width:1080px;height:1080px;}
+  /* 4:5 verticale (1080x1350): formato nativo della griglia IG, niente tagli */
+  .post{width:1080px;height:1350px;}
+  .post.square{height:1080px;}          /* avatar profilo: resta quadrato */
   .story{width:1080px;height:1920px;}
 
   /* ---- surfaces ---- */
   .bg-forest{background:radial-gradient(125% 100% at 50% -10%,#26473A 0%,var(--forest) 45%,var(--forest-dark) 100%);color:var(--parchment);}
-  .bg-ink{background:radial-gradient(130% 110% at 80% -10%,#23201A 0%,var(--ink) 60%,#0a0905 100%);color:var(--parchment);}
+  /* superficie scura on-brand (verde profondo) al posto del nero: feed più coeso */
+  .bg-ink{background:radial-gradient(130% 115% at 78% -12%,#1C3528 0%,#13281E 58%,#0C1D15 100%);color:var(--parchment);}
   .bg-parchment{background:radial-gradient(120% 100% at 0% 0%,#FBF6EC 0%,var(--parchment) 55%,var(--parchment-deep) 100%);color:var(--ink);}
   .bg-clay{background:radial-gradient(120% 110% at 50% -10%,#D2724B 0%,var(--clay) 50%,var(--clay-dark) 100%);color:var(--parchment);}
 
@@ -144,9 +147,9 @@
 
 <!-- ════════ 04 · FEATURE · IBAN ════════ -->
 <div class="slide post bg-forest grain vign" data-slide="04-iban">
-  <div class="pad p110" style="justify-content:flex-start;">
-    <div class="eyebrow" style="color:var(--clay);margin-bottom:auto;">01 — Il conto</div>
-    <div class="display" style="font-size:104px;margin-top:40px;">Un IBAN<br>tutto tuo.</div>
+  <div class="pad p110" style="justify-content:center;">
+    <div class="eyebrow" style="color:var(--clay);margin-bottom:54px;">01 — Il conto</div>
+    <div class="display" style="font-size:104px;">Un IBAN<br>tutto tuo.</div>
     <div class="muted" style="font-size:31px;font-weight:500;margin-top:44px;max-width:720px;line-height:1.5;">
       Sammarinese, dedicato, pronto in pochi minuti. Ricevi lo stipendio, paga, accredita. Come dovrebbe essere.
     </div>
@@ -240,7 +243,7 @@
 
 <!-- ════════ 08 · STATS ════════ -->
 <div class="slide post bg-forest grain vign" data-slide="08-stats">
-  <div class="pad p110" style="justify-content:center;padding-bottom:200px;">
+  <div class="pad p110" style="justify-content:center;">
     <div class="eyebrow" style="color:var(--clay);margin-bottom:64px;">Una Repubblica. Un conto.</div>
     <div style="display:flex;flex-direction:column;gap:48px;">
       <div style="display:flex;align-items:baseline;gap:40px;border-bottom:1.5px solid rgba(244,237,224,.14);padding-bottom:46px;">
@@ -359,7 +362,7 @@
 </div>
 
 <!-- ════════ 13 · PROFILE AVATAR ════════ -->
-<div class="slide post bg-forest grain vign" data-slide="13-avatar">
+<div class="slide post square bg-forest grain vign" data-slide="13-avatar">
   <div class="pad" style="align-items:center;justify-content:center;">
     <svg class="mark" width="300" height="378" style="color:var(--parchment)"><use href="#crest"/></svg>
   </div>
