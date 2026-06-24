@@ -305,8 +305,8 @@ html, body { overflow-x: clip; }
 
 .hl-viewport { position: relative; }
 .hl-scroller {
-  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity;
+  scrollbar-width: none; overscroll-behavior-x: contain;
   scroll-padding-inline-start: 1.25rem;
   /* spazio verticale per il sollevamento e l'ombra delle card (overflow-y è hidden) */
   padding-block: 1.25rem 2.5rem;
@@ -414,7 +414,7 @@ html, body { overflow-x: clip; }
 .hl-tabs {
   display: inline-flex; gap: .25rem; max-width: 100%; position: relative;
   padding: .4rem; border-radius: 9999px;
-  overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain;
   background: linear-gradient(160deg, rgba(255,255,255,.66), rgba(255,255,255,.20));
   -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid rgba(255,255,255,.65);
@@ -787,9 +787,15 @@ html, body { overflow-x: clip; }
 
 /* ---- Mobile perf: stop expensive GPU-composited animations ---- */
 @media (max-width: 767px) {
+  /* native browser smooth-scroll aggiunge jank su mobile; Lenis è disattivo qui */
+  html { scroll-behavior: auto !important; }
   .aurora-blob { animation: none !important; will-change: auto; filter: blur(50px); }
   .grain { animation: none !important; opacity: 0.03; }
   .px-layer { transition: none; will-change: auto; }
+  /* will-change su ogni .reveal promuove centinaia di layer GPU su mobile */
+  .reveal { will-change: auto; }
+  /* la barra di avanzamento fixed + GSAP scrub aggiunge un layer compositor per niente */
+  #scrollProgress { display: none; }
   /* backdrop-filter è la causa principale di scroll a scatti su mobile:
      lo disattiviamo ovunque e lasciamo gli sfondi (già semi-opachi) solidi. */
   .nav-bar, #site-nav.nav-hero .nav-bar, .hl-tabs, .rz-prop {

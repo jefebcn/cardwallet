@@ -119,14 +119,17 @@ window.addEventListener('DOMContentLoaded', function () {
   ================================================================ */
   var hero = document.getElementById('hero');
   if (hero) {
-    // phone si muove verso l'alto (parallax contrario)
-    gsap.to('#hero-device', {
-      yPercent: -10,
-      ease: 'none',
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
-    });
+    var isMobile = window.matchMedia('(max-width: 767px)').matches;
+    // phone si muove verso l'alto — solo desktop (su mobile il GSAP ticker ogni frame causa jank)
+    if (!isMobile) {
+      gsap.to('#hero-device', {
+        yPercent: -10,
+        ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
+      });
+    }
     // testo scivola su e sfuma — solo su desktop (su mobile i testi restano visibili)
-    if (!window.matchMedia('(max-width: 767px)').matches) {
+    if (!isMobile) {
       gsap.to(['#hero-badge', '#hero-sub', '#hero-proof'], {
         yPercent: 20, opacity: 0,
         ease: 'none',
