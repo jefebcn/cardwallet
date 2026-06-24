@@ -347,9 +347,99 @@
         }, { passive: false });
       }
 
+      // apertura schede: tap da mobile apre la parte informativa, click da desktop naviga
+      var cards = Array.prototype.slice.call(scroller.querySelectorAll('.hl-card'));
+      var coarse = window.matchMedia('(hover: none)').matches;
+      function goCard(card) {
+        var href = card.getAttribute('data-href'); if (!href) return;
+        if (window.__lenis && href.charAt(0) === '/' && href.indexOf('#') > -1) {
+          var tgt = document.querySelector(href.replace(/^\//, ''));
+          if (tgt) { window.__lenis.scrollTo(tgt, { offset: -80 }); return; }
+        }
+        window.location.href = href;
+      }
+      cards.forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          if (e.target.closest('a')) return; // il link "Scopri di più" naviga da sé
+          if (coarse) {
+            var open = card.classList.contains('is-open');
+            cards.forEach(function (c) { c.classList.remove('is-open'); });
+            if (!open) card.classList.add('is-open');
+          } else {
+            goCard(card);
+          }
+        });
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (coarse) card.classList.toggle('is-open'); else goCard(card);
+          }
+        });
+      });
+
+      // tab di filtro per categoria
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.hl-tab'));
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var f = tab.getAttribute('data-filter');
+          tabs.forEach(function (t) {
+            var on = t === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', String(on));
+          });
+          cards.forEach(function (c) {
+            var show = f === 'all' || c.getAttribute('data-cat') === f;
+            c.classList.toggle('is-hidden', !show);
+            c.classList.remove('is-open');
+          });
+          scroller.scrollTo({ left: 0, behavior: 'smooth' });
+          updateArrows();
+        });
+      });
+
       updateArrows();
       window.addEventListener('load', updateArrows);
       window.addEventListener('resize', updateArrows);
+    })();
+
+    // carosello "Perché Crest": motivi che ruotano con dots + frecce
+    (function initReasons() {
+      var stage = document.querySelector('[data-rz]');
+      if (!stage) return;
+      var slides = Array.prototype.slice.call(stage.querySelectorAll('.rz-slide'));
+      if (!slides.length) return;
+      var dotsWrap = stage.querySelector('.rz-dots');
+      var prev = stage.querySelector('[data-rz-prev]');
+      var next = stage.querySelector('[data-rz-next]');
+      var i = 0, timer = null;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var dots = slides.map(function (_, idx) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'rz-dot' + (idx === 0 ? ' is-active' : '');
+        d.setAttribute('role', 'tab');
+        d.setAttribute('aria-label', 'Motivo ' + (idx + 1));
+        d.addEventListener('click', function () { show(idx, true); });
+        if (dotsWrap) dotsWrap.appendChild(d);
+        return d;
+      });
+
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function start() { if (!reduce && !timer) timer = setInterval(function () { show(i + 1); }, 5500); }
+      function show(n, user) {
+        i = (n + slides.length) % slides.length;
+        slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
+        dots.forEach(function (d, idx) { var on = idx === i; d.classList.toggle('is-active', on); d.setAttribute('aria-selected', String(on)); });
+        if (user) { stop(); start(); }
+      }
+      if (prev) prev.addEventListener('click', function () { show(i - 1, true); });
+      if (next) next.addEventListener('click', function () { show(i + 1, true); });
+      stage.addEventListener('mouseenter', stop);
+      stage.addEventListener('mouseleave', start);
+
+      show(0);
+      start();
     })();
 
     // cookie banner

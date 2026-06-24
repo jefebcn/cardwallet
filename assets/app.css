@@ -288,11 +288,12 @@ html, body { overflow-x: clip; }
 .hl-card {
   scroll-snap-align: start; position: relative; overflow: hidden;
   flex: none; width: min(280px, 82vw); height: 420px;
-  display: block; border-radius: 1.75rem;
+  display: block; border-radius: 1.75rem; cursor: pointer;
   text-decoration: none; color: #F4EDE0; isolation: isolate;
   background: #16291F;
   transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
 }
+.hl-card.is-hidden { display: none; }
 @media (min-width: 640px) { .hl-card { width: 300px; height: 460px; } }
 @media (hover: hover) { .hl-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -28px rgba(17,15,8,.6); } }
 .hl-card:focus-visible { outline: 3px solid #C2603A; outline-offset: 3px; }
@@ -365,12 +366,23 @@ html, body { overflow-x: clip; }
 .hl-clay .hl-plus, .hl-sand .hl-plus { background: #1E3A2F; }
 @media (hover: hover) { .hl-card:hover .hl-plus { transform: rotate(135deg); } }
 
-/* TOUCH: niente hover → mostra sempre la descrizione e nascondi il "+" */
-@media (hover: none) {
-  .hl-desc { max-height: 10rem; opacity: 1; margin-top: .7rem; }
-  .hl-more { max-height: 2.5rem; opacity: 1; }
-  .hl-plus { display: none; }
+/* stato aperto (tocco da mobile o click): mostra la parte informativa */
+.hl-card.is-open .hl-desc { max-height: 12rem; opacity: 1; margin-top: .7rem; }
+.hl-card.is-open .hl-more { max-height: 3rem; opacity: 1; }
+.hl-card.is-open .hl-plus { transform: rotate(135deg); }
+.hl-card.is-open .hl-scrim { background: linear-gradient(to top, rgba(17,15,8,.92) 0%, rgba(17,15,8,.7) 38%, rgba(17,15,8,.28) 66%, rgba(17,15,8,.06) 100%); }
+
+/* ---- Tab filtro funzionalità (stile ZEN) ---- */
+.hl-tabs { display: flex; flex-wrap: wrap; gap: .5rem; }
+.hl-tab {
+  border-radius: 9999px; padding: .55rem 1.1rem; font-size: .85rem; font-weight: 600;
+  color: rgba(17,15,8,.6); background: transparent; border: 1px solid rgba(125,99,72,.28);
+  cursor: pointer; white-space: nowrap;
+  transition: background-color .25s, color .25s, border-color .25s, transform .15s;
 }
+.hl-tab:hover { color: #110F08; border-color: rgba(30,58,47,.5); }
+.hl-tab:active { transform: scale(.96); }
+.hl-tab.is-active { background: #1E3A2F; color: #F4EDE0; border-color: #1E3A2F; }
 
 /* frecce del carosello, in basso (stile ZEN) */
 .hl-controls { display: flex; gap: .75rem; }
@@ -383,6 +395,67 @@ html, body { overflow-x: clip; }
 .hl-arrow:hover { background: rgba(30,58,47,.08); border-color: rgba(30,58,47,.55); }
 .hl-arrow:active { transform: scale(.93); }
 .hl-arrow[disabled] { opacity: .3; cursor: default; pointer-events: none; }
+
+/* ============================================================
+   PERCHÉ CREST — carosello "motivi" (stile ZEN, on-brand)
+   ============================================================ */
+.rz-stage { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 900px) { .rz-stage { grid-template-columns: 0.9fr 1.1fr; gap: 4rem; } }
+
+/* visual illustrato a sinistra */
+.rz-visual {
+  position: relative; min-height: 300px; border-radius: 2rem; overflow: hidden;
+  background:
+    radial-gradient(120% 100% at 20% 0%, rgba(194,96,46,0.10) 0%, transparent 55%),
+    radial-gradient(120% 100% at 100% 100%, rgba(30,58,47,0.10) 0%, transparent 55%),
+    #EBE1D0;
+  border: 1px solid rgba(125,99,72,0.16);
+  box-shadow: 0 30px 70px -45px rgba(17,15,8,0.5);
+  display: grid; place-items: center; padding: 2.5rem;
+}
+.rz-swoosh {
+  position: absolute; left: -10%; bottom: -30%; width: 90%; height: 90%;
+  border-radius: 50%; border: 26px solid rgba(194,96,46,0.18);
+  filter: blur(2px); transform: rotate(-12deg); pointer-events: none;
+}
+.rz-card {
+  position: relative; z-index: 1; width: 240px; aspect-ratio: 1.586 / 1;
+  border-radius: 1rem; padding: 1.1rem; overflow: hidden;
+  color: #F4EDE0; background: linear-gradient(140deg,#2d5040 0%,#7D6348 100%);
+  box-shadow: 0 30px 50px -22px rgba(17,15,8,.6); transform: rotate(-5deg);
+  animation: floatslow 9s ease-in-out infinite;
+}
+.rz-notif {
+  position: absolute; z-index: 2; right: 8%; top: 14%;
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: #F4EDE0; color: #110F08; border-radius: 9999px;
+  padding: .5rem .85rem; font-size: .75rem; font-weight: 600;
+  box-shadow: 0 14px 30px -12px rgba(17,15,8,.5);
+}
+
+/* pannello motivi a destra */
+.rz-panel { position: relative; }
+.rz-slides { position: relative; min-height: 220px; }
+@media (min-width: 640px) { .rz-slides { min-height: 200px; } }
+.rz-slide {
+  position: absolute; inset: 0; opacity: 0; visibility: hidden;
+  transform: translateY(12px); transition: opacity .5s var(--ease-out), transform .5s var(--ease-out), visibility .5s;
+}
+.rz-slide.is-active { position: relative; opacity: 1; visibility: visible; transform: none; }
+.rz-num { font-family: "General Sans", system-ui, sans-serif; font-weight: 700; font-size: 1rem; color: #C2603A; letter-spacing: .1em; }
+.rz-title { margin-top: .6rem; font-family: "General Sans", system-ui, sans-serif; font-weight: 600; font-size: 1.6rem; line-height: 1.1; letter-spacing: -0.02em; color: #110F08; }
+@media (min-width: 640px) { .rz-title { font-size: 2rem; } }
+.rz-text { margin-top: .9rem; color: rgba(17,15,8,.66); line-height: 1.6; font-size: 1.02rem; max-width: 32rem; }
+
+.rz-controls { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; }
+.rz-arrow { width: 46px; height: 46px; }
+.rz-dots { display: flex; align-items: center; gap: .5rem; }
+.rz-dot {
+  width: 9px; height: 9px; border-radius: 9999px; border: 0; padding: 0; cursor: pointer;
+  background: rgba(125,99,72,.32); transition: background-color .25s, transform .25s, width .25s;
+}
+.rz-dot:hover { background: rgba(125,99,72,.55); }
+.rz-dot.is-active { background: #C2603A; width: 24px; }
 
 /* ---- Pannello soffice arrotondato (stile ZEN) ---- */
 .soft-panel {
@@ -430,6 +503,8 @@ html, body { overflow-x: clip; }
   .aurora-blob, .grain, .card-shine::after, .live-dot, .device-float { animation: none !important; }
   .hl-hint { animation: none !important; }
   .hl-card, .hl-desc, .hl-more, .hl-plus { transition: none !important; }
+  .rz-card { animation: none !important; }
+  .rz-slide { transition: opacity .3s ease; transform: none !important; }
   .grain { opacity: 0.04; }
 }
 
