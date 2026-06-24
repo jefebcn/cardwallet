@@ -311,7 +311,7 @@
       var nextBtn = document.querySelector('[data-hl-next]');
 
       function step() {
-        var card = scroller.querySelector('.hl-card');
+        var card = scroller.querySelector('.hl-card:not(.is-hidden)');
         if (!card) return scroller.clientWidth * 0.85;
         var cs = track ? getComputedStyle(track) : null;
         var gap = cs ? (parseFloat(cs.columnGap || cs.gap) || 24) : 24;
