@@ -743,8 +743,21 @@ html, body { overflow-x: clip; }
 .lg-shell > * { position: relative; z-index: 1; }
 
 @media (max-width: 767px) {
-  /* blur costoso ridotto su mobile per fluidità */
-  .lg-card, .lg-shell { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  /* Niente backdrop-filter su mobile: il blur ricalcolato a ogni frame
+     durante lo scroll causa scatti. Sfondi solidi più opachi mantengono
+     l'effetto vetro senza costo di ricomposizione. */
+  .lg-card, .lg-shell, .lg-tile, .lg-pill {
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+  .lg-card {
+    background: linear-gradient(155deg, rgba(54,80,66,.96) 0%, rgba(34,52,42,.96) 100%);
+  }
+  .lg-shell {
+    background: linear-gradient(160deg, rgba(48,72,60,.94) 0%, rgba(30,48,38,.94) 100%);
+  }
+  .lg-tile { background: rgba(244,237,224,.07); }
+  .lg-tile--accent { background: rgba(194,96,46,.16); }
+  .lg-pill { background: rgba(244,237,224,.10); }
 }
 
 /* Order utilities (pricing cards mobile reorder) */
@@ -777,4 +790,11 @@ html, body { overflow-x: clip; }
   .aurora-blob { animation: none !important; will-change: auto; filter: blur(50px); }
   .grain { animation: none !important; opacity: 0.03; }
   .px-layer { transition: none; will-change: auto; }
+  /* backdrop-filter è la causa principale di scroll a scatti su mobile:
+     lo disattiviamo ovunque e lasciamo gli sfondi (già semi-opachi) solidi. */
+  .nav-bar, #site-nav.nav-hero .nav-bar, .hl-tabs, .rz-prop {
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+  #site-nav.nav-hero .nav-bar { background-color: rgba(17,15,8,0.82) !important; }
+  .hl-tabs { background: rgba(244,237,224,.92); }
 }
