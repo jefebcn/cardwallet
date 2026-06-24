@@ -266,24 +266,30 @@ html, body { overflow-x: clip; }
 .hl-hint { display: inline-block; color: #C2603A; font-weight: 700; animation: hlnudge 1.6s ease-in-out infinite; }
 @keyframes hlnudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
 
-.hl-scroller { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.hl-scroller {
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  scroll-padding-inline-start: 1.25rem;
+}
 .hl-scroller::-webkit-scrollbar { display: none; }
 .hl-track {
   display: flex; gap: 1.25rem; width: max-content;
-  padding-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 1.25rem));
+  padding-inline: 1.25rem;
 }
 @media (min-width: 640px) {
   .hl-track { gap: 1.5rem; padding-inline: max(2rem, calc((100vw - 72rem) / 2 + 2rem)); }
+  .hl-scroller { scroll-padding-inline-start: max(2rem, calc((100vw - 72rem) / 2 + 2rem)); }
 }
 
+/* flex: none + explicit width avoids % resolution failure in max-content containers */
 .hl-card {
   scroll-snap-align: start; position: relative; overflow: hidden;
-  flex: 0 0 80%; max-width: 300px; min-height: 326px;
+  flex: none; width: min(280px, 80vw); min-height: 326px;
   display: flex; flex-direction: column;
   border-radius: 1.5rem; padding: 1.75rem;
   transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
 }
-@media (min-width: 640px) { .hl-card { flex-basis: 320px; max-width: 320px; } }
+@media (min-width: 640px) { .hl-card { width: 320px; } }
 @media (hover: hover) { .hl-card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -28px rgba(17,15,8,.5); } }
 
 .hl-dark { background: linear-gradient(165deg,#1E3A2F 0%,#16291F 100%); color: #F4EDE0; }
@@ -306,6 +312,18 @@ html, body { overflow-x: clip; }
 
 .hl-cta { align-self: flex-start; margin-top: 1.25rem; display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; color: #C2603A; transition: gap .25s var(--ease-out); }
 .hl-cta:hover { gap: .75rem; }
+
+/* frecce di navigazione carosello (solo desktop) */
+.hl-arrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 9999px;
+  border: 1px solid rgba(125,99,72,.3); background: transparent; color: #1E3A2F;
+  cursor: pointer;
+  transition: background-color .25s, border-color .25s, opacity .25s, transform .15s;
+}
+.hl-arrow:hover { background: rgba(30,58,47,.08); border-color: rgba(30,58,47,.5); }
+.hl-arrow:active { transform: scale(.93); }
+.hl-arrow[disabled] { opacity: .32; cursor: default; pointer-events: none; }
 
 /* ---- Pannello soffice arrotondato (stile ZEN) ---- */
 .soft-panel {
@@ -353,4 +371,11 @@ html, body { overflow-x: clip; }
   .aurora-blob, .grain, .card-shine::after, .live-dot, .device-float { animation: none !important; }
   .hl-hint { animation: none !important; }
   .grain { opacity: 0.04; }
+}
+
+/* ---- Mobile perf: stop expensive GPU-composited animations ---- */
+@media (max-width: 767px) {
+  .aurora-blob { animation: none !important; will-change: auto; filter: blur(50px); }
+  .grain { animation: none !important; opacity: 0.03; }
+  .px-layer { transition: none; will-change: auto; }
 }

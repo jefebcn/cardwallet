@@ -205,18 +205,28 @@
     </section>
 
     <!-- ============ HIGHLIGHTS — carosello orizzontale ============ -->
-    <section class="hl-section bg-parchment-dim/40 border-b border-stone/15 overflow-hidden">
+    <section class="hl-section bg-parchment-dim/40 border-b border-stone/15" style="overflow-x:clip">
       <div class="mx-auto max-w-6xl px-5 sm:px-8 pt-20 md:pt-24">
         <div class="md:flex md:items-end md:justify-between gap-10">
           <div class="max-w-xl">
             <p class="text-xs font-semibold tracking-[0.2em] uppercase text-stone">In breve</p>
             <h2 class="reveal h-display mt-4 font-display font-bold text-3xl sm:text-5xl text-ink">Tutto quello che ti serve.</h2>
           </div>
-          <p class="reveal mt-5 md:mt-0 md:max-w-xs text-ink/65 leading-relaxed" data-delay="1">Scorri di lato per scoprire cosa rende Crest diverso dalle banche di ieri. <span class="hl-hint" aria-hidden="true">→</span></p>
+          <div class="mt-5 md:mt-0 md:max-w-xs md:text-right">
+            <p class="reveal text-ink/65 leading-relaxed" data-delay="1">Scorri di lato per scoprire cosa rende Crest diverso dalle banche di ieri. <span class="hl-hint" aria-hidden="true">→</span></p>
+            <div class="hl-nav hidden md:inline-flex items-center gap-3 mt-6">
+              <button type="button" class="hl-arrow" data-hl-prev aria-label="Mostra le card precedenti">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="hl-arrow" data-hl-next aria-label="Mostra le card successive">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="hl-scroller mt-10 md:mt-14 pb-20 md:pb-24" role="list">
+      <div class="hl-scroller mt-10 md:mt-14 pb-20 md:pb-24" role="list" data-lenis-prevent>
         <div class="hl-track">
 
           <article class="hl-card hl-dark contour" role="listitem">
