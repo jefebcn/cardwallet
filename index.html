@@ -57,8 +57,15 @@
          <div class="device-float" style="position:relative">
 
           <!-- Phone shell -->
-          <div class="phone px-layer w-[220px] sm:w-[255px] md:w-[295px] lg:w-[325px] aspect-[9/19] overflow-hidden border-[6px] border-parchment/[0.06] relative" data-px="16" style="background:linear-gradient(165deg,#16291F 0%,#0d0d0a 100%)">
-            <div class="absolute top-0 inset-x-0 h-7 flex justify-center z-20"><span class="mt-2 w-16 h-1.5 rounded-full bg-parchment/10"></span></div>
+          <div class="phone px-layer w-[220px] sm:w-[255px] md:w-[295px] lg:w-[325px] relative" data-px="16">
+            <!-- tasti laterali metallici -->
+            <span class="phone-btn l" style="top:19.5%;height:3.2%"></span>
+            <span class="phone-btn l" style="top:28.5%;height:7.5%"></span>
+            <span class="phone-btn l" style="top:38.5%;height:7.5%"></span>
+            <span class="phone-btn r" style="top:31.5%;height:11%"></span>
+            <!-- schermo -->
+            <div class="phone-screen aspect-[9/19]" style="background:linear-gradient(165deg,#16291F 0%,#0d0d0a 100%)">
+            <div class="phone-notch"><span class="nspk"></span><span class="ncam"></span></div>
             <div class="p-4 pt-9 text-parchment">
               <p class="text-parchment/35 text-[9px] tracking-[0.18em] uppercase font-semibold">Crest · Conto</p>
               <p class="font-display text-[2.2rem] font-bold mt-0.5 leading-none">€ 2.480</p>
@@ -97,6 +104,7 @@
                   <span class="text-[11px] text-parchment/55 shrink-0">−€650</span>
                 </div>
               </div>
+            </div>
             </div>
           </div>
 
