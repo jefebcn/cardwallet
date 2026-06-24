@@ -450,10 +450,11 @@ html, body { overflow-x: clip; }
   position: relative; opacity: 1; visibility: visible; pointer-events: auto; transform: none;
 }
 
-/* ---- nastro fluente che attraversa la slide (firma ZEN) ---- */
-.rz-ribbon { position: absolute; left: 33%; right: -2%; bottom: -6%; z-index: 3; pointer-events: none; opacity: .9; }
+/* ---- nastro fluente "firma ZEN" ----
+   vive nella fascia vuota in basso alla card scura, SOTTO al testo, e il
+   pallino sporge a destra: il cappio resta visibile e nulla copre le scritte */
+.rz-ribbon { position: absolute; left: .9rem; right: -2rem; bottom: .6rem; z-index: 1; pointer-events: none; opacity: .92; }
 .rz-ribbon svg { display: block; width: 100%; height: auto; overflow: visible; }
-@media (max-width: 899px) { .rz-ribbon { display: none; } }
 
 /* ---- colonna sinistra: scena illustrata ---- */
 .rz-visual {
@@ -523,7 +524,7 @@ html, body { overflow-x: clip; }
 /* card scura "highlight" — eco delle testimonianze ZEN, con deck impilato */
 .rz-quote {
   position: relative; margin-top: 1.4rem; max-width: 30rem;
-  background: #17150E; color: #F4EDE0; border-radius: 1.25rem; padding: 1.2rem 1.35rem 1.5rem;
+  background: #17150E; color: #F4EDE0; border-radius: 1.25rem; padding: 1.2rem 1.35rem 3.3rem;
   border: 1px solid rgba(244,237,224,.08);
   box-shadow: 0 26px 54px -28px rgba(17,15,8,.75);
 }
