@@ -302,6 +302,56 @@
       update();
     })();
 
+    // carosello "In breve": frecce desktop + rotella verticale -> scorrimento orizzontale
+    (function initHighlights() {
+      var scroller = document.querySelector('.hl-scroller');
+      if (!scroller) return;
+      var track = scroller.querySelector('.hl-track');
+      var prevBtn = document.querySelector('[data-hl-prev]');
+      var nextBtn = document.querySelector('[data-hl-next]');
+
+      function step() {
+        var card = scroller.querySelector('.hl-card');
+        if (!card) return scroller.clientWidth * 0.85;
+        var cs = track ? getComputedStyle(track) : null;
+        var gap = cs ? (parseFloat(cs.columnGap || cs.gap) || 24) : 24;
+        return card.getBoundingClientRect().width + gap;
+      }
+      function maxScroll() { return scroller.scrollWidth - scroller.clientWidth; }
+      function updateArrows() {
+        if (!prevBtn || !nextBtn) return;
+        var max = maxScroll();
+        prevBtn.disabled = scroller.scrollLeft <= 1;
+        nextBtn.disabled = max <= 1 || scroller.scrollLeft >= max - 1;
+      }
+      if (prevBtn) prevBtn.addEventListener('click', function () { scroller.scrollBy({ left: -step(), behavior: 'smooth' }); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { scroller.scrollBy({ left: step(), behavior: 'smooth' }); });
+
+      var rafA = false;
+      scroller.addEventListener('scroll', function () {
+        if (rafA) return; rafA = true;
+        requestAnimationFrame(function () { updateArrows(); rafA = false; });
+      }, { passive: true });
+
+      // rotella del mouse: converte lo scroll verticale in orizzontale (solo puntatore fine)
+      if (window.matchMedia('(pointer: fine)').matches) {
+        scroller.addEventListener('wheel', function (e) {
+          if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // trackpad orizzontale: nativo
+          var max = maxScroll();
+          if (max <= 1) return;
+          if ((e.deltaY < 0 && scroller.scrollLeft <= 0) ||
+              (e.deltaY > 0 && scroller.scrollLeft >= max)) return; // al bordo: lascia scorrere la pagina
+          e.preventDefault();
+          e.stopPropagation();
+          scroller.scrollLeft = Math.max(0, Math.min(max, scroller.scrollLeft + e.deltaY));
+        }, { passive: false });
+      }
+
+      updateArrows();
+      window.addEventListener('load', updateArrows);
+      window.addEventListener('resize', updateArrows);
+    })();
+
     // cookie banner
     if (!localStorage.getItem('crest-cookie')) {
       var wrap = document.createElement('div');

@@ -313,6 +313,18 @@ html, body { overflow-x: clip; }
 .hl-cta { align-self: flex-start; margin-top: 1.25rem; display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; color: #C2603A; transition: gap .25s var(--ease-out); }
 .hl-cta:hover { gap: .75rem; }
 
+/* frecce di navigazione carosello (solo desktop) */
+.hl-arrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 9999px;
+  border: 1px solid rgba(125,99,72,.3); background: transparent; color: #1E3A2F;
+  cursor: pointer;
+  transition: background-color .25s, border-color .25s, opacity .25s, transform .15s;
+}
+.hl-arrow:hover { background: rgba(30,58,47,.08); border-color: rgba(30,58,47,.5); }
+.hl-arrow:active { transform: scale(.93); }
+.hl-arrow[disabled] { opacity: .32; cursor: default; pointer-events: none; }
+
 /* ---- Pannello soffice arrotondato (stile ZEN) ---- */
 .soft-panel {
   position: relative; border-radius: 2rem;
