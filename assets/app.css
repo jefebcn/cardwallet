@@ -498,7 +498,7 @@ html, body { overflow-x: clip; }
 .deco-float { animation: decofloat 16s var(--ease-out) infinite; }
 @keyframes decofloat { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(0,-16px,0); } }
 /* il contenuto resta sopra ai nastri */
-.deco-host { position: relative; overflow: hidden; }
+.deco-host { position: relative; overflow: clip; }
 .deco-host > :not(.deco) { position: relative; z-index: 1; }
 @media (max-width: 767px) { .deco { opacity: .6; } .deco-float { animation: none; } }
 
