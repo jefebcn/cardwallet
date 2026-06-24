@@ -431,56 +431,114 @@ html, body { overflow-x: clip; }
 
 /* ============================================================
    PERCHÉ CREST — carosello "motivi" (stile ZEN, on-brand)
+   Ogni slide = scena illustrata (carta + oggetto a tema) a sinistra,
+   titolo + "highlight" su card scura + nastro fluente a destra.
    ============================================================ */
-.rz-stage { display: grid; gap: 2.5rem; align-items: center; }
-@media (min-width: 900px) { .rz-stage { grid-template-columns: 0.9fr 1.1fr; gap: 4rem; } }
+.rz-stage { position: relative; }
+.rz-deck { position: relative; }
 
-/* visual illustrato a sinistra */
+/* ogni slide è un layout a due colonne che sfuma in dissolvenza */
+.rz-slide {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(18px) scale(.985);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out), visibility .6s;
+  display: grid; gap: 2.25rem; align-items: center;
+}
+@media (min-width: 900px) { .rz-slide { grid-template-columns: 1fr 1.05fr; gap: 3.5rem; } }
+.rz-slide.is-active {
+  position: relative; opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+}
+
+/* ---- nastro fluente che attraversa la slide (firma ZEN) ---- */
+.rz-ribbon { position: absolute; left: 33%; right: -2%; bottom: -6%; z-index: 3; pointer-events: none; opacity: .9; }
+.rz-ribbon svg { display: block; width: 100%; height: auto; overflow: visible; }
+@media (max-width: 899px) { .rz-ribbon { display: none; } }
+
+/* ---- colonna sinistra: scena illustrata ---- */
 .rz-visual {
-  position: relative; min-height: 300px; border-radius: 2rem; overflow: hidden;
+  position: relative; z-index: 2; border-radius: 2rem; overflow: hidden;
+  aspect-ratio: 4 / 3; min-height: 280px;
   background:
-    radial-gradient(120% 100% at 20% 0%, rgba(194,96,46,0.10) 0%, transparent 55%),
-    radial-gradient(120% 100% at 100% 100%, rgba(30,58,47,0.10) 0%, transparent 55%),
+    radial-gradient(120% 110% at 18% 6%, rgba(194,96,46,0.12) 0%, transparent 55%),
+    radial-gradient(120% 110% at 100% 100%, rgba(30,58,47,0.12) 0%, transparent 55%),
     #EBE1D0;
   border: 1px solid rgba(125,99,72,0.16);
   box-shadow: 0 30px 70px -45px rgba(17,15,8,0.5);
-  display: grid; place-items: center; padding: 2.5rem;
+  display: grid; place-items: center; padding: 2rem;
 }
-.rz-swoosh {
-  position: absolute; left: -10%; bottom: -30%; width: 90%; height: 90%;
-  border-radius: 50%; border: 26px solid rgba(194,96,46,0.18);
-  filter: blur(2px); transform: rotate(-12deg); pointer-events: none;
+.rz-scene { position: relative; width: min(330px, 88%); aspect-ratio: 1 / 0.82; }
+.rz-halo {
+  position: absolute; inset: 6% 4%; border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, rgba(194,96,46,0.22), transparent 62%);
+  filter: blur(8px); pointer-events: none;
 }
+/* tile "vetro" che regge l'oggetto a tema */
+.rz-prop {
+  position: absolute; left: -2%; top: 2%; width: 46%; aspect-ratio: 1 / 1;
+  display: grid; place-items: center; border-radius: 1.4rem;
+  background: linear-gradient(150deg, rgba(255,255,255,.65), rgba(255,255,255,.2));
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: 0 20px 40px -22px rgba(17,15,8,.45);
+  transform: rotate(-8deg); color: #1E3A2F;
+  animation: floatslow 10s ease-in-out infinite;
+}
+.rz-prop svg { width: 54%; height: 54%; }
+
+/* carta Crest al centro, inclinata e fluttuante */
 .rz-card {
-  position: relative; z-index: 1; width: 240px; aspect-ratio: 1.586 / 1;
-  border-radius: 1rem; padding: 1.1rem; overflow: hidden;
-  color: #F4EDE0; background: linear-gradient(140deg,#2d5040 0%,#7D6348 100%);
-  box-shadow: 0 30px 50px -22px rgba(17,15,8,.6); transform: rotate(-5deg);
+  position: absolute; right: 0; bottom: 4%; z-index: 1; width: 70%; aspect-ratio: 1.586 / 1;
+  border-radius: 1rem; padding: 1rem 1.05rem; overflow: hidden;
+  color: #F4EDE0; background: linear-gradient(140deg,#1E3A2F 0%,#2d5040 60%,#44694f 100%);
+  box-shadow: 0 32px 54px -22px rgba(17,15,8,.62); transform: rotate(-6deg);
   animation: floatslow 9s ease-in-out infinite;
 }
+.rz-card--forest { background: linear-gradient(140deg,#1E3A2F 0%,#2d5040 60%,#44694f 100%); }
+.rz-card--clay   { background: linear-gradient(140deg,#7a3a20 0%,#C2603A 70%,#d98a5f 100%); }
+.rz-card--ink    { background: linear-gradient(140deg,#0c0b07 0%,#26251c 70%,#3b3a2c 100%); }
+.rz-card--sand   { background: linear-gradient(140deg,#6f5840 0%,#9a7c5a 65%,#b89671 100%); }
+.rz-card-row { display: flex; align-items: center; gap: .4rem; position: relative; }
+.rz-card-name { font-family: "General Sans", system-ui, sans-serif; font-size: .78rem; font-weight: 600; color: rgba(244,237,224,.92); }
+.rz-card-chip { margin-top: .85rem; width: 2.1rem; height: 1.4rem; border-radius: .3rem; background: linear-gradient(135deg,#E8D9BE,#b89a72); }
+.rz-card-num { margin-top: .7rem; font-family: "General Sans", system-ui, sans-serif; font-size: .8rem; letter-spacing: .14em; color: rgba(244,237,224,.78); }
+.rz-card-foot { margin-top: .25rem; font-size: .56rem; text-transform: uppercase; letter-spacing: .16em; color: rgba(244,237,224,.42); }
+
+/* pill notifica fluttuante */
 .rz-notif {
-  position: absolute; z-index: 2; right: 8%; top: 14%;
+  position: absolute; z-index: 3; right: 6%; top: 9%;
   display: inline-flex; align-items: center; gap: .45rem;
   background: #F4EDE0; color: #110F08; border-radius: 9999px;
-  padding: .5rem .85rem; font-size: .75rem; font-weight: 600;
+  padding: .45rem .8rem; font-size: .72rem; font-weight: 600;
   box-shadow: 0 14px 30px -12px rgba(17,15,8,.5);
 }
 
-/* pannello motivi a destra */
-.rz-panel { position: relative; }
-.rz-slides { position: relative; min-height: 220px; }
-@media (min-width: 640px) { .rz-slides { min-height: 200px; } }
-.rz-slide {
-  position: absolute; inset: 0; opacity: 0; visibility: hidden;
-  transform: translateY(12px); transition: opacity .5s var(--ease-out), transform .5s var(--ease-out), visibility .5s;
-}
-.rz-slide.is-active { position: relative; opacity: 1; visibility: visible; transform: none; }
+/* ---- colonna destra: titolo + highlight ---- */
+.rz-content { position: relative; z-index: 2; }
 .rz-num { font-family: "General Sans", system-ui, sans-serif; font-weight: 700; font-size: 1rem; color: #C2603A; letter-spacing: .1em; }
-.rz-title { margin-top: .6rem; font-family: "General Sans", system-ui, sans-serif; font-weight: 600; font-size: 1.6rem; line-height: 1.1; letter-spacing: -0.02em; color: #110F08; }
-@media (min-width: 640px) { .rz-title { font-size: 2rem; } }
-.rz-text { margin-top: .9rem; color: rgba(17,15,8,.66); line-height: 1.6; font-size: 1.02rem; max-width: 32rem; }
+.rz-title { margin-top: .5rem; font-family: "General Sans", system-ui, sans-serif; font-weight: 600; font-size: 1.7rem; line-height: 1.08; letter-spacing: -0.02em; color: #110F08; }
+@media (min-width: 640px) { .rz-title { font-size: 2.15rem; } }
+.rz-text { margin-top: .85rem; color: rgba(17,15,8,.66); line-height: 1.6; font-size: 1.02rem; max-width: 32rem; }
 
-.rz-controls { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; }
+/* card scura "highlight" — eco delle testimonianze ZEN, con deck impilato */
+.rz-quote {
+  position: relative; margin-top: 1.4rem; max-width: 30rem;
+  background: #17150E; color: #F4EDE0; border-radius: 1.25rem; padding: 1.2rem 1.35rem 1.5rem;
+  border: 1px solid rgba(244,237,224,.08);
+  box-shadow: 0 26px 54px -28px rgba(17,15,8,.75);
+}
+.rz-quote::before, .rz-quote::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  background: #EFE6D6; border: 1px solid rgba(125,99,72,.16);
+}
+.rz-quote::before { transform: translate(9px, 11px); opacity: .8; }
+.rz-quote::after  { transform: translate(18px, 22px); opacity: .45; }
+.rz-tag { display: inline-flex; align-items: center; gap: .4rem; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #E2A074; }
+.rz-tag svg { width: 14px; height: 14px; }
+.rz-review { margin-top: .55rem; font-size: 1rem; line-height: 1.5; color: rgba(244,237,224,.92); }
+.rz-author { margin-top: .7rem; display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; color: rgba(244,237,224,.5); }
+
+.rz-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 2.5rem; }
 .rz-arrow { width: 46px; height: 46px; }
 .rz-dots { display: flex; align-items: center; gap: .5rem; }
 .rz-dot {
@@ -548,7 +606,7 @@ html, body { overflow-x: clip; }
   .aurora-blob, .grain, .card-shine::after, .live-dot, .device-float { animation: none !important; }
   .hl-hint { animation: none !important; }
   .hl-card, .hl-desc, .hl-more, .hl-plus { transition: none !important; }
-  .rz-card { animation: none !important; }
+  .rz-card, .rz-prop { animation: none !important; }
   .rz-slide { transition: opacity .3s ease; transform: none !important; }
   .deco-float { animation: none !important; }
   .grain { opacity: 0.04; }
