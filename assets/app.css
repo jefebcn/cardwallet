@@ -313,17 +313,28 @@ html, body { overflow-x: clip; }
 .hl-cta { align-self: flex-start; margin-top: 1.25rem; display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; color: #C2603A; transition: gap .25s var(--ease-out); }
 .hl-cta:hover { gap: .75rem; }
 
-/* frecce di navigazione carosello (solo desktop) */
-.hl-arrow {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 44px; height: 44px; border-radius: 9999px;
-  border: 1px solid rgba(125,99,72,.3); background: transparent; color: #1E3A2F;
+/* frecce interattive sui bordi del carosello (solo desktop) */
+.hl-viewport { position: relative; }
+.hl-edge {
+  display: none; position: absolute; top: 0; bottom: 6rem; margin-block: auto;
+  width: 54px; height: 54px; z-index: 6;
+  align-items: center; justify-content: center;
+  border-radius: 9999px; border: 1px solid rgba(125,99,72,.16);
+  background: rgba(244,237,224,.92); color: #1E3A2F;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  box-shadow: 0 16px 34px -12px rgba(17,15,8,.5);
   cursor: pointer;
-  transition: background-color .25s, border-color .25s, opacity .25s, transform .15s;
+  transition: opacity .3s var(--ease-out), transform .2s var(--ease-out), background-color .2s, box-shadow .2s;
 }
-.hl-arrow:hover { background: rgba(30,58,47,.08); border-color: rgba(30,58,47,.5); }
-.hl-arrow:active { transform: scale(.93); }
-.hl-arrow[disabled] { opacity: .32; cursor: default; pointer-events: none; }
+@media (min-width: 768px) { .hl-edge { display: inline-flex; } }
+.hl-edge:hover { background: #F4EDE0; box-shadow: 0 20px 42px -12px rgba(17,15,8,.6); transform: scale(1.05); animation: none; }
+.hl-edge:active { transform: scale(.94); }
+.hl-edge[disabled] { opacity: 0; pointer-events: none; }
+.hl-edge-prev { left: max(1.25rem, calc((100vw - 72rem) / 2 + 1.25rem)); }
+.hl-edge-next { right: max(1.25rem, calc((100vw - 72rem) / 2 + 1.25rem)); }
+/* pulsazione discreta della freccia destra per invitare al click */
+.hl-edge-next:not([disabled]) { animation: hledge 2s var(--ease-out) infinite; }
+@keyframes hledge { 0%,100% { box-shadow: 0 16px 34px -12px rgba(17,15,8,.5); } 50% { box-shadow: 0 16px 40px -10px rgba(194,96,46,.55); } }
 
 /* ---- Pannello soffice arrotondato (stile ZEN) ---- */
 .soft-panel {
@@ -369,7 +380,7 @@ html, body { overflow-x: clip; }
   .parallax { transform: none !important; }
   .marquee-track, .animate-float, .animate-floatslow { animation: none !important; }
   .aurora-blob, .grain, .card-shine::after, .live-dot, .device-float { animation: none !important; }
-  .hl-hint { animation: none !important; }
+  .hl-hint, .hl-edge-next { animation: none !important; }
   .grain { opacity: 0.04; }
 }
 
