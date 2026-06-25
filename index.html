@@ -52,6 +52,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
 
+  <link rel="preconnect" href="https://plausible.io" />
+  <link rel="preconnect" href="https://pfgjsgnafgcbjrpoivgz.supabase.co" />
   <link rel="preload" href="/assets/fonts/general-sans-600.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/fonts.css" />
   <link rel="stylesheet" href="/assets/app.css" />
@@ -1224,55 +1226,56 @@
 
         <div class="reveal mt-9 sm:mt-12 overflow-hidden rounded-2xl border border-stone/20 shadow-xl shadow-ink/5" data-delay="1">
           <table class="w-full border-collapse">
+            <caption class="sr-only">Confronto tra Crest, wallet esteri (Revolut, Wise, N26) e banche locali di San Marino</caption>
             <thead>
               <tr class="bg-parchment-dim/50">
-                <th class="p-3 sm:p-5 text-left text-xs sm:text-sm font-medium text-ink/45 align-bottom">Cosa puoi fare</th>
-                <th class="p-3 sm:p-5 align-bottom bg-forest/[0.05] border-x border-forest/10">
+                <th scope="col" class="p-3 sm:p-5 text-left text-xs sm:text-sm font-medium text-ink/45 align-bottom">Cosa puoi fare</th>
+                <th scope="col" class="p-3 sm:p-5 align-bottom bg-forest/[0.05] border-x border-forest/10">
                   <span class="flex flex-col items-center gap-1.5">
                     <img src="/assets/logo-forest.svg" width="15" height="19" alt="" />
                     <span class="font-display text-sm sm:text-base font-bold text-forest leading-none">Crest</span>
                   </span>
                 </th>
-                <th class="p-3 sm:p-5 text-center align-bottom"><span class="font-display text-xs sm:text-sm font-semibold text-ink/50 leading-tight">Wallet<br />esteri</span></th>
-                <th class="p-3 sm:p-5 text-center align-bottom"><span class="font-display text-xs sm:text-sm font-semibold text-ink/50 leading-tight">Banche<br />locali</span></th>
+                <th scope="col" class="p-3 sm:p-5 text-center align-bottom"><span class="font-display text-xs sm:text-sm font-semibold text-ink/50 leading-tight">Wallet<br />esteri</span></th>
+                <th scope="col" class="p-3 sm:p-5 text-center align-bottom"><span class="font-display text-xs sm:text-sm font-semibold text-ink/50 leading-tight">Banche<br />locali</span></th>
               </tr>
             </thead>
             <tbody class="text-xs sm:text-base">
               <tr class="border-t border-stone/15">
-                <td class="p-3 sm:p-5 font-medium text-ink/85">Disponibile a San Marino</td>
-                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-yes"></span></td>
+                <th scope="row" class="p-3 sm:p-5 font-medium text-ink/85 text-left">Disponibile a San Marino</th>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no" role="img" aria-label="No"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
               </tr>
               <tr class="border-t border-stone/15">
-                <td class="p-3 sm:p-5 font-medium text-ink/85">IBAN dedicato</td>
-                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-yes"></span></td>
+                <th scope="row" class="p-3 sm:p-5 font-medium text-ink/85 text-left">IBAN dedicato</th>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no" role="img" aria-label="No"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
               </tr>
               <tr class="border-t border-stone/15">
-                <td class="p-3 sm:p-5 font-medium text-ink/85">App moderna in italiano</td>
-                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-mid"></span></td>
+                <th scope="row" class="p-3 sm:p-5 font-medium text-ink/85 text-left">App moderna in italiano</th>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no" role="img" aria-label="No"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-mid" role="img" aria-label="In parte"></span></td>
               </tr>
               <tr class="border-t border-stone/15">
-                <td class="p-3 sm:p-5 font-medium text-ink/85">Trasferimenti istantanei</td>
-                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-mid"></span></td>
+                <th scope="row" class="p-3 sm:p-5 font-medium text-ink/85 text-left">Trasferimenti istantanei</th>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no" role="img" aria-label="No"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-mid" role="img" aria-label="In parte"></span></td>
               </tr>
               <tr class="border-t border-stone/15">
-                <td class="p-3 sm:p-5 font-medium text-ink/85">Commissioni trasparenti</td>
-                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-mid"></span></td>
+                <th scope="row" class="p-3 sm:p-5 font-medium text-ink/85 text-left">Commissioni trasparenti</th>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no" role="img" aria-label="No"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-mid" role="img" aria-label="In parte"></span></td>
               </tr>
               <tr class="border-t border-stone/15">
-                <td class="p-3 sm:p-5 font-medium text-ink/85">Apertura 100% da telefono</td>
-                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10 rounded-bl"><span class="cmp-yes"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
-                <td class="p-2 sm:p-5"><span class="cmp-no"></span></td>
+                <th scope="row" class="p-3 sm:p-5 font-medium text-ink/85 text-left">Apertura 100% da telefono</th>
+                <td class="p-2 sm:p-5 bg-forest/[0.05] border-x border-forest/10 rounded-bl"><span class="cmp-yes" role="img" aria-label="Sì"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no" role="img" aria-label="No"></span></td>
+                <td class="p-2 sm:p-5"><span class="cmp-no" role="img" aria-label="No"></span></td>
               </tr>
             </tbody>
           </table>
@@ -1356,7 +1359,7 @@
               <li class="flex gap-2.5 items-start"><span class="plan-check mt-0.5 shrink-0"></span>Trasferimenti tra utenti Crest</li>
               <li class="flex gap-2.5 items-start"><span class="plan-check mt-0.5 shrink-0"></span>App completa in italiano</li>
             </ul>
-            <a href="#lista" class="btn btn-ghost mt-7 py-3 text-sm w-full">Unisciti alla lista</a>
+            <a href="#lista" class="btn btn-ghost mt-7 py-3 text-sm w-full" aria-label="Unisciti alla lista — Piano Standard">Unisciti alla lista</a>
           </div>
 
           <!-- Plus (evidenziato, primo su mobile) -->
@@ -1378,7 +1381,7 @@
               <li class="flex gap-2.5 items-start"><span class="plan-check plan-check-light mt-0.5 shrink-0"></span>Limiti più alti sui trasferimenti</li>
               <li class="flex gap-2.5 items-start"><span class="plan-check plan-check-light mt-0.5 shrink-0"></span>Cambio valuta a tariffe migliori</li>
             </ul>
-            <a href="#lista" class="btn btn-clay mt-7 py-3 text-sm w-full">Unisciti alla lista</a>
+            <a href="#lista" class="btn btn-clay mt-7 py-3 text-sm w-full" aria-label="Unisciti alla lista — Piano Plus">Unisciti alla lista</a>
           </div>
 
           <!-- Premium -->
@@ -1400,7 +1403,7 @@
               <li class="flex gap-2.5 items-start"><span class="plan-check mt-0.5 shrink-0"></span>Supporto prioritario</li>
               <li class="flex gap-2.5 items-start"><span class="plan-check mt-0.5 shrink-0"></span>Carta in metallo, edizione Libertas</li>
             </ul>
-            <a href="#lista" class="btn btn-ghost mt-7 py-3 text-sm w-full">Unisciti alla lista</a>
+            <a href="#lista" class="btn btn-ghost mt-7 py-3 text-sm w-full" aria-label="Unisciti alla lista — Piano Premium">Unisciti alla lista</a>
           </div>
         </div>
 
