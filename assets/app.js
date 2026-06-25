@@ -114,8 +114,8 @@
 
   /* ---------- Cookie banner ---------- */
   var COOKIE = '\
-  <div id="cookieBar" class="fixed bottom-4 inset-x-4 sm:left-auto sm:right-6 sm:max-w-sm z-[60] rounded-2xl bg-ink text-parchment shadow-2xl p-5 hidden">\
-    <p class="text-sm leading-relaxed text-parchment/85">Usiamo cookie tecnici per far funzionare il sito e, con il tuo consenso, cookie di misurazione anonima. Dettagli nella <a href="/cookie" class="underline">Cookie Policy</a>.</p>\
+  <div id="cookieBar" role="dialog" aria-label="Preferenze cookie" aria-describedby="cookieBarDesc" class="fixed bottom-4 inset-x-4 sm:left-auto sm:right-6 sm:max-w-sm z-[60] rounded-2xl bg-ink text-parchment shadow-2xl p-5 hidden">\
+    <p id="cookieBarDesc" class="text-sm leading-relaxed text-parchment/85">Usiamo cookie tecnici per far funzionare il sito e, con il tuo consenso, cookie di misurazione anonima. Dettagli nella <a href="/cookie" class="underline">Cookie Policy</a>.</p>\
     <div class="mt-4 flex gap-2">\
       <button data-cookie="accept" class="btn btn-clay px-4 py-2 text-sm flex-1">Accetta</button>\
       <button data-cookie="reject" class="btn btn-ghost border-parchment/30 text-parchment hover:border-parchment px-4 py-2 text-sm flex-1">Solo necessari</button>\
