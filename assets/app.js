@@ -271,10 +271,40 @@
         if (!wlErr) return;
         wlErr.textContent = msg; wlErr.classList.remove('hidden');
       };
+      var clearErr = function () {
+        if (!wlErr) return;
+        wlErr.textContent = ''; wlErr.classList.add('hidden');
+      };
+
+      // Blur-time validation: show hints when the user leaves a field with bad data
+      var WL_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      var nameInp = wlForm.querySelector('[name="nome"]');
+      var emailInp = wlForm.querySelector('[name="email"]');
+      if (nameInp) {
+        nameInp.addEventListener('focus', function () { nameInp.removeAttribute('aria-invalid'); clearErr(); });
+        nameInp.addEventListener('blur', function () {
+          if (!nameInp.value.trim()) {
+            nameInp.setAttribute('aria-invalid', 'true');
+            showErr('Inserisci il tuo nome prima di proseguire.');
+          }
+        });
+      }
+      if (emailInp) {
+        emailInp.addEventListener('focus', function () { emailInp.removeAttribute('aria-invalid'); clearErr(); });
+        emailInp.addEventListener('blur', function () {
+          var v = emailInp.value.trim();
+          if (v && !WL_EMAIL_RE.test(v)) {
+            emailInp.setAttribute('aria-invalid', 'true');
+            showErr('Controlla l\'indirizzo email: il formato non sembra corretto.');
+          }
+        });
+      }
 
       wlForm.addEventListener('submit', function (ev) {
         ev.preventDefault();
-        if (wlErr) wlErr.classList.add('hidden');
+        clearErr();
+        if (nameInp) nameInp.removeAttribute('aria-invalid');
+        if (emailInp) emailInp.removeAttribute('aria-invalid');
         if (!wlForm.checkValidity()) { wlForm.reportValidity(); return; }
 
         var payload = {
@@ -461,10 +491,17 @@
       var slides = Array.prototype.slice.call(stage.querySelectorAll('.rz-slide'));
       if (!slides.length) return;
       var dotsWrap = stage.querySelector('.rz-dots');
-      var prev = stage.querySelector('[data-rz-prev]');
-      var next = stage.querySelector('[data-rz-next]');
-      var i = 0, timer = null;
+      var prevBtn = stage.querySelector('[data-rz-prev]');
+      var nextBtn = stage.querySelector('[data-rz-next]');
+      var cur = 0, timer = null;
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Give each slide an id and tabpanel role so dots can aria-controls them
+      slides.forEach(function (s, idx) {
+        s.id = 'rz-slide-' + idx;
+        s.setAttribute('role', 'tabpanel');
+        s.setAttribute('aria-roledescription', 'slide');
+      });
 
       var dots = slides.map(function (_, idx) {
         var d = document.createElement('button');
@@ -472,23 +509,44 @@
         d.className = 'rz-dot' + (idx === 0 ? ' is-active' : '');
         d.setAttribute('role', 'tab');
         d.setAttribute('aria-label', 'Motivo ' + (idx + 1));
+        d.setAttribute('aria-controls', 'rz-slide-' + idx);
+        d.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
+        d.setAttribute('tabindex', idx === 0 ? '0' : '-1');
         d.addEventListener('click', function () { show(idx, true); });
+        d.addEventListener('keydown', function (e) {
+          var goTo = -1;
+          if (e.key === 'ArrowRight') goTo = (idx + 1) % slides.length;
+          else if (e.key === 'ArrowLeft') goTo = (idx - 1 + slides.length) % slides.length;
+          else if (e.key === 'Home') goTo = 0;
+          else if (e.key === 'End') goTo = slides.length - 1;
+          if (goTo >= 0) { e.preventDefault(); show(goTo, true); dots[goTo].focus(); }
+        });
         if (dotsWrap) dotsWrap.appendChild(d);
         return d;
       });
 
       function stop() { if (timer) { clearInterval(timer); timer = null; } }
-      function start() { if (!reduce && !timer) timer = setInterval(function () { show(i + 1); }, 5500); }
+      function start() { if (!reduce && !timer) timer = setInterval(function () { show(cur + 1); }, 5500); }
       function show(n, user) {
-        i = (n + slides.length) % slides.length;
-        slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
-        dots.forEach(function (d, idx) { var on = idx === i; d.classList.toggle('is-active', on); d.setAttribute('aria-selected', String(on)); });
+        cur = (n + slides.length) % slides.length;
+        slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === cur); });
+        dots.forEach(function (d, idx) {
+          var on = idx === cur;
+          d.classList.toggle('is-active', on);
+          d.setAttribute('aria-selected', String(on));
+          d.setAttribute('tabindex', on ? '0' : '-1');
+        });
         if (user) { stop(); start(); }
       }
-      if (prev) prev.addEventListener('click', function () { show(i - 1, true); });
-      if (next) next.addEventListener('click', function () { show(i + 1, true); });
+      if (prevBtn) prevBtn.addEventListener('click', function () { show(cur - 1, true); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { show(cur + 1, true); });
+      // Pause on hover or keyboard focus; resume when pointer/focus leaves
       stage.addEventListener('mouseenter', stop);
       stage.addEventListener('mouseleave', start);
+      stage.addEventListener('focusin', stop);
+      stage.addEventListener('focusout', function (e) {
+        if (!stage.contains(e.relatedTarget)) start();
+      });
 
       show(0);
       start();
