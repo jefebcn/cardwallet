@@ -294,7 +294,11 @@
           .then(function (res) {
             if (res.ok && res.j && res.j.ok) {
               wlForm.classList.add('hidden');
-              if (wlDone) wlDone.classList.remove('hidden');
+              if (wlDone) {
+                wlDone.classList.remove('hidden');
+                wlDone.setAttribute('tabindex', '-1');
+                wlDone.focus();
+              }
               if (typeof window.plausible === 'function') window.plausible('Signup');
               // Increment only the waitlist counters by 1
               document.querySelectorAll('[data-waitlist]').forEach(function (el) {
