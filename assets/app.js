@@ -533,7 +533,14 @@
       document.body.appendChild(wrap);
       var bar = document.getElementById('cookieBar');
       if (bar) {
-        setTimeout(function () { bar.classList.remove('hidden'); if (window.__fabUpdate) window.__fabUpdate(); }, 800);
+        setTimeout(function () {
+          bar.classList.remove('hidden');
+          if (window.__fabUpdate) window.__fabUpdate();
+          var firstBtn = bar.querySelector('button');
+          if (firstBtn && (document.activeElement === document.body || !document.activeElement)) {
+            firstBtn.focus();
+          }
+        }, 800);
         bar.addEventListener('click', function (e) {
           var choice = e.target.getAttribute('data-cookie');
           if (choice) { localStorage.setItem('crest-cookie', choice); bar.remove(); if (window.__fabUpdate) window.__fabUpdate(); }
