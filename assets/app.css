@@ -626,6 +626,7 @@ html, body { overflow-x: clip; }
   transition: opacity .4s var(--ease-out), transform .4s var(--ease-out), background-color .2s;
 }
 .wl-fab:hover { background: #A84E2B; }
+.wl-fab:focus-visible { outline: 3px solid #F4EDE0; outline-offset: 3px; }
 .wl-fab.is-visible { opacity: 1; transform: none; pointer-events: auto; }
 /* lascia spazio al cookie banner quando è presente */
 .wl-fab.cookie-up { bottom: 7.5rem; }
