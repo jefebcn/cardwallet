@@ -128,6 +128,18 @@
   function inject(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
 
   document.addEventListener('DOMContentLoaded', function () {
+    // skip link per accessibilità: inserito prima di tutto il resto
+    (function () {
+      var main = document.querySelector('main');
+      if (!main) return;
+      if (!main.id) main.id = 'main-content';
+      var skip = document.createElement('a');
+      skip.href = '#' + main.id;
+      skip.className = 'skip-link';
+      skip.textContent = 'Vai al contenuto principale';
+      document.body.insertBefore(skip, document.body.firstChild);
+    })();
+
     inject('site-nav', NAV);
     inject('site-footer', FOOTER);
 

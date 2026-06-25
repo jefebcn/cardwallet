@@ -60,12 +60,17 @@ html, body { overflow-x: clip; }
 /* ---- Bottoni ---- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 9999px; font-weight: 600; transition: transform .25s var(--ease-out), background-color .2s, color .2s, border-color .2s; }
 .btn:active { transform: scale(.97); }
+.btn:focus-visible { outline: 3px solid #C2603A; outline-offset: 3px; }
 .btn-primary { background: #1E3A2F; color: #F4EDE0; }
 .btn-primary:hover { background: #16291F; }
 .btn-clay { background: #C2603A; color: #F4EDE0; }
 .btn-clay:hover { background: #A84E2B; }
 .btn-ghost { border: 1px solid rgba(125,99,72,.4); color: #110F08; }
 .btn-ghost:hover { border-color: #1E3A2F; color: #1E3A2F; }
+
+/* skip-to-content link (per screen reader e navigazione da tastiera) */
+.skip-link { position: absolute; left: -9999px; top: 1rem; z-index: 9999; padding: .5rem 1rem; background: #1E3A2F; color: #F4EDE0; border-radius: 9999px; font-weight: 600; font-size: .875rem; }
+.skip-link:focus { left: 1rem; }
 
 /* link underline animato */
 .link-underline { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1.5px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .35s var(--ease-out); }
