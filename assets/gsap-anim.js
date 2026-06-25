@@ -128,18 +128,19 @@ window.addEventListener('DOMContentLoaded', function () {
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
       });
     }
-    // testo scivola su e sfuma — solo su desktop (su mobile i testi restano visibili)
-    // NB: #hero-sub (sottotitolo + pulsanti CTA) NON sfuma, così i tasti restano sempre visibili
-    if (!isMobile) {
-      gsap.to(['#hero-badge', '#hero-proof'], {
-        yPercent: 20, opacity: 0,
+    // L'INTERO blocco di testo (badge, titolo, sottotitolo + pulsanti CTA, proof)
+    // si muove come UNA sola unità con una leggera parallasse: nessun elemento
+    // sfuma e niente parallasse separata sul titolo. Così i pulsanti e il
+    // contatore "318" restano coesi e visibili finché l'hero è in vista.
+    // BUG STORICO: prima il titolo aveva una parallasse propria (yPercent:12)
+    // mentre sub/proof no e il proof sfumava — il titolo "restava" sullo schermo
+    // e sottotitolo, pulsanti e contatore sparivano subito appena si scrollava.
+    var heroCopy = document.getElementById('hero-copy');
+    if (heroCopy && !isMobile) {
+      gsap.to(heroCopy, {
+        yPercent: 14,
         ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true }
-      });
-      gsap.to(['#hero-l1', '#hero-l2', '#hero-l3'], {
-        yPercent: 12,
-        ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true }
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
       });
     }
     // scroll indicator scompare subito
