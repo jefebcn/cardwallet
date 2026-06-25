@@ -27,7 +27,7 @@
           Prova l’app\
         </a>\
         <a href="/#lista" class="btn btn-primary px-4 sm:px-5 py-2 text-sm">Unisciti alla lista</a>\
-        <button id="navToggle" class="md:hidden p-2 -mr-2" aria-label="Apri menu" aria-expanded="false">\
+        <button id="navToggle" class="md:hidden p-2 -mr-2" aria-label="Apri menu" aria-expanded="false" aria-controls="mobileMenu">\
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="#110F08" stroke-width="1.8" stroke-linecap="round"/></svg>\
         </button>\
       </div>\
@@ -162,12 +162,16 @@
     function closeMenu() {
       if (!menu) return;
       menu.classList.add('hidden');
-      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Apri menu');
+      }
     }
     if (toggle && menu) {
       toggle.addEventListener('click', function () {
         var open = menu.classList.toggle('hidden') === false;
         toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
       });
       menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') closeMenu(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
