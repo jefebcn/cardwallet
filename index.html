@@ -63,6 +63,7 @@
   </style></noscript>
   <!-- Analytics privacy-friendly, cookieless (configura il dominio crest.sm su Plausible) -->
   <script defer data-domain="crest.sm" src="https://plausible.io/js/script.js"></script>
+  <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('/service-worker.js',{scope:'/'});</script>
 </head>
 
 <body class="bg-parchment text-ink font-sans">
@@ -1505,14 +1506,32 @@
                 <span class="wl-label">Unisciti alla lista d'attesa</span>
                 <span class="wl-spin hidden"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5" opacity="0.25"/><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span>
               </button>
-              <p id="wl-error" class="hidden text-sm text-clay-dark font-medium" role="alert"></p>
+              <p id="wl-error" class="hidden text-sm text-clay-dark font-medium" role="alert" aria-live="assertive" aria-atomic="true"></p>
               <p class="text-xs text-ink/45 text-center">Niente spam. Ti scriviamo solo quando c'è qualcosa di concreto.</p>
             </form>
 
-            <div id="waitlistDone" class="hidden text-center py-10">
+            <div id="waitlistDone" class="hidden text-center py-8">
               <span class="inline-flex w-14 h-14 items-center justify-center rounded-full bg-forest text-parchment"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               <h3 class="mt-5 font-display text-2xl font-semibold">Ci sei.</h3>
               <p class="mt-2 text-ink/65 max-w-xs mx-auto">Sei in lista d'attesa. Ti scriviamo appena Crest è pronto — niente spam, promesso.</p>
+              <!-- Condivisione social -->
+              <div class="mt-7 pt-6 border-t border-stone/15">
+                <p class="text-xs text-ink/40 font-semibold uppercase tracking-widest mb-4">Invita un amico</p>
+                <div class="flex gap-2.5 justify-center flex-wrap">
+                  <button id="share-native" class="btn hidden gap-2 px-5 py-2.5 text-sm font-semibold text-parchment bg-forest rounded-full" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                    Condividi
+                  </button>
+                  <a id="share-wa" href="https://wa.me/?text=Ho+scoperto+Crest%2C+il+wallet+digitale+per+la+Repubblica+di+San+Marino+%F0%9F%87%B8%F0%9F%87%B2+%E2%80%94+unisciti+alla+lista+d%27attesa+%E2%86%92+https%3A%2F%2Fcrest.sm" target="_blank" rel="noopener" class="btn inline-flex gap-2 px-5 py-2.5 text-sm font-semibold text-parchment rounded-full" style="background:#25D366">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    WhatsApp
+                  </a>
+                  <a id="share-x" href="https://x.com/intent/tweet?text=Ho+scoperto+Crest%2C+il+wallet+digitale+per+la+Repubblica+di+San+Marino+%F0%9F%87%B8%F0%9F%87%B2+%E2%80%94+unisciti+alla+lista+d%27attesa+%E2%86%92+https%3A%2F%2Fcrest.sm" target="_blank" rel="noopener" class="btn inline-flex gap-2 px-5 py-2.5 text-sm font-semibold text-parchment bg-ink rounded-full">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.8l-5.3-6.9L4.8 22H1.7l7.8-8.9L1 2h7l4.8 6.3zm-2.4 18h1.9L7.6 4H5.6z"/></svg>
+                    X / Twitter
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

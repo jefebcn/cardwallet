@@ -442,6 +442,27 @@
       start();
     })();
 
+    // condivisione social post-iscrizione
+    (function initShare() {
+      var nativeBtn = document.getElementById('share-native');
+      var waBtn = document.getElementById('share-wa');
+      var xBtn = document.getElementById('share-x');
+      if (!nativeBtn || !waBtn || !xBtn) return;
+      var shareData = {
+        title: 'Crest — wallet digitale per San Marino',
+        text: 'Ho scoperto Crest, il wallet digitale per la Repubblica di San Marino 🇸🇲 — unisciti alla lista d\'attesa',
+        url: 'https://crest.sm'
+      };
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        nativeBtn.classList.remove('hidden');
+        waBtn.classList.add('hidden');
+        xBtn.classList.add('hidden');
+        nativeBtn.addEventListener('click', function () {
+          navigator.share(shareData).catch(function () {});
+        });
+      }
+    })();
+
     // cookie banner
     if (!localStorage.getItem('crest-cookie')) {
       var wrap = document.createElement('div');
