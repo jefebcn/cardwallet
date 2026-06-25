@@ -174,8 +174,27 @@ Dashboard per consultare gli iscritti, con statistiche, ricerca ed export CSV. L
 | `SHEET_CSV_URL` | Link del Google Sheet pubblicato in CSV (File → Condividi → Pubblica sul web → CSV). |
 | `SHEET_WEBHOOK_URL` | URL del Google Apps Script che accoda gli iscritti al foglio. |
 | `SHEET_WEBHOOK_SECRET` | Segreto condiviso con lo script (`openssl rand -base64 24`). |
+| `SUPABASE_ANON_KEY` | Chiave anon di Supabase per scrivere sulla tabella `waitlist`. |
+| `RESEND_API_KEY` | _(opzionale)_ Abilita l'email di conferma iscrizione via [Resend](https://resend.com). Se assente, l'iscrizione funziona comunque senza inviare email. |
+| `WAITLIST_FROM_EMAIL` | _(opzionale)_ Mittente dell'email di benvenuto (default `Crest <noreply@crest.sm>`; il dominio va verificato su Resend). |
 
 Vedi `.env.example`. Per provare in locale serve un runtime che esegua le funzioni `/api` (es. `vercel dev`).
+
+> **Sicurezza Supabase (importante):** la `SUPABASE_ANON_KEY` è pubblica per
+> design. La sicurezza della tabella `waitlist` dipende interamente dalla
+> **Row Level Security**: abilitare RLS e consentire ai ruoli anon **solo
+> `INSERT`** (nessun `SELECT`/`UPDATE`/`DELETE`), così la lista non è leggibile
+> da chi possiede la chiave anon. La lettura per `/admin` usa la service key
+> lato server (mai esposta al client).
+
+> **Analytics:** le pagine pubbliche includono [Plausible](https://plausible.io)
+> (cookieless, GDPR-friendly). Va creato il sito `crest.sm` nella dashboard
+> Plausible perché i dati vengano raccolti; lo script non usa cookie e non
+> richiede consenso.
+
+> **Anti-abuso:** `/api/subscribe` ha un honeypot + un rate limit best-effort
+> in-memory (5 richieste/min per IP sull'istanza calda). Per un limite robusto
+> e distribuito aggiungere Upstash/Vercel KV.
 
 > Nota: lo stack è su Vercel Functions perché il sito è già lì. Il codice è portabile su **Cloudflare Pages Functions** con piccole modifiche alle firme.
 

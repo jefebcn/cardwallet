@@ -5,19 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crest — Il wallet digitale per San Marino</title>
   <meta name="description" content="Crest è il conto digitale costruito per i residenti di San Marino: IBAN, carta e trasferimenti istantanei. Senza i blocchi di Revolut e Wise. Unisciti alla lista d'attesa." />
+  <link rel="canonical" href="https://crest.sm/" />
+  <meta property="og:site_name" content="Crest" />
   <meta property="og:title" content="Crest — Il wallet digitale per San Marino" />
   <meta property="og:description" content="Revolut e Wise ti dicono di no. Crest no. Il conto digitale moderno per i residenti della Repubblica di San Marino." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="it_IT" />
+  <meta property="og:url" content="https://crest.sm/" />
+  <meta property="og:image" content="https://crest.sm/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Crest — il wallet digitale per la Repubblica di San Marino" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Crest — Il wallet digitale per San Marino" />
+  <meta name="twitter:description" content="Revolut e Wise ti dicono di no. Crest no. Il conto digitale per la Repubblica di San Marino." />
+  <meta name="twitter:image" content="https://crest.sm/assets/og-image.png" />
   <meta name="theme-color" content="#1E3A2F" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://crest.sm/#organization",
+        "name": "Crest",
+        "url": "https://crest.sm/",
+        "logo": "https://crest.sm/assets/og-image.png",
+        "slogan": "Libertas",
+        "email": "supportcrest@proton.me",
+        "areaServed": { "@type": "Country", "name": "San Marino" },
+        "sameAs": ["https://instagram.com", "https://linkedin.com", "https://x.com"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://crest.sm/#website",
+        "url": "https://crest.sm/",
+        "name": "Crest",
+        "inLanguage": "it-IT",
+        "description": "Il wallet digitale per la Repubblica di San Marino: IBAN, carta e trasferimenti istantanei.",
+        "publisher": { "@id": "https://crest.sm/#organization" }
+      }
+    ]
+  }
+  </script>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
 
-  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="/assets/fonts/general-sans-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/fonts.css" />
   <link rel="stylesheet" href="/assets/app.css" />
   <link rel="stylesheet" href="/assets/tailwind.css" />
   <noscript><style>
@@ -25,6 +61,8 @@
     #hero-l1,#hero-l2,#hero-l3{transform:none!important}
     #hero-badge,#hero-sub,#hero-proof,#hero-device,#hero-card,#hero-notif,#hero-scroll-ind{opacity:1!important;transform:none!important}
   </style></noscript>
+  <!-- Analytics privacy-friendly, cookieless (configura il dominio crest.sm su Plausible) -->
+  <script defer data-domain="crest.sm" src="https://plausible.io/js/script.js"></script>
 </head>
 
 <body class="bg-parchment text-ink font-sans">
@@ -1485,9 +1523,9 @@
 
   <footer id="site-footer"></footer>
 
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script defer src="/assets/vendor/gsap.min.js"></script>
+  <script defer src="/assets/vendor/ScrollTrigger.min.js"></script>
+  <script defer src="/assets/vendor/lenis.min.js"></script>
   <script defer src="/assets/app.js"></script>
   <script defer src="/assets/gsap-anim.js"></script>
 </body>

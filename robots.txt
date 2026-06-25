@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
+# Aree private/escluse dall'indicizzazione.
+# Le pagine legali NON sono bloccate qui: hanno già <meta name="robots" content="noindex">,
+# così Google può leggerle e deindicizzarle correttamente (un Disallow lo impedirebbe).
 Disallow: /admin
-Disallow: /privacy
-Disallow: /cookie
-Disallow: /termini
+Disallow: /api/
+
+Sitemap: https://crest.sm/sitemap.xml
