@@ -27,7 +27,7 @@
           Prova l’app\
         </a>\
         <a href="/#lista" class="btn btn-primary px-4 sm:px-5 py-2 text-sm">Unisciti alla lista</a>\
-        <button id="navToggle" class="md:hidden p-2 -mr-2" aria-label="Apri menu" aria-expanded="false">\
+        <button id="navToggle" class="md:hidden p-2 -mr-2" aria-label="Apri menu" aria-expanded="false" aria-controls="mobileMenu">\
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="#110F08" stroke-width="1.8" stroke-linecap="round"/></svg>\
         </button>\
       </div>\
@@ -114,8 +114,8 @@
 
   /* ---------- Cookie banner ---------- */
   var COOKIE = '\
-  <div id="cookieBar" class="fixed bottom-4 inset-x-4 sm:left-auto sm:right-6 sm:max-w-sm z-[60] rounded-2xl bg-ink text-parchment shadow-2xl p-5 hidden">\
-    <p class="text-sm leading-relaxed text-parchment/85">Usiamo cookie tecnici per far funzionare il sito e, con il tuo consenso, cookie di misurazione anonima. Dettagli nella <a href="/cookie" class="underline">Cookie Policy</a>.</p>\
+  <div id="cookieBar" role="dialog" aria-label="Preferenze cookie" aria-describedby="cookieBarDesc" class="fixed bottom-4 inset-x-4 sm:left-auto sm:right-6 sm:max-w-sm z-[60] rounded-2xl bg-ink text-parchment shadow-2xl p-5 hidden">\
+    <p id="cookieBarDesc" class="text-sm leading-relaxed text-parchment/85">Usiamo cookie tecnici per far funzionare il sito e, con il tuo consenso, cookie di misurazione anonima. Dettagli nella <a href="/cookie" class="underline">Cookie Policy</a>.</p>\
     <div class="mt-4 flex gap-2">\
       <button data-cookie="accept" class="btn btn-clay px-4 py-2 text-sm flex-1">Accetta</button>\
       <button data-cookie="reject" class="btn btn-ghost border-parchment/30 text-parchment hover:border-parchment px-4 py-2 text-sm flex-1">Solo necessari</button>\
@@ -128,8 +128,30 @@
   function inject(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
 
   document.addEventListener('DOMContentLoaded', function () {
+    // skip link per accessibilità: inserito prima di tutto il resto
+    (function () {
+      var main = document.querySelector('main');
+      if (!main) return;
+      if (!main.id) main.id = 'main-content';
+      var skip = document.createElement('a');
+      skip.href = '#' + main.id;
+      skip.className = 'skip-link';
+      skip.textContent = 'Vai al contenuto principale';
+      document.body.insertBefore(skip, document.body.firstChild);
+    })();
+
     inject('site-nav', NAV);
     inject('site-footer', FOOTER);
+
+    // marca il link attivo nella nav con aria-current="page"
+    var currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    Array.prototype.forEach.call(document.querySelectorAll('#site-nav a[href]'), function (a) {
+      var href = a.getAttribute('href').replace(/\/$/, '') || '/';
+      if (href === currentPath && href !== '/') {
+        a.setAttribute('aria-current', 'page');
+        a.style.color = ''; // usa il colore del tema
+      }
+    });
 
     // anno corrente
     Array.prototype.forEach.call(document.querySelectorAll('[data-year]'), function (e) { e.textContent = new Date().getFullYear(); });
@@ -137,12 +159,22 @@
     // mobile nav
     var toggle = document.getElementById('navToggle');
     var menu = document.getElementById('mobileMenu');
+    function closeMenu() {
+      if (!menu) return;
+      menu.classList.add('hidden');
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Apri menu');
+      }
+    }
     if (toggle && menu) {
       toggle.addEventListener('click', function () {
         var open = menu.classList.toggle('hidden') === false;
         toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
       });
-      menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') menu.classList.add('hidden'); });
+      menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') closeMenu(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
     }
 
     // reveal — se GSAP è caricato, lo gestisce gsap-anim.js (evita conflitti)
@@ -159,7 +191,12 @@
       var target = parseFloat(el.getAttribute('data-count-to')) || 0;
       var suffix = el.getAttribute('data-suffix') || '';
       var dur = 1500, start = null;
+      // token: annulla eventuali animazioni precedenti sullo stesso elemento
+      // (evita sovrapposizioni quando il conteggio reale arriva mentre l'animazione è in corso)
+      var token = (el.__countToken || 0) + 1;
+      el.__countToken = token;
       function step(ts) {
+        if (el.__countToken !== token) return; // superata da una nuova chiamata
         if (!start) start = ts;
         var p = Math.min((ts - start) / dur, 1);
         var eased = 1 - Math.pow(1 - p, 3);
@@ -179,12 +216,11 @@
       .then(function (j) {
         if (j && typeof j.count === 'number' && j.count > 0) {
           document.querySelectorAll('[data-waitlist]').forEach(function (el) {
-            var prev = parseFloat(el.getAttribute('data-count-to')) || 0;
-            // only update + re-animate when the count actually changed
-            if (j.count !== prev) {
-              el.setAttribute('data-count-to', j.count);
-              if (el.getAttribute('data-counted') === '1') countTo(el);
-            }
+            el.setAttribute('data-count-to', j.count);
+            // se il contatore è già stato attivato (in viewport o in animazione),
+            // ri-anima al valore reale; altrimenti partirà dal valore corretto
+            // quando entrerà in vista (gestito dall'IntersectionObserver / reveal GSAP)
+            if (el.__countToken) countTo(el);
           });
         }
       })
@@ -235,10 +271,40 @@
         if (!wlErr) return;
         wlErr.textContent = msg; wlErr.classList.remove('hidden');
       };
+      var clearErr = function () {
+        if (!wlErr) return;
+        wlErr.textContent = ''; wlErr.classList.add('hidden');
+      };
+
+      // Blur-time validation: show hints when the user leaves a field with bad data
+      var WL_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      var nameInp = wlForm.querySelector('[name="nome"]');
+      var emailInp = wlForm.querySelector('[name="email"]');
+      if (nameInp) {
+        nameInp.addEventListener('focus', function () { nameInp.removeAttribute('aria-invalid'); clearErr(); });
+        nameInp.addEventListener('blur', function () {
+          if (!nameInp.value.trim()) {
+            nameInp.setAttribute('aria-invalid', 'true');
+            showErr('Inserisci il tuo nome prima di proseguire.');
+          }
+        });
+      }
+      if (emailInp) {
+        emailInp.addEventListener('focus', function () { emailInp.removeAttribute('aria-invalid'); clearErr(); });
+        emailInp.addEventListener('blur', function () {
+          var v = emailInp.value.trim();
+          if (v && !WL_EMAIL_RE.test(v)) {
+            emailInp.setAttribute('aria-invalid', 'true');
+            showErr('Controlla l\'indirizzo email: il formato non sembra corretto.');
+          }
+        });
+      }
 
       wlForm.addEventListener('submit', function (ev) {
         ev.preventDefault();
-        if (wlErr) wlErr.classList.add('hidden');
+        clearErr();
+        if (nameInp) nameInp.removeAttribute('aria-invalid');
+        if (emailInp) emailInp.removeAttribute('aria-invalid');
         if (!wlForm.checkValidity()) { wlForm.reportValidity(); return; }
 
         var payload = {
@@ -258,7 +324,12 @@
           .then(function (res) {
             if (res.ok && res.j && res.j.ok) {
               wlForm.classList.add('hidden');
-              if (wlDone) wlDone.classList.remove('hidden');
+              if (wlDone) {
+                wlDone.classList.remove('hidden');
+                wlDone.setAttribute('tabindex', '-1');
+                wlDone.focus();
+              }
+              if (typeof window.plausible === 'function') window.plausible('Signup');
               // Increment only the waitlist counters by 1
               document.querySelectorAll('[data-waitlist]').forEach(function (el) {
                 var prev = parseFloat(el.getAttribute('data-count-to')) || 0;
@@ -379,21 +450,32 @@
 
       // tab di filtro per categoria
       var tabs = Array.prototype.slice.call(document.querySelectorAll('.hl-tab'));
-      tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          var f = tab.getAttribute('data-filter');
-          tabs.forEach(function (t) {
-            var on = t === tab;
-            t.classList.toggle('is-active', on);
-            t.setAttribute('aria-selected', String(on));
-          });
-          cards.forEach(function (c) {
-            var show = f === 'all' || c.getAttribute('data-cat') === f;
-            c.classList.toggle('is-hidden', !show);
-            c.classList.remove('is-open');
-          });
-          scroller.scrollTo({ left: 0, behavior: 'smooth' });
-          updateArrows();
+      function activateTab(tab) {
+        var f = tab.getAttribute('data-filter');
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', String(on));
+          t.setAttribute('tabindex', on ? '0' : '-1');
+        });
+        cards.forEach(function (c) {
+          var show = f === 'all' || c.getAttribute('data-cat') === f;
+          c.classList.toggle('is-hidden', !show);
+          c.classList.remove('is-open');
+        });
+        scroller.scrollTo({ left: 0, behavior: 'smooth' });
+        updateArrows();
+      }
+      tabs.forEach(function (tab, idx) {
+        tab.setAttribute('tabindex', tab.classList.contains('is-active') ? '0' : '-1');
+        tab.addEventListener('click', function () { activateTab(tab); });
+        tab.addEventListener('keydown', function (e) {
+          var next = -1;
+          if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+          else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+          else if (e.key === 'Home') next = 0;
+          else if (e.key === 'End') next = tabs.length - 1;
+          if (next >= 0) { e.preventDefault(); activateTab(tabs[next]); tabs[next].focus(); }
         });
       });
 
@@ -409,10 +491,17 @@
       var slides = Array.prototype.slice.call(stage.querySelectorAll('.rz-slide'));
       if (!slides.length) return;
       var dotsWrap = stage.querySelector('.rz-dots');
-      var prev = stage.querySelector('[data-rz-prev]');
-      var next = stage.querySelector('[data-rz-next]');
-      var i = 0, timer = null;
+      var prevBtn = stage.querySelector('[data-rz-prev]');
+      var nextBtn = stage.querySelector('[data-rz-next]');
+      var cur = 0, timer = null;
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Give each slide an id and tabpanel role so dots can aria-controls them
+      slides.forEach(function (s, idx) {
+        s.id = 'rz-slide-' + idx;
+        s.setAttribute('role', 'tabpanel');
+        s.setAttribute('aria-roledescription', 'slide');
+      });
 
       var dots = slides.map(function (_, idx) {
         var d = document.createElement('button');
@@ -420,26 +509,79 @@
         d.className = 'rz-dot' + (idx === 0 ? ' is-active' : '');
         d.setAttribute('role', 'tab');
         d.setAttribute('aria-label', 'Motivo ' + (idx + 1));
+        d.setAttribute('aria-controls', 'rz-slide-' + idx);
+        d.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
+        d.setAttribute('tabindex', idx === 0 ? '0' : '-1');
         d.addEventListener('click', function () { show(idx, true); });
+        d.addEventListener('keydown', function (e) {
+          var goTo = -1;
+          if (e.key === 'ArrowRight') goTo = (idx + 1) % slides.length;
+          else if (e.key === 'ArrowLeft') goTo = (idx - 1 + slides.length) % slides.length;
+          else if (e.key === 'Home') goTo = 0;
+          else if (e.key === 'End') goTo = slides.length - 1;
+          if (goTo >= 0) { e.preventDefault(); show(goTo, true); dots[goTo].focus(); }
+        });
         if (dotsWrap) dotsWrap.appendChild(d);
         return d;
       });
 
       function stop() { if (timer) { clearInterval(timer); timer = null; } }
-      function start() { if (!reduce && !timer) timer = setInterval(function () { show(i + 1); }, 5500); }
+      function start() { if (!reduce && !timer) timer = setInterval(function () { show(cur + 1); }, 5500); }
       function show(n, user) {
-        i = (n + slides.length) % slides.length;
-        slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
-        dots.forEach(function (d, idx) { var on = idx === i; d.classList.toggle('is-active', on); d.setAttribute('aria-selected', String(on)); });
+        cur = (n + slides.length) % slides.length;
+        slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === cur); });
+        dots.forEach(function (d, idx) {
+          var on = idx === cur;
+          d.classList.toggle('is-active', on);
+          d.setAttribute('aria-selected', String(on));
+          d.setAttribute('tabindex', on ? '0' : '-1');
+        });
         if (user) { stop(); start(); }
       }
-      if (prev) prev.addEventListener('click', function () { show(i - 1, true); });
-      if (next) next.addEventListener('click', function () { show(i + 1, true); });
+      if (prevBtn) prevBtn.addEventListener('click', function () { show(cur - 1, true); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { show(cur + 1, true); });
+      // Pause on hover or keyboard focus; resume when pointer/focus leaves
       stage.addEventListener('mouseenter', stop);
       stage.addEventListener('mouseleave', start);
+      stage.addEventListener('focusin', stop);
+      stage.addEventListener('focusout', function (e) {
+        if (!stage.contains(e.relatedTarget)) start();
+      });
 
       show(0);
       start();
+    })();
+
+    // condivisione social post-iscrizione
+    (function initShare() {
+      var nativeBtn = document.getElementById('share-native');
+      var waBtn = document.getElementById('share-wa');
+      var xBtn = document.getElementById('share-x');
+      if (!nativeBtn || !waBtn || !xBtn) return;
+
+      function track(channel) {
+        if (typeof window.plausible === 'function') {
+          window.plausible('Share', { props: { channel: channel } });
+        }
+      }
+
+      var shareData = {
+        title: 'Crest — wallet digitale per San Marino',
+        text: 'Ho scoperto Crest, il wallet digitale per la Repubblica di San Marino 🇸🇲 — unisciti alla lista d\'attesa',
+        url: 'https://crest.sm'
+      };
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        nativeBtn.classList.remove('hidden');
+        waBtn.classList.add('hidden');
+        xBtn.classList.add('hidden');
+        nativeBtn.addEventListener('click', function () {
+          track('native');
+          navigator.share(shareData).catch(function () {});
+        });
+      } else {
+        waBtn.addEventListener('click', function () { track('whatsapp'); });
+        xBtn.addEventListener('click', function () { track('x'); });
+      }
     })();
 
     // cookie banner
@@ -449,7 +591,14 @@
       document.body.appendChild(wrap);
       var bar = document.getElementById('cookieBar');
       if (bar) {
-        setTimeout(function () { bar.classList.remove('hidden'); if (window.__fabUpdate) window.__fabUpdate(); }, 800);
+        setTimeout(function () {
+          bar.classList.remove('hidden');
+          if (window.__fabUpdate) window.__fabUpdate();
+          var firstBtn = bar.querySelector('button');
+          if (firstBtn && (document.activeElement === document.body || !document.activeElement)) {
+            firstBtn.focus();
+          }
+        }, 800);
         bar.addEventListener('click', function (e) {
           var choice = e.target.getAttribute('data-cookie');
           if (choice) { localStorage.setItem('crest-cookie', choice); bar.remove(); if (window.__fabUpdate) window.__fabUpdate(); }

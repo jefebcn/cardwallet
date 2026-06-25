@@ -10,9 +10,14 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://plausible.io" />
+  <link rel="preload" href="/assets/fonts/general-sans-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/fonts.css" />
   <link rel="stylesheet" href="/assets/app.css" />
   <link rel="stylesheet" href="/assets/tailwind.css" />
+  <!-- Analytics privacy-friendly, cookieless (configura il dominio crest.sm su Plausible) -->
+  <script defer data-domain="crest.sm" src="https://plausible.io/js/script.outbound-links.js"></script>
+  <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('/service-worker.js',{scope:'/'});</script>
 </head>
 <body class="bg-parchment text-ink font-sans">
   <header id="site-nav"></header>
@@ -38,8 +43,7 @@
         <h2>3. Strumenti di terze parti</h2>
         <ul>
           <li><strong>Vercel</strong> — hosting del sito e delle funzioni della lista d'attesa: può impostare cookie tecnici legati alla distribuzione dei contenuti.</li>
-          <li><strong>Google Sheets</strong> — registrazione degli iscritti alla lista d'attesa, lato server.</li>
-          <li><strong>Fontshare</strong> — fornitura dei font: serve i caratteri tipografici della pagina.</li>
+          <li><strong>Supabase</strong> — database cloud per la registrazione degli iscritti alla lista d'attesa, lato server. Non usa cookie lato browser.</li>
         </ul>
 
         <h2>4. Gestire le preferenze</h2>

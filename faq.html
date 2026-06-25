@@ -5,17 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Domande frequenti — Crest</title>
   <meta name="description" content="Risposte alle domande più comuni su Crest: cos'è, quando arriva, costi, sicurezza e come funziona la lista d'attesa." />
+  <link rel="canonical" href="https://crest.sm/faq" />
+  <meta property="og:site_name" content="Crest" />
+  <meta property="og:url" content="https://crest.sm/faq" />
+  <meta property="og:title" content="Domande frequenti — Crest" />
+  <meta property="og:description" content="Risposte alle domande più comuni su Crest: cos'è, quando arriva, costi, sicurezza e come funziona la lista d'attesa." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:image" content="https://crest.sm/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Crest — il wallet digitale per la Repubblica di San Marino" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Domande frequenti — Crest" />
+  <meta name="twitter:description" content="Risposte alle domande più comuni su Crest: cos'è, quando arriva, costi, sicurezza e come funziona la lista d'attesa." />
+  <meta name="twitter:image" content="https://crest.sm/assets/og-image.png" />
+  <meta name="twitter:image:alt" content="Crest — il wallet digitale per la Repubblica di San Marino" />
   <meta name="theme-color" content="#1E3A2F" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://plausible.io" />
+  <link rel="preload" href="/assets/fonts/general-sans-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/fonts.css" />
   <link rel="stylesheet" href="/assets/app.css" />
   <link rel="stylesheet" href="/assets/tailwind.css" />
   <style>
     details[open] .faq-icon { transform: rotate(45deg); }
     .faq-icon { transition: transform .25s var(--ease-out); }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Che cos'è Crest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Crest è un wallet digitale pensato per i residenti della Repubblica di San Marino: un conto con IBAN, carta virtuale e fisica, trasferimenti istantanei e un'app moderna. È un'alternativa alle banche tradizionali locali e ai wallet esteri che non operano a San Marino."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Perché Revolut e Wise non funzionano a San Marino?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "San Marino non fa parte dell'Unione Europea né dello Spazio Economico Europeo. La maggior parte dei wallet digitali opera tramite licenze e infrastrutture UE/SEE, e quindi non apre conti ai residenti sammarinesi. Crest nasce proprio per servire questo mercato."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Crest è una banca?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Crest è oggi un progetto in fase di pre-lancio e non è una banca né un istituto di moneta elettronica o di pagamento autorizzato. I servizi descritti rappresentano l'intenzione di prodotto e saranno offerti solo dopo aver ottenuto le necessarie autorizzazioni."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quanto costa iscriversi alla lista d'attesa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nulla. L'iscrizione è gratuita e senza impegno. Lasci la tua email (e, se vuoi, il castello di residenza) e ti contattiamo solo quando ci sono novità concrete."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quando sarà disponibile Crest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Stiamo lavorando al lancio. Non fissiamo date che non possiamo garantire: preferiamo aggiornare gli iscritti alla lista appena ci sono passi avanti reali. Chi è in lista accede per primo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Chi può usare Crest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Crest è pensato per i residenti della Repubblica di San Marino. I requisiti precisi per l'apertura del conto saranno comunicati al lancio, in linea con la normativa applicabile."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Come trattate i miei dati?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Usiamo la tua email solo per aggiornarti su Crest e non la condividiamo con terzi per finalità di marketing. Tutti i dettagli sono nella Privacy Policy: https://crest.sm/privacy"
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- Analytics privacy-friendly, cookieless (configura il dominio crest.sm su Plausible) -->
+  <script defer data-domain="crest.sm" src="https://plausible.io/js/script.outbound-links.js"></script>
+  <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('/service-worker.js',{scope:'/'});</script>
 </head>
 <body class="bg-parchment text-ink font-sans">
   <header id="site-nav"></header>
@@ -30,19 +115,19 @@
 
     <section class="bg-parchment">
       <div class="mx-auto max-w-3xl px-5 sm:px-8 py-14 md:py-20 divide-y divide-stone/20">
-        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Che cos'è Crest?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Crest è un wallet digitale pensato per i residenti della Repubblica di San Marino: un conto con IBAN, carta virtuale e fisica, trasferimenti istantanei e un'app moderna. È un'alternativa alle banche tradizionali locali e ai wallet esteri che non operano a San Marino.</p></details>
+        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Che cos'è Crest?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Crest è un wallet digitale pensato per i residenti della Repubblica di San Marino: un conto con IBAN, carta virtuale e fisica, trasferimenti istantanei e un'app moderna. È un'alternativa alle banche tradizionali locali e ai wallet esteri che non operano a San Marino.</p></details>
 
-        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Perché Revolut e Wise non funzionano a San Marino?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">San Marino non fa parte dell'Unione Europea né dello Spazio Economico Europeo. La maggior parte dei wallet digitali opera tramite licenze e infrastrutture UE/SEE, e quindi non apre conti ai residenti sammarinesi. Crest nasce proprio per servire questo mercato.</p></details>
+        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Perché Revolut e Wise non funzionano a San Marino?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">San Marino non fa parte dell'Unione Europea né dello Spazio Economico Europeo. La maggior parte dei wallet digitali opera tramite licenze e infrastrutture UE/SEE, e quindi non apre conti ai residenti sammarinesi. Crest nasce proprio per servire questo mercato.</p></details>
 
-        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Crest è una banca?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">No. Crest è oggi un progetto in fase di pre-lancio e <strong>non è una banca né un istituto di moneta elettronica o di pagamento autorizzato</strong>. I servizi descritti rappresentano l'intenzione di prodotto e saranno offerti solo dopo aver ottenuto le necessarie autorizzazioni. La lista d'attesa serve a raccogliere l'interesse dei residenti.</p></details>
+        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Crest è una banca?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">No. Crest è oggi un progetto in fase di pre-lancio e <strong>non è una banca né un istituto di moneta elettronica o di pagamento autorizzato</strong>. I servizi descritti rappresentano l'intenzione di prodotto e saranno offerti solo dopo aver ottenuto le necessarie autorizzazioni. La lista d'attesa serve a raccogliere l'interesse dei residenti.</p></details>
 
-        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Quanto costa iscriversi alla lista d'attesa?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Nulla. L'iscrizione è gratuita e senza impegno. Lasci la tua email (e, se vuoi, il castello di residenza) e ti contattiamo solo quando ci sono novità concrete.</p></details>
+        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Quanto costa iscriversi alla lista d'attesa?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Nulla. L'iscrizione è gratuita e senza impegno. Lasci la tua email (e, se vuoi, il castello di residenza) e ti contattiamo solo quando ci sono novità concrete.</p></details>
 
-        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Quando sarà disponibile?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Stiamo lavorando al lancio. Non fissiamo date che non possiamo garantire: preferiamo aggiornare gli iscritti alla lista appena ci sono passi avanti reali. Chi è in lista accede per primo.</p></details>
+        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Quando sarà disponibile?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Stiamo lavorando al lancio. Non fissiamo date che non possiamo garantire: preferiamo aggiornare gli iscritti alla lista appena ci sono passi avanti reali. Chi è in lista accede per primo.</p></details>
 
-        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Chi può usare Crest?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Crest è pensato per i residenti della Repubblica di San Marino. I requisiti precisi per l'apertura del conto saranno comunicati al lancio, in linea con la normativa applicabile.</p></details>
+        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Chi può usare Crest?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Crest è pensato per i residenti della Repubblica di San Marino. I requisiti precisi per l'apertura del conto saranno comunicati al lancio, in linea con la normativa applicabile.</p></details>
 
-        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Come trattate i miei dati?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Usiamo la tua email solo per aggiornarti su Crest e non la condividiamo con terzi per finalità di marketing. Tutti i dettagli sono nella <a href="/privacy" class="text-forest underline underline-offset-2">Privacy Policy</a>.</p></details>
+        <details class="group py-5"><summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-display text-lg font-semibold"><span>Come trattate i miei dati?</span><svg class="faq-icon shrink-0 text-stone" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><p class="mt-3 text-ink/70 leading-relaxed">Usiamo la tua email solo per aggiornarti su Crest e non la condividiamo con terzi per finalità di marketing. Tutti i dettagli sono nella <a href="/privacy" class="text-forest underline underline-offset-2">Privacy Policy</a>.</p></details>
       </div>
 
       <div class="mx-auto max-w-3xl px-5 sm:px-8 pb-20">
