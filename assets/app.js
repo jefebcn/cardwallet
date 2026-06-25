@@ -420,21 +420,32 @@
 
       // tab di filtro per categoria
       var tabs = Array.prototype.slice.call(document.querySelectorAll('.hl-tab'));
-      tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          var f = tab.getAttribute('data-filter');
-          tabs.forEach(function (t) {
-            var on = t === tab;
-            t.classList.toggle('is-active', on);
-            t.setAttribute('aria-selected', String(on));
-          });
-          cards.forEach(function (c) {
-            var show = f === 'all' || c.getAttribute('data-cat') === f;
-            c.classList.toggle('is-hidden', !show);
-            c.classList.remove('is-open');
-          });
-          scroller.scrollTo({ left: 0, behavior: 'smooth' });
-          updateArrows();
+      function activateTab(tab) {
+        var f = tab.getAttribute('data-filter');
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', String(on));
+          t.setAttribute('tabindex', on ? '0' : '-1');
+        });
+        cards.forEach(function (c) {
+          var show = f === 'all' || c.getAttribute('data-cat') === f;
+          c.classList.toggle('is-hidden', !show);
+          c.classList.remove('is-open');
+        });
+        scroller.scrollTo({ left: 0, behavior: 'smooth' });
+        updateArrows();
+      }
+      tabs.forEach(function (tab, idx) {
+        tab.setAttribute('tabindex', tab.classList.contains('is-active') ? '0' : '-1');
+        tab.addEventListener('click', function () { activateTab(tab); });
+        tab.addEventListener('keydown', function (e) {
+          var next = -1;
+          if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+          else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+          else if (e.key === 'Home') next = 0;
+          else if (e.key === 'End') next = tabs.length - 1;
+          if (next >= 0) { e.preventDefault(); activateTab(tabs[next]); tabs[next].focus(); }
         });
       });
 
