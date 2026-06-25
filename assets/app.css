@@ -57,6 +57,13 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 /* rete di sicurezza anti-scroll orizzontale su mobile (non rompe lo sticky) */
 html, body { overflow-x: clip; }
 
+/* ---- Hero mobile: mt-auto spingerebbe il copy al fondo perché il telefono
+   è hidden — su mobile il copy parte da ~28svh dal top invece che dal fondo ---- */
+@media (max-width: 767px) {
+  #hero { height: auto; min-height: 90svh; }
+  #hero-copy { margin-top: 0; padding-top: clamp(88px, 28svh, 180px); }
+}
+
 /* ---- Bottoni ---- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 9999px; font-weight: 600; transition: transform .25s var(--ease-out), background-color .2s, color .2s, border-color .2s; }
 .btn:active { transform: scale(.97); }
