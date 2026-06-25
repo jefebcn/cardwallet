@@ -137,12 +137,18 @@
     // mobile nav
     var toggle = document.getElementById('navToggle');
     var menu = document.getElementById('mobileMenu');
+    function closeMenu() {
+      if (!menu) return;
+      menu.classList.add('hidden');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
     if (toggle && menu) {
       toggle.addEventListener('click', function () {
         var open = menu.classList.toggle('hidden') === false;
         toggle.setAttribute('aria-expanded', String(open));
       });
-      menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') menu.classList.add('hidden'); });
+      menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') closeMenu(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
     }
 
     // reveal — se GSAP è caricato, lo gestisce gsap-anim.js (evita conflitti)
