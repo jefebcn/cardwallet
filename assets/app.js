@@ -159,7 +159,12 @@
       var target = parseFloat(el.getAttribute('data-count-to')) || 0;
       var suffix = el.getAttribute('data-suffix') || '';
       var dur = 1500, start = null;
+      // token: annulla eventuali animazioni precedenti sullo stesso elemento
+      // (evita sovrapposizioni quando il conteggio reale arriva mentre l'animazione è in corso)
+      var token = (el.__countToken || 0) + 1;
+      el.__countToken = token;
       function step(ts) {
+        if (el.__countToken !== token) return; // superata da una nuova chiamata
         if (!start) start = ts;
         var p = Math.min((ts - start) / dur, 1);
         var eased = 1 - Math.pow(1 - p, 3);
@@ -179,12 +184,11 @@
       .then(function (j) {
         if (j && typeof j.count === 'number' && j.count > 0) {
           document.querySelectorAll('[data-waitlist]').forEach(function (el) {
-            var prev = parseFloat(el.getAttribute('data-count-to')) || 0;
-            // only update + re-animate when the count actually changed
-            if (j.count !== prev) {
-              el.setAttribute('data-count-to', j.count);
-              if (el.getAttribute('data-counted') === '1') countTo(el);
-            }
+            el.setAttribute('data-count-to', j.count);
+            // se il contatore è già stato attivato (in viewport o in animazione),
+            // ri-anima al valore reale; altrimenti partirà dal valore corretto
+            // quando entrerà in vista (gestito dall'IntersectionObserver / reveal GSAP)
+            if (el.__countToken) countTo(el);
           });
         }
       })

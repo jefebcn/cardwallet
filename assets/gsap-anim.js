@@ -129,8 +129,9 @@ window.addEventListener('DOMContentLoaded', function () {
       });
     }
     // testo scivola su e sfuma — solo su desktop (su mobile i testi restano visibili)
+    // NB: #hero-sub (sottotitolo + pulsanti CTA) NON sfuma, così i tasti restano sempre visibili
     if (!isMobile) {
-      gsap.to(['#hero-badge', '#hero-sub', '#hero-proof'], {
+      gsap.to(['#hero-badge', '#hero-proof'], {
         yPercent: 20, opacity: 0,
         ease: 'none',
         scrollTrigger: { trigger: hero, start: 'top top', end: '55% top', scrub: true }
