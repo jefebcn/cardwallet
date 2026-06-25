@@ -143,6 +143,16 @@
     inject('site-nav', NAV);
     inject('site-footer', FOOTER);
 
+    // marca il link attivo nella nav con aria-current="page"
+    var currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    Array.prototype.forEach.call(document.querySelectorAll('#site-nav a[href]'), function (a) {
+      var href = a.getAttribute('href').replace(/\/$/, '') || '/';
+      if (href === currentPath && href !== '/') {
+        a.setAttribute('aria-current', 'page');
+        a.style.color = ''; // usa il colore del tema
+      }
+    });
+
     // anno corrente
     Array.prototype.forEach.call(document.querySelectorAll('[data-year]'), function (e) { e.textContent = new Date().getFullYear(); });
 
@@ -281,6 +291,7 @@
             if (res.ok && res.j && res.j.ok) {
               wlForm.classList.add('hidden');
               if (wlDone) wlDone.classList.remove('hidden');
+              if (typeof window.plausible === 'function') window.plausible('Signup');
               // Increment only the waitlist counters by 1
               document.querySelectorAll('[data-waitlist]').forEach(function (el) {
                 var prev = parseFloat(el.getAttribute('data-count-to')) || 0;
@@ -470,6 +481,13 @@
       var waBtn = document.getElementById('share-wa');
       var xBtn = document.getElementById('share-x');
       if (!nativeBtn || !waBtn || !xBtn) return;
+
+      function track(channel) {
+        if (typeof window.plausible === 'function') {
+          window.plausible('Share', { props: { channel: channel } });
+        }
+      }
+
       var shareData = {
         title: 'Crest — wallet digitale per San Marino',
         text: 'Ho scoperto Crest, il wallet digitale per la Repubblica di San Marino 🇸🇲 — unisciti alla lista d\'attesa',
@@ -480,8 +498,12 @@
         waBtn.classList.add('hidden');
         xBtn.classList.add('hidden');
         nativeBtn.addEventListener('click', function () {
+          track('native');
           navigator.share(shareData).catch(function () {});
         });
+      } else {
+        waBtn.addEventListener('click', function () { track('whatsapp'); });
+        xBtn.addEventListener('click', function () { track('x'); });
       }
     })();
 
