@@ -62,11 +62,6 @@
             <span class="font-display text-xl font-semibold tracking-tightest">Crest</span>\
           </a>\
           <p class="mt-4 max-w-xs text-parchment/65 leading-relaxed">Finanza moderna per la Repubblica di San Marino. Costruita dalla vetta del Titano.</p>\
-          <div class="mt-6 flex items-center gap-3">\
-            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="w-9 h-9 grid place-items-center rounded-full border border-parchment/25 hover:bg-parchment/10 transition"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>\
-            <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn" class="w-9 h-9 grid place-items-center rounded-full border border-parchment/25 hover:bg-parchment/10 transition"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9z"/></svg></a>\
-            <a href="https://x.com" target="_blank" rel="noopener" aria-label="X" class="w-9 h-9 grid place-items-center rounded-full border border-parchment/25 hover:bg-parchment/10 transition"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.8l-5.3-6.9L4.8 22H1.7l7.8-8.9L1 2h7l4.8 6.3zm-2.4 18h1.9L7.6 4H5.6z"/></svg></a>\
-          </div>\
         </div>\
         <nav class="md:col-span-2" aria-label="Prodotto">\
           <p class="text-parchment/45 uppercase tracking-wider text-xs mb-4">Prodotto</p>\
