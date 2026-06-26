@@ -6,4 +6,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://crest.sm/sitemap.xml
+Sitemap: https://crestpay.app/sitemap.xml
