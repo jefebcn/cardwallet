@@ -1,7 +1,7 @@
 'use strict';
 /* Endpoint pubblico: restituisce il conteggio degli iscritti alla waitlist (reale + offset). */
 
-var SEED = 315;
+var SEED = 318;
 
 var SUPA_URL = 'https://pfgjsgnafgcbjrpoivgz.supabase.co';
 var SUPA_KEY = process.env.SUPABASE_ANON_KEY ||
