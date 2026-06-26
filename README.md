@@ -89,7 +89,8 @@ Dashboard per consultare gli iscritti, con statistiche, ricerca ed export CSV. L
 |---|---|
 | `ADMIN_PASSWORD` | Password unica per accedere a `/admin`. |
 | `SESSION_SECRET` | Stringa casuale lunga per firmare i cookie (`openssl rand -base64 48`). |
-| `SUPABASE_ANON_KEY` | Chiave anon di Supabase per scrivere/leggere la tabella `waitlist`. |
+| `SUPABASE_ANON_KEY` | Chiave anon di Supabase (scrittura INSERT sulla tabella `waitlist`). |
+| `SUPABASE_SERVICE_KEY` | _(consigliato)_ Service-role key di Supabase — usata da `/api/subscribers` per leggere la lista in admin, bypassando RLS. Se assente si usa la anon key (richiede policy SELECT anche per anon). |
 | `RESEND_API_KEY` | _(opzionale)_ Abilita l'email di benvenuto via [Resend](https://resend.com). Se assente l'iscrizione funziona comunque. |
 | `WAITLIST_FROM_EMAIL` | _(opzionale)_ Mittente dell'email (default `Crest <noreply@crestpay.app>`; dominio da verificare su Resend). |
 

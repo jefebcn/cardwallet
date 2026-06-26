@@ -2,7 +2,11 @@
 const { verifyToken, parseCookies, COOKIE } = require('../lib/auth');
 
 var SUPA_URL = 'https://pfgjsgnafgcbjrpoivgz.supabase.co';
-var SUPA_KEY = process.env.SUPABASE_ANON_KEY ||
+/* Reads use the service-role key (bypasses RLS) so that anon INSERT-only RLS
+   can stay active. Falls back to the anon key if SUPABASE_SERVICE_KEY is not set
+   (the admin read will work only if the anon SELECT policy is also enabled). */
+var SUPA_READ_KEY = process.env.SUPABASE_SERVICE_KEY ||
+  process.env.SUPABASE_ANON_KEY ||
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmZ2pzZ25hZmdjYmpycG9pdmd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMDA4OTQsImV4cCI6MjA5NzY3Njg5NH0.q-4SqgrGo7LW0j9sPUzH_QTsgVNHRBxfUGvqJVGsp30';
 
 module.exports = async function (req, res) {
@@ -19,8 +23,8 @@ module.exports = async function (req, res) {
       SUPA_URL + '/rest/v1/waitlist?select=created_at,nome,email,castello&order=created_at.desc',
       {
         headers: {
-          'apikey': SUPA_KEY,
-          'Authorization': 'Bearer ' + SUPA_KEY,
+          'apikey': SUPA_READ_KEY,
+          'Authorization': 'Bearer ' + SUPA_READ_KEY,
         },
       }
     );
