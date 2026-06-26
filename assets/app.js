@@ -568,7 +568,7 @@
       var shareData = {
         title: 'Crest — wallet digitale per San Marino',
         text: 'Ho scoperto Crest, il wallet digitale per la Repubblica di San Marino 🇸🇲 — unisciti alla lista d\'attesa',
-        url: 'https://crest.sm'
+        url: 'https://crestpay.app'
       };
       if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
         nativeBtn.classList.remove('hidden');
