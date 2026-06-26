@@ -133,3 +133,63 @@ Stessi hashtag in chiave internazionale:
 > crestpay.app
 
 Immagine profilo: `crest-13-avatar.png`
+
+---
+
+## Batch 2 · Post feed 4:5 (33→35) + Storie 9:16 (36→37)
+
+Hashtag integrativi batch 2:
+`#sicurezza #digitalwallet #onboarding #zerofee #SanMarino2026`
+
+---
+
+### 33 · Sicurezza — `crest-33-sicurezza.png`
+> Il tuo conto al sicuro. 🔐
+> Autenticazione a due fattori, blocco istantaneo della carta, notifiche in tempo reale per ogni movimento.
+> Crest è progettato per tenerti sempre in controllo — perché i tuoi soldi sono affari tuoi.
+> Lista d'attesa aperta → link in bio. 🏔️
+> .
+> #Crest #SanMarino #sicurezzadigitale #fintech #wallet #RepubblicaDiSanMarino #LaTuaBancaDigitale
+
+---
+
+### 34 · Apertura conto — `crest-34-apertura.png`
+> Aprire un conto non dovrebbe essere un lavoro. Con Crest non lo è. ✅
+> 1️⃣ Iscriviti alla lista d'attesa — 10 secondi.
+> 2️⃣ Al lancio ricevi l'invito e completi il KYC dal telefono.
+> 3️⃣ IBAN e carta virtuale attivi. Subito.
+> Senza filiali. Senza attese. Senza documenti cartacei.
+> Inizia adesso — link in bio. 🏔️
+> .
+> #Crest #SanMarino #onboarding #digitalbanking #fintech #IBAN #wallet #RepubblicaDiSanMarino
+
+---
+
+### 35 · 34k stat — `crest-35-34k.png`
+> 34.000 residenti. Zero wallet digitali pensati per loro.
+> Fino ad oggi. 🏔️
+> Crest è il primo conto digitale costruito per la Repubblica di San Marino — non adattato, costruito.
+> IBAN sammarinese, carta fisica e trasferimenti istantanei.
+> Lista d'attesa aperta → link in bio.
+> .
+> #Crest #SanMarino #RepubblicaDiSanMarino #fintech #Titano #wallet #IBAN #LaTuaBancaDigitale
+
+---
+
+### 36 · Story — Domanda Revolut — `crest-36-story-domanda.png`
+Storia 9:16. Aggiungi sticker **Sondaggio** con le opzioni "Sì 🫠" / "No 😤" per aumentare l'engagement.
+> Testo sotto al sondaggio: "Noi sì. Lista d'attesa → link in bio 🏔️"
+
+---
+
+### 37 · Story — Carta Crest — `crest-37-story-carta2.png`
+Storia 9:16. Aggiungi sticker **Link** → crestpay.app. Poi lo sticker **Countdown** con la data di lancio prevista.
+> Testo: "La carta che aspettavi. In metallo, con il tuo nome. Solo per chi è in lista → crestpay.app 🏔️"
+
+---
+
+## Calendario suggerito batch 2
+
+**Sett. A** → 33 Sicurezza · 35 34k · Story 36
+**Sett. B** → 34 Apertura · Story 37
+
