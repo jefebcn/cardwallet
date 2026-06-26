@@ -81,7 +81,7 @@ Le **storie** (14·15·16) si pubblicano in parallelo, ogni volta che esce un po
 Sticker suggeriti: countdown "Lancio 2026", sondaggio "Lo aspettavi? Sì / Finalmente".
 
 ### 15 · Story Waitlist — `crest-15-story-waitlist.png`
-Aggiungi lo sticker **Link** → crest.sm. CTA: "Tocca per iscriverti".
+Aggiungi lo sticker **Link** → crestpay.app. CTA: "Tocca per iscriverti".
 
 ### 16 · Story Carta — `crest-16-story-carta.png`
 Sticker "Nuovo" + Link alla lista d'attesa.
@@ -121,7 +121,7 @@ Stessi hashtag in chiave internazionale:
 > Sammarinese abroad? Keep San Marino in your pocket. IBAN, card and instant transfers — wherever life takes you. Join the waitlist 👇
 
 ### 26 · EN Waitlist — `crest-26-en-waitlist.png`
-> Early members get first access at launch — and the very first cards. Ten seconds, no commitment. crest.sm
+> Early members get first access at launch — and the very first cards. Ten seconds, no commitment. crestpay.app
 
 ---
 
@@ -130,6 +130,6 @@ Stessi hashtag in chiave internazionale:
 > Il wallet digitale per la Repubblica di San Marino.
 > IBAN · Carta · Trasferimenti istantanei.
 > In arrivo nel 2026 — iscriviti 👇
-> crest.sm
+> crestpay.app
 
 Immagine profilo: `crest-13-avatar.png`

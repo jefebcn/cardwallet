@@ -112,7 +112,7 @@ function doPost(e) {
           'Castello: ' + (castello || '—'),
           'Data:     ' + data.toISOString(),
           '',
-          'Vedi tutti gli iscritti: https://crest.sm/admin',
+          'Vedi tutti gli iscritti: https://crestpay.app/admin',
         ].join('\n'),
         htmlBody: '<p style="font-family:sans-serif;color:#110F08">' +
           '<strong>Nuovo iscritto alla lista d\'attesa Crest.</strong></p>' +
@@ -122,7 +122,7 @@ function doPost(e) {
           row('Castello', castello || '—') +
           row('Data',     data.toLocaleString('it-IT')) +
           '</table>' +
-          '<p style="margin-top:20px"><a href="https://crest.sm/admin" ' +
+          '<p style="margin-top:20px"><a href="https://crestpay.app/admin" ' +
           'style="background:#1E3A2F;color:#F4EDE0;padding:10px 20px;border-radius:8px;' +
           'text-decoration:none;font-family:sans-serif;font-size:13px">Apri pannello admin</a></p>'
       });
@@ -176,7 +176,7 @@ Dashboard per consultare gli iscritti, con statistiche, ricerca ed export CSV. L
 | `SHEET_WEBHOOK_SECRET` | Segreto condiviso con lo script (`openssl rand -base64 24`). |
 | `SUPABASE_ANON_KEY` | Chiave anon di Supabase per scrivere sulla tabella `waitlist`. |
 | `RESEND_API_KEY` | _(opzionale)_ Abilita l'email di conferma iscrizione via [Resend](https://resend.com). Se assente, l'iscrizione funziona comunque senza inviare email. |
-| `WAITLIST_FROM_EMAIL` | _(opzionale)_ Mittente dell'email di benvenuto (default `Crest <noreply@crest.sm>`; il dominio va verificato su Resend). |
+| `WAITLIST_FROM_EMAIL` | _(opzionale)_ Mittente dell'email di benvenuto (default `Crest <noreply@crestpay.app>`; il dominio va verificato su Resend). |
 
 Vedi `.env.example`. Per provare in locale serve un runtime che esegua le funzioni `/api` (es. `vercel dev`).
 
@@ -188,7 +188,7 @@ Vedi `.env.example`. Per provare in locale serve un runtime che esegua le funzio
 > lato server (mai esposta al client).
 
 > **Analytics:** le pagine pubbliche includono [Plausible](https://plausible.io)
-> (cookieless, GDPR-friendly). Va creato il sito `crest.sm` nella dashboard
+> (cookieless, GDPR-friendly). Va creato il sito `crestpay.app` nella dashboard
 > Plausible perché i dati vengano raccolti; lo script non usa cookie e non
 > richiede consenso.
 
