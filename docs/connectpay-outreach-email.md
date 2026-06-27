@@ -26,6 +26,13 @@ the EEA**:
    San Marino** (i.e. outside the EEA)? Are San Marino residents eligible to be onboarded
    as account/card holders under your licence?
 
+3. **San Marino regulatory registration** — Serving San Marino residents is a "reserved
+   activity" under San Marino law (Law 165/2005). Foreign licensed institutions can operate
+   there under the "provision of services without permanent establishment" (PSSS) regime,
+   including **through a local agent/distributor**. Are you **already registered with the
+   Central Bank of San Marino (BCSM)** under this regime — or **open to registering** — with
+   Crest acting as your agent/distributor?
+
 If helpful for scoping, a few details about us:
 
 - **Stage:** pre-launch, building a waitlist (live at crestpay.app)

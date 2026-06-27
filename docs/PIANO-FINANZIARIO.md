@@ -61,6 +61,24 @@ ConnectPay ha "**passaportato**" la licenza nei **30 paesi dello Spazio Economic
 Se la risposta è sì → il piano regge e i costi crollano. Se è no → serve un partner
 diverso o una struttura societaria UE. **È la domanda numero uno da fare.**
 
+### 🔑 Chi deve essere autorizzato da BCSM?
+A San Marino i servizi di pagamento/moneta elettronica sono **attività riservata** (Legge
+165/2005): non si possono offrire ai residenti senza autorizzazione BCSM. **Ma non serve
+per forza che sia Crest ad avere una licenza propria.** La normativa ammette che un
+operatore estero (ConnectPay) operi in regime **"senza stabile organizzazione" (PSSS)**,
+anche **tramite un agente/distributore locale** — cioè Crest.
+
+| Scenario | Praticabile? |
+|---|---|
+| ConnectPay registrato PSSS presso BCSM + Crest agente | ✅ percorso pulito |
+| Crest chiede autorizzazione propria a BCSM | ✅ ma più oneroso |
+| Vendere ai sammarinesi senza autorizzazione di nessuno | ❌ illegale (abusivismo) |
+| Pivot su soli clienti UE/SEE | ⚠️ legale ma snatura il progetto |
+
+A fine 2023 risultavano **5 imprese estere già autorizzate** per i servizi di pagamento in
+regime PSSS: **la strada esiste ed è battuta.** La vera incognita è se ConnectPay è già
+registrato o disposto a registrarsi presso BCSM con Crest come agente (3ª domanda nell'email).
+
 ### Costi ConnectPay (modello)
 - Application processing: gratis (o **€100** per entità complesse)
 - **Minimum Monthly Commitment (MMC)**: paghi un minimo mensile; se le fee reali sono sotto
