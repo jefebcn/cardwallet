@@ -251,6 +251,13 @@
     var wlForm = document.getElementById('waitlistForm');
     var wlDone = document.getElementById('waitlistDone');
     if (wlForm) {
+      // referral in ingresso: ?ref=CODE → memorizzato e inviato con l'iscrizione
+      var REFERRAL_IN = (function () {
+        var m = /[?&]ref=([A-Za-z0-9_-]{4,20})/.exec(location.search || '');
+        var v = m ? m[1] : '';
+        try { if (v) localStorage.setItem('crest-ref', v); else v = localStorage.getItem('crest-ref') || ''; } catch (e) {}
+        return v;
+      })();
       var wlBtn = document.getElementById('wl-submit');
       var wlErr = document.getElementById('wl-error');
       var wlLabel = wlForm.querySelector('.wl-label');
@@ -306,7 +313,8 @@
           nome: (wlForm.nome.value || '').trim(),
           email: (wlForm.email.value || '').trim(),
           castello: wlForm.castello ? wlForm.castello.value : '',
-          website: wlForm.website ? wlForm.website.value : ''
+          website: wlForm.website ? wlForm.website.value : '',
+          ref: REFERRAL_IN || ''
         };
 
         setBusy(true);
@@ -331,6 +339,51 @@
                 el.setAttribute('data-count-to', prev + 1);
                 countTo(el);
               });
+              // ---- Referral: posizione + link invito personale ----
+              var data = res.j || {};
+              var setPos = function (n) {
+                var pw = document.getElementById('wl-position');
+                var pn = document.getElementById('wl-position-num');
+                if (pw && pn && typeof n === 'number') { pn.textContent = n.toLocaleString('it-IT'); pw.classList.remove('hidden'); }
+              };
+              if (typeof data.position === 'number') setPos(data.position);
+              if (data.ref_code) {
+                var link = 'https://crestpay.app/?ref=' + data.ref_code;
+                window.crestShareUrl = link;
+                var linkInput = document.getElementById('wl-ref-link');
+                var wrap = document.getElementById('wl-ref-wrap');
+                if (linkInput && wrap) { linkInput.value = link; wrap.classList.remove('hidden'); }
+                // aggiorna i link di condivisione col link personale
+                var shareText = 'Ho scoperto Crest, il wallet digitale per la Repubblica di San Marino 🇸🇲 — unisciti alla lista d\'attesa → ' + link;
+                var wa = document.getElementById('share-wa');
+                var xb = document.getElementById('share-x');
+                if (wa) wa.href = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+                if (xb) xb.href = 'https://x.com/intent/tweet?text=' + encodeURIComponent(shareText);
+                // tasto copia
+                var copyBtn = document.getElementById('wl-ref-copy');
+                if (copyBtn && !copyBtn.__wired) {
+                  copyBtn.__wired = true;
+                  copyBtn.addEventListener('click', function () {
+                    var done = function () { copyBtn.textContent = 'Copiato ✓'; setTimeout(function () { copyBtn.textContent = 'Copia'; }, 2000); };
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      navigator.clipboard.writeText(link).then(done).catch(function () { try { linkInput.select(); document.execCommand('copy'); } catch (e) {} done(); });
+                    } else { try { linkInput.select(); document.execCommand('copy'); } catch (e) {} done(); }
+                  });
+                }
+                // posizione live (considera i referral già acquisiti)
+                fetch('/api/referral-status?code=' + encodeURIComponent(data.ref_code))
+                  .then(function (r) { return r.json(); })
+                  .then(function (s) {
+                    if (s && typeof s.position === 'number') {
+                      setPos(s.position);
+                      var stats = document.getElementById('wl-ref-stats');
+                      if (stats && s.referrals > 0) {
+                        stats.textContent = s.referrals + (s.referrals === 1 ? ' amico iscritto' : ' amici iscritti') + ' — +' + (s.referrals * (s.boost || 10)) + ' posizioni 🚀';
+                        stats.classList.remove('hidden');
+                      }
+                    }
+                  }).catch(function () {});
+              }
             } else {
               showErr((res.j && res.j.error) || 'Qualcosa è andato storto. Riprova.');
               setBusy(false);
@@ -571,7 +624,11 @@
         xBtn.classList.add('hidden');
         nativeBtn.addEventListener('click', function () {
           track('native');
-          navigator.share(shareData).catch(function () {});
+          navigator.share({
+            title: shareData.title,
+            text: shareData.text,
+            url: window.crestShareUrl || shareData.url
+          }).catch(function () {});
         });
       } else {
         waBtn.addEventListener('click', function () { track('whatsapp'); });

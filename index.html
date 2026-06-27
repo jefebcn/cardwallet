@@ -1519,9 +1519,27 @@
               <span class="inline-flex w-14 h-14 items-center justify-center rounded-full bg-forest text-parchment"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               <h3 class="mt-5 font-display text-2xl font-semibold">Ci sei.</h3>
               <p class="mt-2 text-ink/65 max-w-xs mx-auto">Sei in lista d'attesa. Ti scriviamo appena Crest è pronto — niente spam, promesso.</p>
+
+              <!-- Posizione in lista (popolata via JS) -->
+              <div id="wl-position" class="hidden mt-6">
+                <p class="text-xs text-ink/40 font-semibold uppercase tracking-widest mb-1">La tua posizione</p>
+                <p class="font-display text-4xl font-bold text-clay tabular-nums">#<span id="wl-position-num">—</span></p>
+              </div>
+
+              <!-- Link invito personale (popolato via JS) -->
+              <div id="wl-ref-wrap" class="hidden mt-6 pt-6 border-t border-stone/15 text-left">
+                <p class="text-xs text-ink/40 font-semibold uppercase tracking-widest mb-2 text-center">Sali in lista — invita gli amici</p>
+                <p class="text-sm text-ink/60 mb-3 text-center">Ogni amico che si iscrive col tuo link ti fa salire di <strong class="text-ink">10 posizioni</strong>.</p>
+                <div class="flex gap-2">
+                  <input id="wl-ref-link" type="text" readonly class="w-full rounded-xl border border-stone/30 bg-parchment-dim/40 px-3 py-2.5 text-sm text-ink/80 truncate" />
+                  <button id="wl-ref-copy" type="button" class="btn btn-clay px-4 py-2.5 text-sm shrink-0">Copia</button>
+                </div>
+                <p id="wl-ref-stats" class="hidden mt-2 text-xs text-forest font-medium text-center"></p>
+              </div>
+
               <!-- Condivisione social -->
               <div class="mt-7 pt-6 border-t border-stone/15">
-                <p class="text-xs text-ink/40 font-semibold uppercase tracking-widest mb-4">Invita un amico</p>
+                <p class="text-xs text-ink/40 font-semibold uppercase tracking-widest mb-4">Condividi il tuo invito</p>
                 <div class="flex gap-2.5 justify-center flex-wrap">
                   <button id="share-native" class="btn hidden gap-2 px-5 py-2.5 text-sm font-semibold text-parchment bg-forest rounded-full" type="button">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>

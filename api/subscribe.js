@@ -16,6 +16,51 @@ function clean(v, max) {
   return String(v == null ? '' : v).replace(/[ -]/g, ' ').trim().slice(0, max || 200);
 }
 
+/* Seed per la posizione mostrata (coerente con /api/waitlist-count). */
+var SEED = 318;
+
+/* Codice referral univoco-abbastanza: 9 caratteri base36, collisione trascurabile. */
+function makeRefCode() {
+  var a = Math.random().toString(36).slice(2, 7);
+  var b = Math.random().toString(36).slice(2, 6);
+  return (a + b).slice(0, 9);
+}
+
+/* Conteggio totale iscritti (per stimare la posizione in lista). */
+async function totalCount() {
+  try {
+    var r = await fetch(SUPA_URL + '/rest/v1/waitlist?select=*', {
+      method: 'HEAD',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Prefer': 'count=exact' },
+    });
+    var range = r.headers.get('content-range') || '';
+    var n = parseInt((range.split('/')[1] || '').trim(), 10);
+    return isNaN(n) ? null : n;
+  } catch (e) { return null; }
+}
+
+/* Inserimento con fallback: se le colonne referral non esistono ancora, riprova
+   coi soli campi base così il sito continua a funzionare prima della migrazione. */
+async function insertRow(full) {
+  var headers = {
+    'Content-Type': 'application/json',
+    'apikey': SUPA_KEY,
+    'Authorization': 'Bearer ' + SUPA_KEY,
+    'Prefer': 'return=minimal',
+  };
+  var r = await fetch(SUPA_URL + '/rest/v1/waitlist', {
+    method: 'POST', headers: headers, body: JSON.stringify(full),
+  });
+  if (r.status === 400 || r.status === 404) {
+    var basic = { nome: full.nome, email: full.email, castello: full.castello };
+    var r2 = await fetch(SUPA_URL + '/rest/v1/waitlist', {
+      method: 'POST', headers: headers, body: JSON.stringify(basic),
+    });
+    return { res: r2, referralSaved: false };
+  }
+  return { res: r, referralSaved: true };
+}
+
 /* ---- Rate limiting best-effort (in-memory, per istanza calda) ----
    Difesa contro burst sullo stesso IP. Le funzioni serverless sono effimere,
    quindi e' efficace finche' l'istanza resta calda; per un limite robusto e
@@ -35,7 +80,7 @@ function rateLimited(ip) {
 
 /* ---- Email di benvenuto (via Resend) ----
    Attiva solo se RESEND_API_KEY e' configurata; un errore non blocca l'iscrizione. */
-async function sendWelcomeEmail(nome, email) {
+async function sendWelcomeEmail(nome, email, refLink) {
   var key = process.env.RESEND_API_KEY;
   if (!key) return;
   var from = process.env.WAITLIST_FROM_EMAIL || 'Crest <noreply@crestpay.app>';
@@ -95,6 +140,18 @@ async function sendWelcomeEmail(nome, email) {
               '</tr>',
             '</table>',
 
+            (refLink ? [
+              '<div style="background:#16291F;border-radius:14px;padding:20px 22px;margin-bottom:28px">',
+                '<p style="color:#F4EDE0;font-size:15px;font-weight:700;margin:0 0 6px">Vuoi salire in lista? 🚀</p>',
+                '<p style="color:rgba(244,237,224,.72);font-size:13px;line-height:1.55;margin:0 0 14px">',
+                  'Ogni amico che si iscrive con il tuo link ti fa <strong style="color:#F4EDE0">salire di 10 posizioni</strong>. Condividi il tuo invito personale:',
+                '</p>',
+                '<a href="' + refLink + '" style="display:inline-block;background:#C2603A;color:#F4EDE0;text-decoration:none;font-size:13px;font-weight:600;padding:11px 20px;border-radius:999px;word-break:break-all">',
+                  refLink,
+                '</a>',
+              '</div>'
+            ].join('') : ''),
+
             '<div style="text-align:center;margin-bottom:8px">',
               '<a href="https://crestpay.app" style="display:inline-block;background:#C2603A;color:#F4EDE0;text-decoration:none;font-size:15px;font-weight:600;padding:15px 40px;border-radius:999px;letter-spacing:-.01em">',
                 'Visita crestpay.app',
@@ -149,27 +206,32 @@ module.exports = async function (req, res) {
   var nome    = clean(body.nome, 80);
   var email   = String(body.email == null ? '' : body.email).trim().toLowerCase().slice(0, 160);
   var castello = clean(body.castello, 60);
+  var referredBy = String(body.ref == null ? '' : body.ref).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 20);
 
   if (nome.length < 2) { res.status(400).json({ error: 'Inserisci il tuo nome.' }); return; }
   if (!EMAIL_RE.test(email)) { res.status(400).json({ error: 'Inserisci un indirizzo email valido.' }); return; }
   if (castello && CASTELLI.indexOf(castello) < 0) castello = '';
 
+  var refCode = makeRefCode();
+
   try {
-    var r = await fetch(SUPA_URL + '/rest/v1/waitlist', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Prefer': 'return=minimal',
-      },
-      body: JSON.stringify({ nome: nome, email: email, castello: castello }),
+    var out = await insertRow({
+      nome: nome, email: email, castello: castello,
+      ref_code: refCode, referred_by: referredBy || null,
     });
+    var r = out.res;
 
     if (r.status === 201 || r.status === 200) {
-      try { await sendWelcomeEmail(nome, email); } catch (e) {}
+      var n = await totalCount();
+      var position = n == null ? null : n + SEED;
+      var refLink = out.referralSaved ? ('https://crestpay.app/?ref=' + refCode) : null;
+      try { await sendWelcomeEmail(nome, email, refLink); } catch (e) {}
       res.setHeader('Cache-Control', 'no-store');
-      res.status(200).json({ ok: true });
+      res.status(200).json({
+        ok: true,
+        ref_code: out.referralSaved ? refCode : null,
+        position: position,
+      });
       return;
     }
 
