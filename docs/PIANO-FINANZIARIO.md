@@ -90,7 +90,7 @@ registrato o disposto a registrarsi presso BCSM con Crest come agente (3ª doman
 
 ## Le fasi del progetto
 
-### FASE 0 — Fondazione & Identità ✅ ~90% COMPLETATA
+### FASE 0 — Fondazione & Identità ✅ COMPLETATA (100%)
 **Obiettivo:** esistere, avere un'identità credibile e un canale per raccogliere interesse.
 
 | Attività | Stato |
@@ -101,11 +101,11 @@ registrato o disposto a registrarsi presso BCSM con Crest come agente (3ª doman
 | Dominio `crestpay.app` + HTTPS/SSL | ✅ Fatto (DNS in propagazione) |
 | Contenuti social (37 post/storie Instagram + caption + calendario) | ✅ Fatto |
 | Analytics (Vercel) | ✅ Fatto |
-| Profili social ufficiali attivi (IG/LinkedIn) | ⏳ Da aprire |
+| Profili social ufficiali attivi (IG/LinkedIn) | ⏳ Da aprire (inizio Fase 1) |
 
-**Spesa Fase 0 (reale finora):** ~**€100 – €1.500**
-(dominio ~€15–40/anno, hosting Vercel gratis/€20 mese, Resend gratis fino a 3k email,
-Supabase gratis allo start. Il grosso è stato tempo, non denaro.)
+**Spesa Fase 0 (reale, consuntivo):** **€50 totali** ✅
+(dominio + strumenti gratuiti allo start. Tutto il resto è stato tempo, non denaro —
+budget rispettato in pieno: stima era €100–1.500, speso €50.)
 
 ---
 
@@ -206,14 +206,14 @@ Fase 4 (€20–80k) ≈ **€60k–260k**, con un realistico **€70k–200k** 
 ## Dove siamo: % di avanzamento
 
 ```
-Fase 0  Fondazione & Identità      ██████████████████░░  ~90%
-Fase 1  Validazione & Base legale  ███░░░░░░░░░░░░░░░░░░  ~15%
+Fase 0  Fondazione & Identità      ████████████████████  100%  ✅ (speso €50)
+Fase 1  Validazione & Base legale  ███░░░░░░░░░░░░░░░░░░  ~15%  ⏳ IN CORSO
 Fase 2  Partner & MVP              ░░░░░░░░░░░░░░░░░░░░░   ~0%
 Fase 3  Compliance & Capitale      ░░░░░░░░░░░░░░░░░░░░░   ~0%
 Fase 4  Lancio & ADV               ░░░░░░░░░░░░░░░░░░░░░   ~0%
 ```
 
-**Avanzamento complessivo verso il lancio: ~20–22%**
+**Avanzamento complessivo verso il lancio: ~22%**
 
 Sembra poco, ma la Fase 0 è quella che la maggior parte dei progetti non completa mai con
 questa qualità: hai già marca, sito, canale di acquisizione e contenuti. La parte "facile e
