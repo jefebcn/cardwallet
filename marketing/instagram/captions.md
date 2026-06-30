@@ -193,3 +193,79 @@ Storia 9:16. Aggiungi sticker **Link** → crestpay.app. Poi lo sticker **Countd
 **Sett. A** → 33 Sicurezza · 35 34k · Story 36
 **Sett. B** → 34 Apertura · Story 37
 
+
+---
+
+## Batch 3 · Post feed 4:5 (38→42) + Storie 9:16 (43→45)
+
+Hashtag integrativi batch 3:
+`#walletSanMarino #appbancaria #referral #cartainmetallo #SanMarino2026`
+
+---
+
+### 38 · Controllo dall'app — `crest-38-controllo.png`
+> Il tuo conto sta nel telefono. 📱
+> Notifica a ogni movimento, blocco carta in un tocco, limiti di spesa che imposti tu.
+> Crest ti tiene sempre in controllo — perché i tuoi soldi sono affari tuoi.
+> Lista d'attesa aperta → link in bio. 🏔️
+> .
+> #Crest #SanMarino #appbancaria #fintech #wallet #RepubblicaDiSanMarino #LaTuaBancaDigitale
+
+---
+
+### 39 · Stipendio / IBAN — `crest-39-stipendio.png`
+> Lo stipendio arriva. Tu comandi. 💪
+> Un IBAN sammarinese vero per stipendio, utenze e addebiti automatici. Niente filiali, niente code — tutto dal telefono.
+> Iscriviti alla lista d'attesa → link in bio. 🏔️
+> .
+> #Crest #SanMarino #IBAN #fintech #wallet #RepubblicaDiSanMarino #stipendio
+
+---
+
+### 40 · Quote — `crest-40-quote.png`
+> «Finalmente un conto che non mi dice di no.»
+> È esattamente perché esiste Crest: costruito per chi vive e lavora nella Repubblica di San Marino, non adattato da altrove.
+> Lista d'attesa aperta → link in bio. 🏔️
+> .
+> #Crest #SanMarino #RepubblicaDiSanMarino #fintech #Titano #wallet #LaTuaBancaDigitale
+
+---
+
+### 41 · Founding members / referral — `crest-41-primi.png`
+> Le prime carte in metallo vanno a chi c'è dall'inizio. 🥇
+> Le card si assegnano in ordine di iscrizione. E con il referral salti la fila: ogni amico che inviti ti fa salire di 10 posizioni.
+> Iscriviti e invita → link in bio. 🏔️
+> .
+> #Crest #SanMarino #referral #cartainmetallo #fintech #listadattesa #RepubblicaDiSanMarino
+
+---
+
+### 42 · Missione locale — `crest-42-missione.png`
+> Costruito qui. Per chi vive qui. 🏔️
+> Crest nasce sul Monte Titano, per i sammarinesi — non un wallet adattato da altrove, ma pensato per questo mercato.
+> Unisciti alla lista d'attesa → link in bio.
+> .
+> #Crest #SanMarino #RepubblicaDiSanMarino #Titano #fintech #wallet #orgogliosammarinese
+
+---
+
+### 43 · Story — Invita e salta la fila — `crest-43-story-invita.png`
+Storia 9:16. Aggiungi sticker **Link** → crestpay.app. Testo: "Ogni amico = +10 posizioni 🚀".
+
+---
+
+### 44 · Story — Countdown 2026 — `crest-44-story-2026.png`
+Storia 9:16. Aggiungi sticker **Countdown** con la data di lancio prevista + sticker **Link** → crestpay.app.
+
+---
+
+### 45 · Story — Sondaggio — `crest-45-story-sondaggio.png`
+Storia 9:16. Aggiungi sticker **Sondaggio** con "Sì 🤔 / No 😤". Poi sticker **Link** → crestpay.app.
+
+---
+
+## Calendario suggerito batch 3
+
+**Sett. C** → 41 Founding members · 38 Controllo · Story 43 (referral)
+**Sett. D** → 39 Stipendio · 40 Quote · Story 45 (sondaggio)
+**Sett. E** → 42 Missione · Story 44 (countdown)
