@@ -1,12 +1,23 @@
 {
+  "id": "/",
   "name": "Crest — Il wallet digitale per San Marino",
   "short_name": "Crest",
   "description": "Il conto digitale per i residenti di San Marino: IBAN, carta e trasferimenti istantanei.",
-  "start_url": "/",
+  "lang": "it",
+  "dir": "ltr",
+  "categories": ["finance", "business"],
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#110F08",
   "theme_color": "#1E3A2F",
   "orientation": "portrait",
+  "launch_handler": { "client_mode": "navigate-existing" },
+  "shortcuts": [
+    { "name": "Unisciti alla lista", "url": "/?utm_source=pwa#lista" },
+    { "name": "Prova l'app", "url": "/app" }
+  ],
   "icons": [
     {
       "src": "/assets/icon-192.png",

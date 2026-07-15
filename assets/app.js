@@ -636,6 +636,59 @@
       }
     })();
 
+    // ---- PWA install funnel: "Scarica l'app" ----
+    (function initInstall() {
+      var btn = document.getElementById('installBtn');
+      var modal = document.getElementById('iosInstall');
+      var standalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches ||
+                       window.navigator.standalone === true;
+      var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      var deferred = null;
+
+      function pl(ev, props) { if (typeof window.plausible === 'function') window.plausible(ev, props ? { props: props } : undefined); }
+
+      // già installata → niente CTA
+      if (standalone) { if (btn) btn.style.display = 'none'; return; }
+
+      // il bottone si mostra sempre (l'app è installabile via prompt o istruzioni)
+      if (btn) btn.style.display = 'inline-flex';
+
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferred = e;
+        if (btn) btn.style.display = 'inline-flex';
+      });
+      window.addEventListener('appinstalled', function () {
+        pl('Install');
+        if (btn) btn.style.display = 'none';
+      });
+
+      function openModal() { if (modal) { modal.classList.remove('hidden'); modal.setAttribute('aria-hidden', 'false'); } }
+      function closeModal() { if (modal) { modal.classList.add('hidden'); modal.setAttribute('aria-hidden', 'true'); } }
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal || e.target.hasAttribute('data-close')) closeModal();
+        });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+      }
+
+      if (btn) {
+        btn.addEventListener('click', function () {
+          if (deferred) {
+            pl('InstallClick', { how: 'prompt' });
+            deferred.prompt();
+            deferred.userChoice.then(function (c) {
+              if (c && c.outcome === 'accepted') pl('Install');
+              deferred = null;
+            });
+          } else {
+            pl('InstallClick', { how: isIOS ? 'ios' : 'manual' });
+            openModal();
+          }
+        });
+      }
+    })();
+
     // cookie banner
     if (!localStorage.getItem('crest-cookie')) {
       var wrap = document.createElement('div');

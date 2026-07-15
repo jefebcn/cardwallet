@@ -817,3 +817,19 @@ html, body { overflow-x: clip; }
   #site-nav.nav-hero .nav-bar { background-color: rgba(17,15,8,0.82) !important; }
   .hl-tabs { background: rgba(244,237,224,.92); }
 }
+
+/* ---- PWA install modal ("Scarica l'app") ---- */
+#iosInstall{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(17,15,8,.6);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);padding:16px;}
+#iosInstall.hidden{display:none;}
+@media(min-width:640px){#iosInstall{align-items:center;}}
+#iosInstall .ii-card{position:relative;background:#F4EDE0;color:#110F08;border-radius:24px;max-width:430px;width:100%;
+  padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:iiUp .28s cubic-bezier(.2,.8,.2,1);}
+@keyframes iiUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+#iosInstall .ii-close{position:absolute;top:16px;right:18px;background:none;border:0;font-size:30px;line-height:1;
+  color:rgba(17,15,8,.4);cursor:pointer;padding:4px;}
+#iosInstall .ii-close:hover{color:rgba(17,15,8,.75);}
+#iosInstall .ii-os{background:rgba(30,58,47,.05);border:1px solid rgba(30,58,47,.1);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
+#iosInstall .ii-os-t{font-weight:600;font-size:14px;margin-bottom:8px;}
+#iosInstall .ii-steps{margin:0;padding-left:20px;font-size:14px;line-height:1.7;color:rgba(17,15,8,.72);}
+#iosInstall .ii-steps strong{color:#110F08;}

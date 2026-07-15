@@ -196,6 +196,10 @@
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 17v.5"/></svg>
               Prova l'app
             </a>
+            <button type="button" id="installBtn" class="btn border border-parchment/22 text-parchment/70 hover:border-parchment/50 hover:text-parchment px-6 py-3.5 text-sm" style="display:none;align-items:center;gap:8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+              Scarica l'app
+            </button>
           </div>
         </div>
 
@@ -1562,6 +1566,34 @@
     </section>
 
   </main>
+
+  <!-- Modale istruzioni installazione (mostrata da app.js quando il prompt nativo non è disponibile) -->
+  <div id="iosInstall" class="hidden" aria-hidden="true" role="dialog" aria-label="Installa l'app Crest">
+    <div class="ii-card">
+      <button type="button" class="ii-close" data-close aria-label="Chiudi">&times;</button>
+      <div class="flex items-center gap-2.5 mb-4">
+        <img src="/assets/apple-touch-icon.png" width="40" height="40" alt="" style="border-radius:10px" />
+        <span class="font-display text-lg font-semibold">Installa Crest</span>
+      </div>
+      <p class="text-sm text-ink/70 mb-5">Aggiungi Crest alla schermata Home: si apre come un'app vera, a schermo intero, anche offline.</p>
+      <div class="ii-os">
+        <p class="ii-os-t">📱 iPhone / iPad (Safari)</p>
+        <ol class="ii-steps">
+          <li>Tocca <strong>Condividi</strong> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="vertical-align:-2px"><path d="M12 3v13M8 7l4-4 4 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" stroke-linecap="round" stroke-linejoin="round"/></svg> nella barra in basso</li>
+          <li>Scorri e tocca <strong>Aggiungi a Home</strong></li>
+          <li>Conferma con <strong>Aggiungi</strong></li>
+        </ol>
+      </div>
+      <div class="ii-os">
+        <p class="ii-os-t">🤖 Android / PC (Chrome)</p>
+        <ol class="ii-steps">
+          <li>Apri il menu <strong>⋮</strong> in alto a destra</li>
+          <li>Tocca <strong>Installa app</strong> (o "Aggiungi a schermata Home")</li>
+        </ol>
+      </div>
+      <button type="button" class="btn btn-clay w-full py-3 text-sm mt-2" data-close>Ho capito</button>
+    </div>
+  </div>
 
   <footer id="site-footer"></footer>
 
