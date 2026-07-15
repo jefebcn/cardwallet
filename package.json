@@ -4,5 +4,10 @@
   "private": true,
   "engines": {
     "node": ">=20"
+  },
+  "scripts": {
+    "ig:render": "node marketing/instagram/render.js",
+    "ig:schedule": "node marketing/instagram/make-schedule.js",
+    "ig:all": "npm run ig:render && npm run ig:schedule"
   }
 }

@@ -1,0 +1,33 @@
+{
+  "baseUrl": "https://crestpay.app",
+  "hashtagsBase": "#Crest #SanMarino #RepubblicaDiSanMarino #fintech #wallet #IBAN #LaTuaBancaDigitale #Titano",
+  "posts": [
+    { "file": "crest-01-teaser.png", "type": "post", "caption": "Sta arrivando qualcosa di nuovo sul Titano. 🏔️ Crest è il primo wallet digitale costruito per la Repubblica di San Marino. Iscriviti alla lista d'attesa — link in bio." },
+    { "file": "crest-03-no-si.png", "type": "post", "caption": "Revolut, Wise e N26 non aprono conti a San Marino. Crest sì. 🇸🇲 Lista d'attesa aperta — link in bio." },
+    { "file": "crest-04-iban.png", "type": "post", "caption": "Un IBAN vero, tuo, sammarinese. Per stipendio, utenze e pagamenti — pronto in pochi minuti dal telefono. Iscriviti → link in bio. 🏔️" },
+    { "file": "crest-02-manifesto.png", "type": "post", "caption": "Il tuo denaro non conosce confini. Con Crest, nemmeno il tuo conto. Un conto moderno, fatto per San Marino." },
+    { "file": "crest-05-carta.png", "type": "post", "caption": "Virtuale all'istante, fisica in metallo al lancio. Blocca, sblocca e imposta i limiti in un tocco. Lista d'attesa → link in bio." },
+    { "file": "crest-08-stats.png", "type": "post", "caption": "34.000 residenti. 9 castelli. 1 conto digitale finalmente pensato per loro. 🏔️ Iscriviti → link in bio." },
+    { "file": "crest-06-istantanei.png", "type": "post", "caption": "Trasferimenti istantanei tra utenti Crest. Il denaro si muove alla velocità di un messaggio. Iscriviti → link in bio." },
+    { "file": "crest-11-confronto.png", "type": "post", "caption": "Crest vs il resto: l'unico costruito per chi vive a San Marino. Scopri la differenza → link in bio." },
+    { "file": "crest-09-waitlist.png", "type": "post", "caption": "Le prime carte vanno a chi c'è dall'inizio. Iscriviti alla lista d'attesa in 10 secondi — link in bio. 🏔️" },
+    { "file": "crest-22-en-teaser.png", "type": "post", "caption": "Something new is coming to the Titano. 🏔️ Crest is the first digital wallet built for the Republic of San Marino. Join the waitlist — link in bio." },
+    { "file": "crest-07-commissioni.png", "type": "post", "caption": "Zero costi nascosti. Sai sempre quanto paghi — perché la trasparenza non è un extra. Iscriviti → link in bio." },
+    { "file": "crest-10-repubblica.png", "type": "post", "caption": "Fatto sul Monte Titano, per la Repubblica. Crest è finanza moderna con radici sammarinesi. 🏔️" },
+    { "file": "crest-33-sicurezza.png", "type": "post", "caption": "Il tuo conto al sicuro. 🔐 2FA, blocco carta istantaneo, notifiche in tempo reale. Lista d'attesa → link in bio." },
+    { "file": "crest-34-apertura.png", "type": "post", "caption": "Aprire un conto non dovrebbe essere un lavoro. Con Crest: iscriviti, KYC dal telefono, IBAN e carta attivi. ✅ Link in bio." },
+    { "file": "crest-35-34k.png", "type": "post", "caption": "34k residenti. Zero wallet che li servono. Fino ad oggi. 🏔️ Iscriviti alla lista → link in bio." },
+    { "file": "crest-38-controllo.png", "type": "post", "caption": "Il tuo conto sta nel telefono. 📱 Notifica a ogni movimento, blocco carta in un tocco, limiti di spesa. Lista d'attesa → link in bio." },
+    { "file": "crest-39-stipendio.png", "type": "post", "caption": "Lo stipendio arriva. Tu comandi. 💪 Un IBAN sammarinese vero per stipendio, utenze e addebiti. Iscriviti → link in bio." },
+    { "file": "crest-40-quote.png", "type": "post", "caption": "«Finalmente un conto che non mi dice di no.» Costruito per chi vive e lavora a San Marino. Lista d'attesa → link in bio." },
+    { "file": "crest-41-primi.png", "type": "post", "caption": "Le prime carte in metallo vanno a chi c'è dall'inizio. 🥇 Invita un amico e salta la fila: +10 posizioni per ogni amico. Link in bio." },
+    { "file": "crest-42-missione.png", "type": "post", "caption": "Costruito qui. Per chi vive qui. 🏔️ Crest nasce sul Titano, per i sammarinesi — non adattato da altrove. Link in bio." },
+    { "file": "crest-24-en-no-yes.png", "type": "post", "caption": "Revolut, Wise and N26 won't open accounts in San Marino. We will. 🇸🇲 Waitlist in bio." },
+    { "file": "crest-25-en-diaspora.png", "type": "post", "caption": "Sammarinese abroad? Keep San Marino in your pocket. IBAN, card and instant transfers. Join the waitlist 👇" },
+    { "file": "crest-36-story-domanda.png", "type": "story", "caption": "Storia: sondaggio Sì/No + link crestpay.app" },
+    { "file": "crest-37-story-carta2.png", "type": "story", "caption": "Storia: carta Crest + sticker Link + Countdown" },
+    { "file": "crest-43-story-invita.png", "type": "story", "caption": "Storia: invita e salta la fila (+10) + sticker Link" },
+    { "file": "crest-44-story-2026.png", "type": "story", "caption": "Storia: countdown 2026 + sticker Link" },
+    { "file": "crest-45-story-sondaggio.png", "type": "story", "caption": "Storia: sondaggio 'Hai un conto che funziona a SM?' + Link" }
+  ]
+}
