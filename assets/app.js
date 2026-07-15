@@ -689,6 +689,14 @@
       }
     })();
 
+    // ---- Funnel tracking: click "Prova l'app" (/app) ----
+    (function initFunnel() {
+      if (typeof window.plausible !== 'function') return;
+      Array.prototype.forEach.call(document.querySelectorAll('a[href^="/app"]'), function (a) {
+        a.addEventListener('click', function () { window.plausible('TryApp'); });
+      });
+    })();
+
     // cookie banner
     if (!localStorage.getItem('crest-cookie')) {
       var wrap = document.createElement('div');

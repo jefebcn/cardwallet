@@ -3,7 +3,7 @@
    Cache-first per asset statici, network-first per HTML.
    Aggiornare CACHE_NAME a ogni deploy che cambia asset critici. */
 
-var CACHE_NAME = 'crest-v6';
+var CACHE_NAME = 'crest-v7';
 
 var PRECACHE = [
   '/',
